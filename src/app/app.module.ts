@@ -74,6 +74,7 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { MessageService } from "primeng/api";
 import { ConfirmationService } from "primeng/api";
 import { SkeletonModule } from "primeng/skeleton";
+import { TagModule } from "primeng/tag";
 
 // Components
 import { HomeComponent } from "./components/home/home.component";
@@ -154,6 +155,7 @@ import { CoursesComponent } from "./courses/courses.component";
     MessageModule,
     SelectButtonModule,
     SkeletonModule,
+    TagModule,
   ],
   providers: [
     authInterceptorProviders,

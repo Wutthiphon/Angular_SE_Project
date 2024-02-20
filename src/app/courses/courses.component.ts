@@ -14,10 +14,10 @@ export class CoursesComponent {
   }
 
   loadCourses() {
-    // this.coursesService.getCourseList().subscribe((res) => {
-    //   console.log(res);
-    //   this.courseList = res;
-    //   this.isLoad = false;
-    // });
+    this.coursesService.getCourseList().subscribe((res) => {
+      console.log(res);
+      this.courseList = res;
+      this.isLoad = false;
+    });
   }
 }

@@ -46,6 +46,7 @@
     <ng-template pTemplate="end">
       <div class="flex align-content-center flex-wrap" style="min-height: 200px">
         <div class="flex align-items-center justify-content-center">
+          <!-- Un Login -->
           <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="เข้าสู่ระบบ"
             *ngIf="!isLogin" icon="pi pi-sign-in" routerLink="/login">
           </p-button>
@@ -53,9 +54,10 @@
             *ngIf="!isLogin" routerLink="/register" icon="pi pi-sign-in">
           </p-button>
 
-          <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="ออกจากระบบ"
-            *ngIf="isLogin" icon="pi pi-sign-out" (click)="logout()">
-          </p-button>
+          <!-- Login -->
+          <p-menu #profile_menu [model]="profile_menu_item" [popup]="true"></p-menu>
+          <button pButton type="button" (click)="profile_menu.toggle($event)" icon="pi pi-user" *ngIf="isLogin"
+            class="p-button-sm p-button-text text-white p-button-secondary hide-mobile" [label]="web_name"></button>
         </div>
       </div>
     </ng-template>

@@ -1,14 +1,10 @@
 import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-B3CJD2W3.js";
+import {
   ConnectedOverlayScrollHandler,
   DomHandler
 } from "./chunk-3SQF7L7O.js";
-import {
-  OverlayService,
-  PrimeNGConfig
-} from "./chunk-CDPAREMS.js";
-import {
-  zindexutils
-} from "./chunk-HDN63TPE.js";
 import {
   animate,
   style,
@@ -16,8 +12,12 @@ import {
   trigger
 } from "./chunk-KLD4JEVI.js";
 import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-B3CJD2W3.js";
+  OverlayService,
+  PrimeNGConfig
+} from "./chunk-CDPAREMS.js";
+import {
+  zindexutils
+} from "./chunk-HDN63TPE.js";
 import {
   CommonModule,
   DOCUMENT,

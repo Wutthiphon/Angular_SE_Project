@@ -1,6 +1,17 @@
 <div class="grid" *ngIf="!isLoad">
     <div class="col-12 md:col-3" *ngFor="let course of courseList">
-        <p-card styleClass="h-full" [header]="course.course_name">
+        <p-card styleClass="h-full" [header]="course.course_name"
+            [subheader]="'ผู้สอน: ' + course.users_account.first_name + ' ' + course.users_account.last_name">
+            <div class="grid">
+                <div class="col-12">
+                    {{ course.course_description | slice:0:50 }}{{ course.course_description.length > 50 ? '...' : '' }}
+                </div>
+                <div class="col-12">
+                    <p-tag icon="pi pi-user" value="ฟรี" *ngIf="!course.course_visibility"></p-tag>
+                    <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
+                        *ngIf="course.course_visibility"></p-tag>
+                </div>
+            </div>
         </p-card>
     </div>
 </div>
@@ -9,6 +20,7 @@
     <div class="col-12 md:col-3" *ngFor="let course of [0,1,2,3]">
         <p-card styleClass="h-full p-card-custom">
             <p-skeleton width="100px" height="40px" styleClass="mb-1"></p-skeleton>
+            <p-skeleton width="200px" height="20px" styleClass="mb-1"></p-skeleton>
             <p-skeleton width="100%" height="150px" styleClass="mb-1"></p-skeleton>
             <p-skeleton width="100%" height="80px" styleClass="mb-1"></p-skeleton>
         </p-card>

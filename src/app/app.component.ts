@@ -17,11 +17,31 @@ export class AppComponent implements OnInit {
   isLogin: boolean = false;
   permission_id: number = 0;
 
+  web_name = "";
+  profile_menu_item: any[] = [
+    {
+      label: "โปรไฟล์",
+      icon: "pi pi-user",
+      command: () => {
+        this.openPage("/profile");
+      },
+    },
+    {
+      label: "ออกจากระบบ",
+      icon: "pi pi-sign-out",
+      command: () => {
+        this.logout();
+      },
+    },
+  ];
+
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService
   ) {
     if (this.tokenStorage.getToken()) {
+      this.web_name = this.tokenStorage.getUser().name;
+
       let permission = this.tokenStorage.getUser().permission;
       if (permission) {
         this.permission_id = permission.id;

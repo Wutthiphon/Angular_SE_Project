@@ -62,8 +62,6 @@ export class LoginComponent {
     if (username && password) {
       this.authService.login(username, password).subscribe(
         (res) => {
-          console.log(res);
-
           // if login Success
           this.is_error = false;
           this.tokenStorage.saveToken(res.accessToken);

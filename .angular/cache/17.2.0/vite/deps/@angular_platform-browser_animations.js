@@ -1,4 +1,9 @@
 import {
+  BrowserModule,
+  DomRendererFactory2
+} from "./chunk-4HSBCFLY.js";
+import "./chunk-XBFLNBJK.js";
+import {
   AUTO_STYLE,
   AnimationGroupPlayer,
   AnimationMetadataType,
@@ -7,11 +12,6 @@ import {
   style,
   ɵPRE_STYLE
 } from "./chunk-KLD4JEVI.js";
-import {
-  BrowserModule,
-  DomRendererFactory2
-} from "./chunk-4HSBCFLY.js";
-import "./chunk-XBFLNBJK.js";
 import {
   DOCUMENT
 } from "./chunk-PEUOQ5RS.js";

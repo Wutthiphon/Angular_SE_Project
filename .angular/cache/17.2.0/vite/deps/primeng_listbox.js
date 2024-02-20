@@ -2,12 +2,15 @@ import {
   SearchIcon
 } from "./chunk-LZTKF6WD.js";
 import {
+  CheckIcon
+} from "./chunk-EBCEVX37.js";
+import {
   Scroller,
   ScrollerModule
 } from "./chunk-DG3B3U56.js";
 import {
-  CheckIcon
-} from "./chunk-EBCEVX37.js";
+  NG_VALUE_ACCESSOR
+} from "./chunk-B3CJD2W3.js";
 import "./chunk-VWSKWF7C.js";
 import {
   Ripple,
@@ -29,9 +32,6 @@ import {
   ObjectUtils,
   UniqueComponentId
 } from "./chunk-HDN63TPE.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-B3CJD2W3.js";
 import {
   CommonModule,
   NgClass,

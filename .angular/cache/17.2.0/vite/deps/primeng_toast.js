@@ -3,20 +3,29 @@ import {
   InfoCircleIcon
 } from "./chunk-DL3WZPFU.js";
 import {
+  CheckIcon
+} from "./chunk-EBCEVX37.js";
+import {
   TimesCircleIcon
 } from "./chunk-DPD35VDL.js";
 import {
   TimesIcon
 } from "./chunk-OKKE3K4Z.js";
 import {
-  CheckIcon
-} from "./chunk-EBCEVX37.js";
-import {
   Ripple,
   RippleModule
 } from "./chunk-YFTKVRQT.js";
 import "./chunk-3FZU3ODF.js";
 import "./chunk-3SQF7L7O.js";
+import {
+  animate,
+  animateChild,
+  query,
+  state,
+  style,
+  transition,
+  trigger
+} from "./chunk-KLD4JEVI.js";
 import {
   MessageService,
   PrimeNGConfig,
@@ -28,15 +37,6 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-HDN63TPE.js";
-import {
-  animate,
-  animateChild,
-  query,
-  state,
-  style,
-  transition,
-  trigger
-} from "./chunk-KLD4JEVI.js";
 import {
   CommonModule,
   DOCUMENT,

@@ -1,6 +1,9 @@
 import {
   CheckIcon
 } from "./chunk-EBCEVX37.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-B3CJD2W3.js";
 import "./chunk-3FZU3ODF.js";
 import {
   PrimeTemplate,
@@ -9,9 +12,6 @@ import {
 import {
   ObjectUtils
 } from "./chunk-HDN63TPE.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-B3CJD2W3.js";
 import {
   CommonModule,
   NgClass,

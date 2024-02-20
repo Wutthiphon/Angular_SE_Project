@@ -1,9 +1,9 @@
 import {
-  TimesIcon
-} from "./chunk-OKKE3K4Z.js";
-import {
   CheckIcon
 } from "./chunk-EBCEVX37.js";
+import {
+  TimesIcon
+} from "./chunk-OKKE3K4Z.js";
 import {
   ButtonDirective,
   ButtonModule
@@ -18,6 +18,14 @@ import {
   DomHandler
 } from "./chunk-3SQF7L7O.js";
 import {
+  animate,
+  animation,
+  style,
+  transition,
+  trigger,
+  useAnimation
+} from "./chunk-KLD4JEVI.js";
+import {
   ConfirmEventType,
   ConfirmationService,
   Footer,
@@ -30,14 +38,6 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-HDN63TPE.js";
-import {
-  animate,
-  animation,
-  style,
-  transition,
-  trigger,
-  useAnimation
-} from "./chunk-KLD4JEVI.js";
 import {
   CommonModule,
   DOCUMENT,
