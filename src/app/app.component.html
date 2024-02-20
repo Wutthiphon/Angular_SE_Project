@@ -1,0 +1,69 @@
+<div class="main-container">
+  <div class="aside-container" [ngClass]="{'open': sidebarVisible}"
+    [style]="{'box-shadow': 'rgba(0, 0, 0, 0.24) 0px 1px 4px'}">
+    <div class="aside-content">
+      <div class="header">
+        <div class="col-12" style="text-align: right;">
+          <p-button icon="pi pi-times" styleClass="p-button-text p-button-rounded p-button-sm close-button"
+            id="hideAside" (click)="toggleAside()" [style]="{color: '#008177'}"></p-button>
+        </div>
+
+        <div class="col-12" align="center">
+          <label style="font-size: 20pt;color: #000000;cursor: pointer;" class="mr-1" routerLink="/">
+            ระบบ
+          </label>
+          <!-- <img src="./assets/image/logo/long_logo.png" style="width: 100%;padding: 5px;" routerLink="/teacher"> -->
+        </div>
+
+        <div class="col-12">
+          <p-panelMenu [multiple]="true" [model]="aside_items" [style]="{width: '100%',border: 'none'}"
+            styleClass="panelMenu-custom">
+          </p-panelMenu>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-menubar styleClass="navbar">
+    <ng-template pTemplate="start">
+      <div class="hide-mobile flex align-content-center flex-wrap">
+        <p-button icon="pi pi-bars" styleClass="p-button-text p-button-sm hamburger-button" id="hideAside"
+          [style]="{color: '#FFFFFF'}" (click)="toggleAside()"></p-button>
+
+        <!-- <label style="font-size: 20pt;color: #FFF;cursor: pointer;" class="mr-1" routerLink="/">
+          ระบบ
+        </label> -->
+        <i class="pi pi-box" style="font-size: 2rem;"></i>
+
+        <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="หน้าแรก"
+          icon="pi pi-home" routerLink="/">
+        </p-button>
+        <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="คอร์สเรียน"
+          icon="pi pi-list" routerLink="/courses">
+        </p-button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="end">
+      <div class="flex align-content-center flex-wrap" style="min-height: 200px">
+        <div class="flex align-items-center justify-content-center">
+          <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="เข้าสู่ระบบ"
+            icon="pi pi-sign-in" routerLink="/login">
+          </p-button>
+          <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="สมัครสมาชิก"
+            routerLink="/register" icon="pi pi-sign-in">
+          </p-button>
+        </div>
+      </div>
+    </ng-template>
+  </p-menubar>
+</div>
+
+<div class="page-content-container">
+  <router-outlet></router-outlet>
+  <div class="grid mt-5" style="font-size: 10pt;">
+    <div class="col-12" align="center" style="color: #8f8f8f;">
+      <b>Copyright &copy; 2024 </b> |
+      <label>Learn with me Study with You.</label>
+    </div>
+  </div>
+</div>
