@@ -12,10 +12,6 @@ import {
   RippleModule
 } from "./chunk-YFTKVRQT.js";
 import {
-  DomSanitizer
-} from "./chunk-4HSBCFLY.js";
-import "./chunk-XBFLNBJK.js";
-import {
   ConnectedOverlayScrollHandler,
   DomHandler
 } from "./chunk-3SQF7L7O.js";
@@ -34,6 +30,10 @@ import {
   transition,
   trigger
 } from "./chunk-KLD4JEVI.js";
+import {
+  DomSanitizer
+} from "./chunk-4HSBCFLY.js";
+import "./chunk-XBFLNBJK.js";
 import {
   CommonModule,
   DOCUMENT,

@@ -1,19 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { TokenStorageService } from "./services/token-storage.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
 })
 export class AppComponent implements OnInit {
   aside_items: any[] = [];
   sidebarVisible: boolean = false;
 
-  currentUrl: string = '';
-  newUrl: string = '';
+  currentUrl: string = "";
+  newUrl: string = "";
 
-  constructor(private router: Router) {}
+  isLogin: boolean = false;
+  permission_id: number = 0;
+
+  constructor(
+    private router: Router,
+    private tokenStorage: TokenStorageService
+  ) {
+    if (this.tokenStorage.getToken()) {
+      let permission = this.tokenStorage.getUser().permission;
+      if (permission) {
+        this.permission_id = permission.id;
+        this.isLogin = true;
+      }
+    } else {
+      this.permission_id = 0;
+      this.isLogin = false;
+    }
+  }
 
   ngOnInit() {
     // Aside Menu
@@ -33,42 +51,42 @@ export class AppComponent implements OnInit {
     this.aside_items = [];
 
     this.aside_items.push({
-      label: 'เพจ',
-      icon: 'pi pi-home',
+      label: "เพจ",
+      icon: "pi pi-home",
       expanded: true,
       items: [
         {
-          label: 'หน้าแรก',
-          icon: 'pi pi-home',
-          styleClass: 'select-menu' + (this.router.url == '/' ? ' active' : ''),
+          label: "หน้าแรก",
+          icon: "pi pi-home",
+          styleClass: "select-menu" + (this.router.url == "/" ? " active" : ""),
           command: () => {
-            this.openPage('/');
+            this.openPage("/");
           },
         },
       ],
     });
 
     this.aside_items.push({
-      label: 'เข้าสู่ระบบ',
-      icon: 'pi pi-user',
+      label: "เข้าสู่ระบบ",
+      icon: "pi pi-user",
       expanded: true,
       items: [
         {
-          label: 'เข้าสู่ระบบ',
-          icon: 'pi pi-sign-in',
+          label: "เข้าสู่ระบบ",
+          icon: "pi pi-sign-in",
           styleClass:
-            'select-menu' + (this.router.url == '/login' ? ' active' : ''),
+            "select-menu" + (this.router.url == "/login" ? " active" : ""),
           command: () => {
-            this.openPage('/login');
+            this.openPage("/login");
           },
         },
         {
-          label: 'สมัครสมาชิก',
-          icon: 'pi pi-user-edit',
+          label: "สมัครสมาชิก",
+          icon: "pi pi-user-edit",
           styleClass:
-            'select-menu' + (this.router.url == '/register' ? ' active' : ''),
+            "select-menu" + (this.router.url == "/register" ? " active" : ""),
           command: () => {
-            this.openPage('/register');
+            this.openPage("/register");
           },
         },
       ],
@@ -83,5 +101,11 @@ export class AppComponent implements OnInit {
   openPage(url: string) {
     this.sidebarVisible = false;
     this.router.navigateByUrl(url);
+  }
+
+  logout() {
+    this.tokenStorage.signOut();
+    // this.router.navigateByUrl("/");
+    window.location.reload();
   }
 }

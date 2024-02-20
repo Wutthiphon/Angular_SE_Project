@@ -64,8 +64,8 @@
             </div>
 
             <div class="col-12" align="right">
-              <p-button label="สมัครสมาชิก" styleClass="p-button-rounded p-button-danger p-button-sm"
-                icon="pi pi-user-plus" type="submit"></p-button>
+              <p-button label="สมัครสมาชิก" styleClass="p-button-rounded p-button-danger p-button-sm" [icon]=" is_load
+                ? 'pi pi-spin pi-spinner' : 'pi pi-user-plus'" type=" submit"></p-button>
             </div>
           </form>
         </div>

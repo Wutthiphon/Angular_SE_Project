@@ -2,15 +2,15 @@ import {
   Ripple,
   RippleModule
 } from "./chunk-YFTKVRQT.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-B3CJD2W3.js";
 import "./chunk-3SQF7L7O.js";
 import {
   PrimeTemplate,
   SharedModule
 } from "./chunk-CDPAREMS.js";
 import "./chunk-HDN63TPE.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-B3CJD2W3.js";
 import {
   CommonModule,
   NgClass,

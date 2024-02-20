@@ -17,8 +17,6 @@ import {
   Ripple,
   RippleModule
 } from "./chunk-YFTKVRQT.js";
-import "./chunk-4HSBCFLY.js";
-import "./chunk-XBFLNBJK.js";
 import {
   BaseIcon
 } from "./chunk-3FZU3ODF.js";
@@ -35,6 +33,8 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-HDN63TPE.js";
+import "./chunk-4HSBCFLY.js";
+import "./chunk-XBFLNBJK.js";
 import {
   CommonModule,
   DOCUMENT,

@@ -11,23 +11,45 @@
         <div class="col-12">
           <label>ชื่อผู้ใช้งาน</label>
           <input type="text" pInputText [(ngModel)]="login_form.username" name="input_username"
-            #input_username="ngModel" placeholder="Username..." class="p-inputtext-sm" />
+            [class.ng-invalid]="is_error" [class.ng-dirty]="is_error" #input_username="ngModel"
+            placeholder="Username..." class="p-inputtext-sm" />
         </div>
         <div class="col-12">
           <label>รหัสผ่าน</label>
           <p-password [(ngModel)]="login_form.password" name="input_password" #input_password="ngModel"
-            placeholder="รหัสผ่าน" styleClass="w-full p-inputtext-sm" [feedback]="false"
-            [toggleMask]="true"></p-password>
+            [class.ng-invalid]="is_error" [class.ng-dirty]="is_error" placeholder="รหัสผ่าน"
+            styleClass="w-full p-inputtext-sm" [feedback]="false" [toggleMask]="true"></p-password>
         </div>
 
+        <div class="col-12" *ngIf="is_error">
+          <b style="color: red;">ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง</b>
+        </div>
+        <div class="col-12 mt-3">
+          <p-checkbox [binary]="true" [(ngModel)]="login_form.remenber_me" name="input_remember"
+            label="จดจำข้อมูลเข้าสู่ระบบ" class="p-checkbox-sm"></p-checkbox>
+        </div>
         <div class="col-12">
           <b>ลืมรหัสผ่าน ?</b>
         </div>
         <div class="col-12" align="center">
-          <p-button label="เข้าสู่ระบบ" styleClass="p-button-rounded p-button-success p-button-sm" icon="pi pi-sign-in"
+          <p-button label="เข้าสู่ระบบ" styleClass="p-button-rounded p-button-success p-button-sm"
+            [icon]="is_load ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'" [disabled]="is_load"
             (click)="loginSubmit()"></p-button>
         </div>
       </div>
     </p-card>
   </div>
 </div>
+
+<p-toast></p-toast>
+
+<p-confirmDialog [style]="{width: '600px'}" #confirmDialog>
+  <ng-template pTemplate="footer">
+    <div class="ui-dialog-buttonpane p-clearfix">
+      <button type="button" pButton icon="pi pi-times" label="ยกเลิก" (click)="confirmDialog.reject()"
+        class="p-button-danger p-button-rounded" style="margin-right: .25em"></button>
+      <button type="button" pButton icon="pi pi-check" label="ใช่" (click)="confirmDialog.accept()"
+        class="p-button-success p-button-rounded" style="margin-right: .25em"></button>
+    </div>
+  </ng-template>
+</p-confirmDialog>

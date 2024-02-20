@@ -47,10 +47,14 @@
       <div class="flex align-content-center flex-wrap" style="min-height: 200px">
         <div class="flex align-items-center justify-content-center">
           <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="เข้าสู่ระบบ"
-            icon="pi pi-sign-in" routerLink="/login">
+            *ngIf="!isLogin" icon="pi pi-sign-in" routerLink="/login">
           </p-button>
           <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="สมัครสมาชิก"
-            routerLink="/register" icon="pi pi-sign-in">
+            *ngIf="!isLogin" routerLink="/register" icon="pi pi-sign-in">
+          </p-button>
+
+          <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="ออกจากระบบ"
+            *ngIf="isLogin" icon="pi pi-sign-out" (click)="logout()">
           </p-button>
         </div>
       </div>

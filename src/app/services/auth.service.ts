@@ -35,8 +35,8 @@ export class AuthService {
         confirm_password: password_confirm,
         email: email,
         prefix: prefix,
-        firstname: firstname,
-        lastname: lastname,
+        first_name: firstname,
+        last_name: lastname,
         gender: gender,
         permission_id: permission_id,
       },
@@ -44,14 +44,14 @@ export class AuthService {
     );
   }
 
-  // signin(username: string, password: string): Observable<any> {
-  //   return this.http.post(
-  //     AUTH_API + 'signin',
-  //     {
-  //       username: username,
-  //       password: password,
-  //     },
-  //     httpOptions
-  //   );
-  // }
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(
+      AUTH_API + "login",
+      {
+        username: username,
+        password: password,
+      },
+      httpOptions
+    );
+  }
 }

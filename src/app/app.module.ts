@@ -71,6 +71,9 @@ import { OverlayPanelModule } from "primeng/overlaypanel";
 import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { SelectButtonModule } from "primeng/selectbutton";
+import { MessageService } from "primeng/api";
+import { ConfirmationService } from "primeng/api";
+import { SkeletonModule } from "primeng/skeleton";
 
 // Components
 import { HomeComponent } from "./components/home/home.component";
@@ -150,8 +153,14 @@ import { CoursesComponent } from "./courses/courses.component";
     MessagesModule,
     MessageModule,
     SelectButtonModule,
+    SkeletonModule,
   ],
-  providers: [authInterceptorProviders, { provide: LOCALE_ID, useValue: "th" }],
+  providers: [
+    authInterceptorProviders,
+    { provide: LOCALE_ID, useValue: "th" },
+    MessageService,
+    ConfirmationService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -6,9 +6,6 @@ import {
   TimesIcon
 } from "./chunk-OKKE3K4Z.js";
 import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-B3CJD2W3.js";
-import {
   BaseIcon
 } from "./chunk-3FZU3ODF.js";
 import {
@@ -32,6 +29,9 @@ import {
   transition,
   trigger
 } from "./chunk-KLD4JEVI.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-B3CJD2W3.js";
 import {
   CommonModule,
   DOCUMENT,

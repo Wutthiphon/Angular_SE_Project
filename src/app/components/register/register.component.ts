@@ -3,12 +3,12 @@ import { MessageService, ConfirmationService } from "primeng/api";
 import { AuthService } from "../../services/auth.service";
 import { TokenStorageService } from "../../services/token-storage.service";
 import Swal from "sweetalert2";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-register",
   templateUrl: "./register.component.html",
   styleUrl: "./register.component.scss",
-  providers: [MessageService, ConfirmationService],
 })
 export class RegisterComponent {
   prefix_arr: any[] = [
@@ -50,12 +50,33 @@ export class RegisterComponent {
     permission_id: 1,
   };
 
+  is_load: boolean = false;
+
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private tokenStorage: TokenStorageService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.CheckisLogin();
+  }
+
+  CheckisLogin() {
+    if (this.tokenStorage.getToken()) {
+      let permission = this.tokenStorage.getUser().permission;
+      if (!permission) {
+        Swal.fire(
+          "ข้อผิดพลาด!",
+          "ไม่พบสิทธิ์การใช้งานใด ๆ ในบัญชีของคุณกรุณาติดต่อผู้ดูแลระบบ",
+          "error"
+        );
+        this.tokenStorage.signOut();
+      } else {
+        this.router.navigateByUrl("/");
+      }
+    }
+  }
 
   registerSubmit() {
     const {
@@ -98,8 +119,11 @@ export class RegisterComponent {
       }
 
       this.confirmationService.confirm({
-        message: "ยืนยันการสมัครสมาชิก?",
+        icon: "pi pi-exclamation-triangle",
+        header: "ยืนยันการสมัครสมาชิก ?",
+        message: "กรุณายืนยันการสมัครสมาชิก",
         accept: () => {
+          this.is_load = true;
           this.authService
             .register(
               username,
@@ -120,6 +144,11 @@ export class RegisterComponent {
                   text: "ระบบจะทำการเข้าสู้ระบบ",
                 }).then(() => {
                   // Save Token
+                  this.tokenStorage.saveToken(res.accessToken);
+                  this.tokenStorage.saveUser(res);
+                  this.CheckisLogin();
+                  this.is_load = false;
+                  window.location.reload();
                 });
               },
               (err) => {
@@ -128,6 +157,7 @@ export class RegisterComponent {
                   title: "เกิดข้อผิดพลาด",
                   text: err.error.message,
                 });
+                this.is_load = false;
               }
             );
         },
