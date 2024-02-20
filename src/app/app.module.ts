@@ -82,6 +82,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { Component404 } from "./errors/404/404.component";
 import { CoursesComponent } from "./courses/courses.component";
+import { MyCoursesComponent } from "./components/my-courses/my-courses.component";
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { CoursesComponent } from "./courses/courses.component";
     RegisterComponent,
     Component404,
     CoursesComponent,
+    MyCoursesComponent,
   ],
   imports: [
     BrowserModule,

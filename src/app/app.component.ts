@@ -40,12 +40,24 @@ export class AppComponent implements OnInit {
     private tokenStorage: TokenStorageService
   ) {
     if (this.tokenStorage.getToken()) {
-      this.web_name = this.tokenStorage.getUser().name;
-
       let permission = this.tokenStorage.getUser().permission;
       if (permission) {
-        this.permission_id = permission.id;
+        this.permission_id = permission;
         this.isLogin = true;
+
+        let permission_text = "";
+        switch (this.permission_id) {
+          case 1:
+            permission_text = "(นักเรียน) ";
+            break;
+          case 2:
+            permission_text = "(ผู้สอน) ";
+            break;
+          case 3:
+            permission_text = "(ผู้ดูแลระบบ) ";
+            break;
+        }
+        this.web_name = permission_text + this.tokenStorage.getUser().name;
       }
     } else {
       this.permission_id = 0;

@@ -11,6 +11,12 @@
                     <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
                         *ngIf="course.course_visibility"></p-tag>
                 </div>
+                <div class="col-12">
+                    <p-button label="รายละเอียด" styleClass="p-button-info p-button-sm mr-1"
+                        icon="pi pi-info"></p-button>
+                    <p-button label="เข้าร่วม" styleClass="p-button-success p-button-sm" *ngIf="can_register"
+                        icon="pi pi-sign-in"></p-button>
+                </div>
             </div>
         </p-card>
     </div>
@@ -23,6 +29,7 @@
             <p-skeleton width="200px" height="20px" styleClass="mb-1"></p-skeleton>
             <p-skeleton width="100%" height="150px" styleClass="mb-1"></p-skeleton>
             <p-skeleton width="100%" height="80px" styleClass="mb-1"></p-skeleton>
+            <p-skeleton width="200px" height="40px" styleClass="mb-1"></p-skeleton>
         </p-card>
     </div>
 </div>

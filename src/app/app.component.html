@@ -9,10 +9,10 @@
         </div>
 
         <div class="col-12" align="center">
-          <label style="font-size: 20pt;color: #000000;cursor: pointer;" class="mr-1" routerLink="/">
+          <!-- <label style="font-size: 20pt;color: #000000;cursor: pointer;" class="mr-1" routerLink="/">
             ระบบ
-          </label>
-          <!-- <img src="./assets/image/logo/long_logo.png" style="width: 100%;padding: 5px;" routerLink="/teacher"> -->
+          </label> -->
+          <img src="./assets/icon/logo.png" style="width: 100%;padding: 5px;" routerLink="/teacher">
         </div>
 
         <div class="col-12">
@@ -33,13 +33,21 @@
         <!-- <label style="font-size: 20pt;color: #FFF;cursor: pointer;" class="mr-1" routerLink="/">
           ระบบ
         </label> -->
-        <i class="pi pi-box" style="font-size: 2rem;"></i>
+        <img src="./assets/icon/logo.PNG" style="width: 50px;padding: 5px;" routerLink="/teacher">
+        <!-- <i class="pi pi-box" style="font-size: 2rem;"></i> -->
 
         <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="หน้าแรก"
           icon="pi pi-home" routerLink="/">
         </p-button>
         <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="คอร์สเรียน"
           icon="pi pi-list" routerLink="/courses">
+        </p-button>
+
+        <!-- Login Student -->
+
+        <!-- Login Teacher -->
+        <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="คอร์สของฉัน"
+          icon="pi pi-list" routerLink="/my-courses">
         </p-button>
       </div>
     </ng-template>

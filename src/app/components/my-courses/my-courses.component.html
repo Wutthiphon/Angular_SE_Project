@@ -1,0 +1,68 @@
+<div class="grid" *ngIf="!isLoad">
+    <div class="col-12" align="right" *ngIf="can_create">
+        <p-button label="สร้างคอร์ส" styleClass="p-button-rounded p-button-success p-button-sm" icon="pi pi-plus"
+            (click)="createCourse()"></p-button>
+    </div>
+
+
+    <div class="col-12" align="center" *ngIf="courseList.length == 0">
+        {{ can_create ? 'ไม่พบคอร์สเรียนที่คุณสร้าง' : 'ไม่พบการสมัครคอร์สของคุณ' }}
+    </div>
+
+    <ng-container *ngIf="courseList.length > 0">
+        <div class="col-12 md:col-3" *ngFor="let course of courseList">
+            <p-card *ngIf="can_create" styleClass="h-full" [header]="course.course_name">
+                <div class="grid">
+                    <div class="col-12">
+                        {{ course.course_description | slice:0:50 }}{{ course.course_description.length > 50 ? '...' :
+                        '' }}
+                    </div>
+                    <div class="col-12">
+                        <p-tag icon="pi pi-user" value="ฟรี" *ngIf="!course.course_visibility"></p-tag>
+                        <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
+                            *ngIf="course.course_visibility"></p-tag>
+                    </div>
+                    <div class="col-12">
+                        <p-button label="รายละเอียด" styleClass="p-button-info p-button-sm mr-1"
+                            icon="pi pi-info"></p-button>
+                        <p-button label="จัดการ" styleClass="p-button-success p-button-sm"
+                            icon="pi pi-sign-in"></p-button>
+                    </div>
+                </div>
+            </p-card>
+
+            <p-card *ngIf="!can_create" styleClass="h-full" [header]="course.course_name"
+                [subheader]="'ผู้สอน: ' + course.users_account.first_name + ' ' + course.users_account.last_name">
+                <div class="grid">
+                    <div class="col-12">
+                        {{ course.course_description | slice:0:50 }}{{ course.course_description.length > 50 ? '...' :
+                        '' }}
+                    </div>
+                    <div class="col-12">
+                        <p-tag icon="pi pi-user" value="ฟรี" *ngIf="!course.course_visibility"></p-tag>
+                        <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
+                            *ngIf="course.course_visibility"></p-tag>
+                    </div>
+                    <div class="col-12">
+                        <p-button label="รายละเอียด" styleClass="p-button-info p-button-sm mr-1"
+                            icon="pi pi-info"></p-button>
+                        <p-button label="จัดการ" styleClass="p-button-success p-button-sm"
+                            icon="pi pi-sign-in"></p-button>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+    </ng-container>
+</div>
+
+<div class="grid" *ngIf="isLoad">
+    <div class="col-12 md:col-3" *ngFor="let course of [0,1,2,3]">
+        <p-card styleClass="h-full p-card-custom">
+            <p-skeleton width="100px" height="40px" styleClass="mb-1"></p-skeleton>
+            <p-skeleton width="200px" height="20px" styleClass="mb-1"></p-skeleton>
+            <p-skeleton width="100%" height="150px" styleClass="mb-1"></p-skeleton>
+            <p-skeleton width="100%" height="80px" styleClass="mb-1"></p-skeleton>
+            <p-skeleton width="200px" height="40px" styleClass="mb-1"></p-skeleton>
+        </p-card>
+    </div>
+</div>

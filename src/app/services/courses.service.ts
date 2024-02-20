@@ -18,4 +18,8 @@ export class CoursesService {
   getCourseList(): Observable<any> {
     return this.http.get(API + "getCourse", httpOptions);
   }
+
+  getMyCourse(): Observable<any> {
+    return this.http.get(API + "mycourse", httpOptions);
+  }
 }

@@ -1,22 +1,24 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { CoursesComponent } from './courses/courses.component';
+import { HomeComponent } from "./components/home/home.component";
+import { LoginComponent } from "./components/login/login.component";
+import { RegisterComponent } from "./components/register/register.component";
+import { CoursesComponent } from "./courses/courses.component";
+import { MyCoursesComponent } from "./components/my-courses/my-courses.component";
 
 // Error pages
-import { Component404 } from './errors/404/404.component';
+import { Component404 } from "./errors/404/404.component";
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'courses', component: CoursesComponent },
+  { path: "", component: HomeComponent },
+  { path: "login", component: LoginComponent },
+  { path: "register", component: RegisterComponent },
+  { path: "courses", component: CoursesComponent },
+  { path: "my-courses", component: MyCoursesComponent },
 
   // 404 Page
-  { path: '**', component: Component404 },
+  { path: "**", component: Component404 },
 ];
 
 @NgModule({
