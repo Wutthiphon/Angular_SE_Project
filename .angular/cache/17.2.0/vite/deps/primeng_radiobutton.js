@@ -1,13 +1,13 @@
 import {
   NG_VALUE_ACCESSOR,
   NgControl
-} from "./chunk-B7OOOZN3.js";
+} from "./chunk-B3CJD2W3.js";
 import {
   CommonModule,
   NgClass,
   NgIf,
   NgStyle
-} from "./chunk-RX32UDKQ.js";
+} from "./chunk-PEUOQ5RS.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -47,8 +47,8 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate,
   ɵɵviewQuery
-} from "./chunk-M7N747A6.js";
-import "./chunk-J4B6MK7R.js";
+} from "./chunk-6D33NFN2.js";
+import "./chunk-WKYGNSYM.js";
 
 // node_modules/primeng/fesm2022/primeng-radiobutton.mjs
 var _c0 = ["input"];

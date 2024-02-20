@@ -1,24 +1,24 @@
 import {
   Scroller,
   ScrollerModule
-} from "./chunk-6Y6CTX25.js";
-import "./chunk-O4WKPIME.js";
-import "./chunk-I45SWPWR.js";
+} from "./chunk-DG3B3U56.js";
+import "./chunk-VWSKWF7C.js";
+import "./chunk-3FZU3ODF.js";
 import "./chunk-3SQF7L7O.js";
 import {
   Footer,
   Header,
   PrimeTemplate,
   SharedModule
-} from "./chunk-XS52XQIU.js";
-import "./chunk-HXLP6H3M.js";
+} from "./chunk-CDPAREMS.js";
+import "./chunk-HDN63TPE.js";
 import {
   CommonModule,
   NgClass,
   NgIf,
   NgStyle,
   NgTemplateOutlet
-} from "./chunk-RX32UDKQ.js";
+} from "./chunk-PEUOQ5RS.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -56,11 +56,11 @@ import {
   ɵɵstyleMap,
   ɵɵtemplate,
   ɵɵviewQuery
-} from "./chunk-M7N747A6.js";
+} from "./chunk-6D33NFN2.js";
 import {
   __spreadProps,
   __spreadValues
-} from "./chunk-J4B6MK7R.js";
+} from "./chunk-WKYGNSYM.js";
 
 // node_modules/primeng/fesm2022/primeng-virtualscroller.mjs
 var _c0 = ["scroller"];

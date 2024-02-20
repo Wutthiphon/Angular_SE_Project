@@ -1,9 +1,9 @@
 import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-B3CJD2W3.js";
+import {
   DomHandler
 } from "./chunk-3SQF7L7O.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-B7OOOZN3.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -11,7 +11,7 @@ import {
   NgIf,
   NgStyle,
   isPlatformBrowser
-} from "./chunk-RX32UDKQ.js";
+} from "./chunk-PEUOQ5RS.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -54,8 +54,8 @@ import {
   ɵɵstyleProp,
   ɵɵtemplate,
   ɵɵviewQuery
-} from "./chunk-M7N747A6.js";
-import "./chunk-J4B6MK7R.js";
+} from "./chunk-6D33NFN2.js";
+import "./chunk-WKYGNSYM.js";
 
 // node_modules/primeng/fesm2022/primeng-slider.mjs
 var _c0 = ["sliderHandle"];
