@@ -41,13 +41,14 @@ export class MyCoursesComponent {
   menu_items_active: any = {};
 
   // Teacher
-  select_course_info: any = {
+  select_course_info = {
     course_id: 0,
     course_name: "",
     course_description: "",
     course_have_price: false,
     cover_image: "./assets/cover/null-cover.png",
     course_price: null,
+    register_user: [],
   };
 
   // Student
@@ -71,7 +72,7 @@ export class MyCoursesComponent {
           this.can_create = true;
           this.menu_items = [
             { label: "ข้อมูลคอร์ส", icon: "pi pi-fw pi-home" },
-            { label: "นักเรียนในคอร์ส", icon: "pi pi-fw pi-home" },
+            { label: "ผู้สมัครในคอร์ส", icon: "pi pi-fw pi-home" },
             { label: "บทเรียน", icon: "pi pi-fw pi-home" },
             { label: "แบบทดสอบ", icon: "pi pi-fw pi-home" },
           ];
@@ -107,6 +108,7 @@ export class MyCoursesComponent {
           course_have_price: res.course_visibility,
           course_price: res.cost,
           cover_image: res.image,
+          register_user: res.course_reg,
         };
         console.log(res);
       });
