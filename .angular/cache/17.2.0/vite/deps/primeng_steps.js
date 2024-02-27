@@ -3,6 +3,11 @@ import {
   TooltipModule
 } from "./chunk-2TDTNYV3.js";
 import {
+  DomHandler
+} from "./chunk-3SQF7L7O.js";
+import "./chunk-CDPAREMS.js";
+import "./chunk-HDN63TPE.js";
+import {
   ActivatedRoute,
   Router,
   RouterLink,
@@ -11,11 +16,6 @@ import {
 } from "./chunk-4HMW2YXJ.js";
 import "./chunk-4HSBCFLY.js";
 import "./chunk-XBFLNBJK.js";
-import {
-  DomHandler
-} from "./chunk-3SQF7L7O.js";
-import "./chunk-CDPAREMS.js";
-import "./chunk-HDN63TPE.js";
 import {
   CommonModule,
   NgClass,

@@ -11,13 +11,6 @@ import {
   DomHandler
 } from "./chunk-3SQF7L7O.js";
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from "./chunk-KLD4JEVI.js";
-import {
   OverlayService,
   PrimeNGConfig,
   PrimeTemplate,
@@ -26,6 +19,13 @@ import {
 import {
   zindexutils
 } from "./chunk-HDN63TPE.js";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from "./chunk-KLD4JEVI.js";
 import {
   CommonModule,
   DOCUMENT,

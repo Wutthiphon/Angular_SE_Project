@@ -1,7 +1,4 @@
 import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-B3CJD2W3.js";
-import {
   Ripple,
   RippleModule
 } from "./chunk-YFTKVRQT.js";
@@ -11,6 +8,9 @@ import {
   SharedModule
 } from "./chunk-CDPAREMS.js";
 import "./chunk-HDN63TPE.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-B3CJD2W3.js";
 import {
   CommonModule,
   NgClass,

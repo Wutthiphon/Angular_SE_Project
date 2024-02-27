@@ -1,7 +1,4 @@
 import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-B3CJD2W3.js";
-import {
   BaseIcon
 } from "./chunk-3FZU3ODF.js";
 import {
@@ -15,6 +12,9 @@ import {
 import {
   UniqueComponentId
 } from "./chunk-HDN63TPE.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-B3CJD2W3.js";
 import {
   CommonModule,
   NgClass,

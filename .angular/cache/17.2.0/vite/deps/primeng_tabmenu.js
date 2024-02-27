@@ -6,18 +6,9 @@ import {
   ChevronLeftIcon
 } from "./chunk-6DGM5TXH.js";
 import {
-  ActivatedRoute,
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterModule
-} from "./chunk-4HMW2YXJ.js";
-import {
   Ripple,
   RippleModule
 } from "./chunk-YFTKVRQT.js";
-import "./chunk-4HSBCFLY.js";
-import "./chunk-XBFLNBJK.js";
 import {
   ChevronRightIcon
 } from "./chunk-27VLS6CC.js";
@@ -32,6 +23,15 @@ import {
 import {
   ObjectUtils
 } from "./chunk-HDN63TPE.js";
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterModule
+} from "./chunk-4HMW2YXJ.js";
+import "./chunk-4HSBCFLY.js";
+import "./chunk-XBFLNBJK.js";
 import {
   CommonModule,
   NgClass,

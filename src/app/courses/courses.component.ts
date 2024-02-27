@@ -1,16 +1,23 @@
 import { Component } from "@angular/core";
 import { CoursesService } from "../services/courses.service";
 import { TokenStorageService } from "../services/token-storage.service";
+import { environment } from "../../environments/environment";
+
 @Component({
   selector: "app-courses",
   templateUrl: "./courses.component.html",
   styleUrl: "./courses.component.scss",
 })
 export class CoursesComponent {
+  api_url = environment.apiURL;
+
   isLoad: boolean = true;
   courseList: any[] = [];
 
   can_register: boolean = false;
+
+  dialog_show_info_course: boolean = false;
+  dialog_show_info_course_data: any = {};
 
   constructor(
     private coursesService: CoursesService,
@@ -34,5 +41,10 @@ export class CoursesComponent {
       this.courseList = res;
       this.isLoad = false;
     });
+  }
+
+  onShowInfoCourseDialog(course: any) {
+    this.dialog_show_info_course = true;
+    this.dialog_show_info_course_data = course;
   }
 }

@@ -76,6 +76,9 @@ import { ConfirmationService } from "primeng/api";
 import { SkeletonModule } from "primeng/skeleton";
 import { TagModule } from "primeng/tag";
 
+// Other
+import { ImageCropperModule } from "ngx-image-cropper";
+
 // Components
 import { HomeComponent } from "./components/home/home.component";
 import { LoginComponent } from "./components/login/login.component";
@@ -158,6 +161,8 @@ import { MyCoursesComponent } from "./components/my-courses/my-courses.component
     SelectButtonModule,
     SkeletonModule,
     TagModule,
+    // Other
+    ImageCropperModule,
   ],
   providers: [
     authInterceptorProviders,

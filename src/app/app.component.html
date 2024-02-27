@@ -9,10 +9,7 @@
         </div>
 
         <div class="col-12" align="center">
-          <!-- <label style="font-size: 20pt;color: #000000;cursor: pointer;" class="mr-1" routerLink="/">
-            ระบบ
-          </label> -->
-          <img src="./assets/icon/logo.png" style="width: 100%;padding: 5px;" routerLink="/teacher">
+          <img src="./assets/icon/logo.PNG" style="width: 100%;" routerLink="/teacher">
         </div>
 
         <div class="col-12">
@@ -30,10 +27,7 @@
         <p-button icon="pi pi-bars" styleClass="p-button-text p-button-sm hamburger-button" id="hideAside"
           [style]="{color: '#FFFFFF'}" (click)="toggleAside()"></p-button>
 
-        <!-- <label style="font-size: 20pt;color: #FFF;cursor: pointer;" class="mr-1" routerLink="/">
-          ระบบ
-        </label> -->
-        <img src="./assets/icon/logo.PNG" style="width: 50px;padding: 5px;" routerLink="/teacher">
+        <img src="./assets/icon/logo.PNG" style="width: 50px;" routerLink="/teacher">
         <!-- <i class="pi pi-box" style="font-size: 2rem;"></i> -->
 
         <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="หน้าแรก"
@@ -47,7 +41,7 @@
 
         <!-- Login Teacher -->
         <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="คอร์สของฉัน"
-          icon="pi pi-list" routerLink="/my-courses">
+          *ngIf="isLogin" icon="pi pi-list" routerLink="/my-courses">
         </p-button>
       </div>
     </ng-template>

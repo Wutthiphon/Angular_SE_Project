@@ -3,28 +3,13 @@ import {
   TooltipModule
 } from "./chunk-2TDTNYV3.js";
 import {
-  RouterLink,
-  RouterLinkActive,
-  RouterModule
-} from "./chunk-4HMW2YXJ.js";
-import {
   Ripple,
   RippleModule
 } from "./chunk-YFTKVRQT.js";
 import {
-  DomSanitizer
-} from "./chunk-4HSBCFLY.js";
-import "./chunk-XBFLNBJK.js";
-import {
   ConnectedOverlayScrollHandler,
   DomHandler
 } from "./chunk-3SQF7L7O.js";
-import {
-  animate,
-  style,
-  transition,
-  trigger
-} from "./chunk-KLD4JEVI.js";
 import {
   OverlayService,
   PrimeNGConfig,
@@ -34,6 +19,21 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-HDN63TPE.js";
+import {
+  animate,
+  style,
+  transition,
+  trigger
+} from "./chunk-KLD4JEVI.js";
+import {
+  RouterLink,
+  RouterLinkActive,
+  RouterModule
+} from "./chunk-4HMW2YXJ.js";
+import {
+  DomSanitizer
+} from "./chunk-4HSBCFLY.js";
+import "./chunk-XBFLNBJK.js";
 import {
   CommonModule,
   DOCUMENT,

@@ -9,16 +9,9 @@ import {
   AngleDownIcon
 } from "./chunk-AJRXS6JP.js";
 import {
-  RouterLink,
-  RouterLinkActive,
-  RouterModule
-} from "./chunk-4HMW2YXJ.js";
-import {
   Ripple,
   RippleModule
 } from "./chunk-YFTKVRQT.js";
-import "./chunk-4HSBCFLY.js";
-import "./chunk-XBFLNBJK.js";
 import {
   BaseIcon
 } from "./chunk-3FZU3ODF.js";
@@ -35,6 +28,13 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-HDN63TPE.js";
+import {
+  RouterLink,
+  RouterLinkActive,
+  RouterModule
+} from "./chunk-4HMW2YXJ.js";
+import "./chunk-4HSBCFLY.js";
+import "./chunk-XBFLNBJK.js";
 import {
   CommonModule,
   DOCUMENT,

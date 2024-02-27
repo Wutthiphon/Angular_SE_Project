@@ -18,15 +18,6 @@ import {
 import "./chunk-3FZU3ODF.js";
 import "./chunk-3SQF7L7O.js";
 import {
-  animate,
-  animateChild,
-  query,
-  state,
-  style,
-  transition,
-  trigger
-} from "./chunk-KLD4JEVI.js";
-import {
   MessageService,
   PrimeNGConfig,
   PrimeTemplate,
@@ -37,6 +28,15 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-HDN63TPE.js";
+import {
+  animate,
+  animateChild,
+  query,
+  state,
+  style,
+  transition,
+  trigger
+} from "./chunk-KLD4JEVI.js";
 import {
   CommonModule,
   DOCUMENT,

@@ -11,19 +11,19 @@ import {
 import "./chunk-3FZU3ODF.js";
 import "./chunk-3SQF7L7O.js";
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from "./chunk-KLD4JEVI.js";
-import {
   PrimeTemplate,
   SharedModule
 } from "./chunk-CDPAREMS.js";
 import {
   UniqueComponentId
 } from "./chunk-HDN63TPE.js";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from "./chunk-KLD4JEVI.js";
 import {
   CommonModule,
   NgClass,

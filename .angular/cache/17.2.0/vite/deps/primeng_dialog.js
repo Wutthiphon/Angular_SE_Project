@@ -16,14 +16,6 @@ import {
   DomHandler
 } from "./chunk-3SQF7L7O.js";
 import {
-  animate,
-  animation,
-  style,
-  transition,
-  trigger,
-  useAnimation
-} from "./chunk-KLD4JEVI.js";
-import {
   Footer,
   Header,
   PrimeNGConfig,
@@ -34,6 +26,14 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-HDN63TPE.js";
+import {
+  animate,
+  animation,
+  style,
+  transition,
+  trigger,
+  useAnimation
+} from "./chunk-KLD4JEVI.js";
 import {
   CommonModule,
   DOCUMENT,

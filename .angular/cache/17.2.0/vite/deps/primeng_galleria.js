@@ -1,12 +1,12 @@
 import {
-  ChevronLeftIcon
-} from "./chunk-6DGM5TXH.js";
-import {
   FocusTrap,
   FocusTrapModule,
   WindowMaximizeIcon,
   WindowMinimizeIcon
 } from "./chunk-PWJLSMLH.js";
+import {
+  ChevronLeftIcon
+} from "./chunk-6DGM5TXH.js";
 import {
   TimesIcon
 } from "./chunk-OKKE3K4Z.js";
@@ -22,12 +22,6 @@ import {
   DomHandler
 } from "./chunk-3SQF7L7O.js";
 import {
-  animate,
-  style,
-  transition,
-  trigger
-} from "./chunk-KLD4JEVI.js";
-import {
   PrimeNGConfig,
   PrimeTemplate,
   SharedModule
@@ -36,6 +30,12 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-HDN63TPE.js";
+import {
+  animate,
+  style,
+  transition,
+  trigger
+} from "./chunk-KLD4JEVI.js";
 import {
   CommonModule,
   DOCUMENT,

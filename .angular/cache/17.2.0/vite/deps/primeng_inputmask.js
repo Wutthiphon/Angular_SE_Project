@@ -9,9 +9,6 @@ import {
 import {
   TimesIcon
 } from "./chunk-OKKE3K4Z.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-B3CJD2W3.js";
 import "./chunk-3FZU3ODF.js";
 import {
   DomHandler
@@ -21,6 +18,9 @@ import {
   SharedModule
 } from "./chunk-CDPAREMS.js";
 import "./chunk-HDN63TPE.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-B3CJD2W3.js";
 import {
   CommonModule,
   DOCUMENT,
