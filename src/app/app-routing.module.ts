@@ -6,6 +6,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { CoursesComponent } from "./courses/courses.component";
 import { MyCoursesComponent } from "./components/my-courses/my-courses.component";
+import { PaymentComponent } from "./components/payment/payment.component";
 
 // Error pages
 import { Component404 } from "./errors/404/404.component";
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: "courses", component: CoursesComponent },
   { path: "my-courses", component: MyCoursesComponent },
+  { path: "payment", component: PaymentComponent },
 
   // 404 Page
   { path: "**", component: Component404 },

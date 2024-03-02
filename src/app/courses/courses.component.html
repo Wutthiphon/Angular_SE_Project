@@ -3,11 +3,11 @@
         <p-card styleClass="h-full" [header]="course.course_name"
             [subheader]="'ผู้สอน: ' + course.users_account.first_name + ' ' + course.users_account.last_name">
             <ng-template pTemplate="header">
-                <img alt="Card"
+                <img alt="Card" onerror="this.src='./assets/cover/null-cover.png'"
                     [src]="course.image ? api_url + '/public/' + course.image : './assets/cover/null-cover.png'" />
             </ng-template>
             <div class="grid">
-                <div class="col-12">
+                <div class="col-12" style="height: 100px;">
                     {{ course.course_description | slice:0:50 }}{{ course.course_description.length > 50 ? '...' : '' }}
                 </div>
                 <div class="col-12">
@@ -21,7 +21,8 @@
                 <div class="col-12">
                     <p-button label="รายละเอียด" styleClass="p-button-info p-button-sm mr-1"
                         (onClick)="onShowInfoCourseDialog(course)" icon="pi pi-info"></p-button>
-                    <p-button label="เข้าร่วม" styleClass="p-button-success p-button-sm" *ngIf="can_register"
+                    <p-button label="เข้าร่วม" styleClass="p-button-success p-button-sm"
+                        *ngIf="can_register && !course.isRegister" (onClick)="onRegisterCourse(course)"
                         icon="pi pi-sign-in"></p-button>
                 </div>
             </div>
@@ -40,6 +41,19 @@
         </p-card>
     </div>
 </div>
+
+<p-toast></p-toast>
+
+<p-confirmDialog [style]="{width: '600px'}" #confirmDialog>
+    <ng-template pTemplate="footer">
+        <div class="ui-dialog-buttonpane p-clearfix">
+            <button type="button" pButton icon="pi pi-times" label="ยกเลิก" (click)="confirmDialog.reject()"
+                class="p-button-danger p-button-rounded" style="margin-right: .25em"></button>
+            <button type="button" pButton icon="pi pi-check" label="ใช่" (click)="confirmDialog.accept()"
+                class="p-button-success p-button-rounded" style="margin-right: .25em"></button>
+        </div>
+    </ng-template>
+</p-confirmDialog>
 
 <p-dialog [header]="dialog_show_info_course_data.course_name" [(visible)]="dialog_show_info_course" [modal]="true"
     [style]="{ width: '80vw' }" [draggable]="false" [resizable]="false">

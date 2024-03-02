@@ -31,6 +31,7 @@ export class MyCoursesComponent {
     course_description: "",
     course_have_price: false,
     cover_image: "./assets/cover/null-cover.png",
+    payment_image: "./assets/cover/null-cover.png",
     course_price: null,
   };
 
@@ -47,6 +48,7 @@ export class MyCoursesComponent {
     course_description: "",
     course_have_price: false,
     cover_image: "./assets/cover/null-cover.png",
+    payment_image: "./assets/cover/null-cover.png",
     course_price: null,
     register_user: [],
   };
@@ -92,6 +94,7 @@ export class MyCoursesComponent {
   loadCourses() {
     this.coursesService.getMyCourse().subscribe((res) => {
       this.courseList = res;
+      console.log(res);
       this.isLoad = false;
     });
   }
@@ -108,9 +111,9 @@ export class MyCoursesComponent {
           course_have_price: res.course_visibility,
           course_price: res.cost,
           cover_image: res.image,
+          payment_image: res.img_account,
           register_user: res.course_reg,
         };
-        console.log(res);
       });
     } else {
       // Student
@@ -135,6 +138,7 @@ export class MyCoursesComponent {
       course_description: "",
       course_have_price: false,
       cover_image: "./assets/cover/null-cover.png",
+      payment_image: "./assets/cover/null-cover.png",
       course_price: null,
     };
   }
@@ -199,6 +203,10 @@ export class MyCoursesComponent {
             this.create_course_dialog_data.cover_image = api_res.image;
           } else if (this.imageCropData_type == "edit") {
             this.select_course_info.cover_image = api_res.image;
+          } else if (this.imageCropData_type == "payment") {
+            this.create_course_dialog_data.payment_image = api_res.image;
+          } else if (this.imageCropData_type == "payment_edit") {
+            this.select_course_info.payment_image = api_res.image;
           }
         }
       });
@@ -212,7 +220,17 @@ export class MyCoursesComponent {
       course_have_price,
       cover_image,
       course_price,
+      payment_image,
     } = this.create_course_dialog_data;
+
+    if (payment_image == "./assets/cover/null-cover.png") {
+      this.messageService.add({
+        severity: "error",
+        summary: "เกิดข้อผิดพลาด",
+        detail: "กรุณาเลือกรูปภาพวิธีการชำระเงิน",
+      });
+      return;
+    }
 
     this.confirmationService.confirm({
       icon: "pi pi-exclamation-triangle",
@@ -225,7 +243,8 @@ export class MyCoursesComponent {
             course_description,
             course_have_price,
             cover_image == "./assets/cover/null-cover.png" ? null : cover_image,
-            course_price
+            course_price,
+            payment_image
           )
           .subscribe(
             (api_res) => {
@@ -264,6 +283,7 @@ export class MyCoursesComponent {
           course_have_price,
           cover_image,
           course_price,
+          payment_image,
         } = this.select_course_info;
         this.coursesService
           .updateCourse(
@@ -272,7 +292,8 @@ export class MyCoursesComponent {
             course_description,
             course_have_price,
             cover_image == "./assets/cover/null-cover.png" ? null : cover_image,
-            course_price
+            course_price,
+            payment_image
           )
           .subscribe(
             (api_res) => {
@@ -280,7 +301,7 @@ export class MyCoursesComponent {
                 this.messageService.add({
                   severity: "success",
                   summary: "สำเร็จ",
-                  detail: "Succes",
+                  detail: "แก้ไขคอร์สสำเร็จ",
                 });
                 this.loadCourses();
               }

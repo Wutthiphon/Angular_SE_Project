@@ -37,11 +37,13 @@
           icon="pi pi-list" routerLink="/courses">
         </p-button>
 
-        <!-- Login Student -->
-
-        <!-- Login Teacher -->
+        <!-- Login -->
         <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="คอร์สของฉัน"
           *ngIf="isLogin" icon="pi pi-list" routerLink="/my-courses">
+        </p-button>
+
+        <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="แจ้งชำระเงิน"
+          *ngIf="isLogin && permission_id == 1" icon="pi pi-money-bill" routerLink="/payment">
         </p-button>
       </div>
     </ng-template>

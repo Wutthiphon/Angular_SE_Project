@@ -1,0 +1,65 @@
+<div class="grid" style="justify-content: center;">
+    <div class="col-12 md:col-6" *ngIf="courseList.length > 0">
+        <p-accordion [multiple]="true" [activeIndex]="activeIndexArr">
+            <p-accordionTab *ngFor="let course of courseList">
+                <ng-template pTemplate="header">
+                    <div class="grid">
+                        <div class="col-12" style="padding: 0 10px;">
+                            คอร์ส: {{ course.course_name }}
+                        </div>
+                        <div class="col-12" style="padding: 0 10px;">
+                            <b>สถานะ : </b>
+                            <b class="text-danger"
+                                *ngIf="course.course_reg[0].registration_status == 1 && course.course_reg[0].transfer_document == null">กรุณาชำระเงิน</b>
+                            <b class="text-warning"
+                                *ngIf="course.course_reg[0].registration_status == 1 && course.course_reg[0].transfer_document != null">รอการตรวจสอบ</b>
+                            <b class="text-success"
+                                *ngIf="course.course_reg[0].registration_status == 2">ชำระเงินแล้ว</b>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <div class="grid" align="center">
+                    <div class="col-12">
+                        <h3>ข้อมูลชำระเงิน</h3>
+                        {{
+                        course.course_reg[0].transfer_document || course.course_reg[0].registration_status == 2 ?
+                        'หลักฐานการชำระเงินของคุณ' :
+                        'กรุณา Upload หลักฐานการชำระเงิน'
+                        }}
+                    </div>
+                    <div class="col-12" *ngIf="course.course_reg[0].transfer_document">
+                        <img alt="Card" [src]="api_url + '/public/' + course.course_reg[0].transfer_document"
+                            style="width: 100%;" />
+                    </div>
+                    <div class="col-12" *ngIf="!course.course_reg[0].transfer_document">
+                        <input #slipImageSelect hidden="true" type="file" accept=".heic,.jpeg,.jpg,.png,.gif"
+                            (change)="uploadSlipImage($event,course)" />
+                        <button pButton label="Upload" class="p-button-success p-button-sm p-button-rounded"
+                            (click)="slipImageSelect.click()" icon="pi pi-upload"
+                            *ngIf="course.course_reg[0].registration_status == 1"></button>
+                    </div>
+                </div>
+            </p-accordionTab>
+        </p-accordion>
+    </div>
+</div>
+
+<p-toast></p-toast>
+
+<p-confirmDialog [style]="{width: '600px'}" #confirmDialog>
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12">
+                <img [src]="selectedImage" style="width: 100%;max-height: 600px;" />
+            </div>
+        </div>
+
+        <div class="ui-dialog-buttonpane p-clearfix">
+            <button type="button" pButton icon="pi pi-times" label="ยกเลิก" (click)="confirmDialog.reject()"
+                class="p-button-danger p-button-rounded" style="margin-right: .25em"></button>
+            <button type="button" pButton icon="pi pi-check" label="ยืนยัน" (click)="confirmDialog.accept()"
+                class="p-button-success p-button-rounded" style="margin-right: .25em"></button>
+        </div>
+    </ng-template>
+</p-confirmDialog>

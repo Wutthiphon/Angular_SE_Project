@@ -13,9 +13,10 @@
 
                 <ng-container *ngIf="courseList.length > 0">
                     <div class="col-12 md:col-3" *ngFor="let course of courseList">
+                        <!-- Teacher -->
                         <p-card *ngIf="can_create" styleClass="h-full" [header]="course.course_name">
                             <ng-template pTemplate="header">
-                                <img alt="Card"
+                                <img alt="Card" onerror="this.src='./assets/cover/null-cover.png'"
                                     [src]="course.image ? api_url + '/public/' + course.image : './assets/cover/null-cover.png'" />
                             </ng-template>
                             <div class="grid">
@@ -42,14 +43,15 @@
                             </div>
                         </p-card>
 
+                        <!-- Student -->
                         <p-card *ngIf="!can_create" styleClass="h-full" [header]="course.course_name"
                             [subheader]="'ผู้สอน: ' + course.users_account.first_name + ' ' + course.users_account.last_name">
                             <ng-template pTemplate="header">
-                                <img alt="Card"
+                                <img alt="Card" onerror="this.src='./assets/cover/null-cover.png'"
                                     [src]="course.image ? api_url + '/public/' + course.image : './assets/cover/null-cover.png'" />
                             </ng-template>
                             <div class="grid">
-                                <div class="col-12">
+                                <div class="col-12" style="height: 100px;">
                                     {{ course.course_description | slice:0:50 }}{{ course.course_description.length > 50
                                     ?
                                     '...'
@@ -63,7 +65,12 @@
                                 </div>
                                 <div class="col-12">
                                     <p-button label="เข้าคอร์ส" styleClass="p-button-info p-button-sm mr-1"
-                                        (onClick)="onOpenCourse(course)" icon="pi pi-info"></p-button>
+                                        *ngIf="course.course_reg[0].registration_status == 2"
+                                        (onClick)="onOpenCourse(course)" icon="pi pi-sign-in"></p-button>
+
+                                    <h3 *ngIf="course.course_reg[0].registration_status == 1"
+                                        style="color: red;font-weight: bold;">
+                                        กรุณาไปจ่ายตังค์!!!</h3>
                                 </div>
                             </div>
                         </p-card>
@@ -136,16 +143,34 @@
                                     </div>
                                 </div>
                                 <div class="col-12 md:col-4" align="center">
-                                    <b>รูปภาพปก</b><br>
-                                    <img [src]="select_course_info.cover_image != null ? api_url + '/public/' + select_course_info.cover_image : './assets/cover/null-cover.png'"
-                                        alt="Cover Image" style="width: 100%; height: auto;max-width: 360px;">
-                                    <br>
-                                    <button pButton type="button" label="เปลี่ยนรูปภาพปก" icon="pi pi-pencil"
-                                        (click)="CoverImageSelect.click()"
-                                        class="p-button-outlined p-button-sm p-button-rounded"></button>
-                                    <input #CoverImageSelect hidden="true" type="file"
-                                        accept=".heic,.jpeg,.jpg,.png,.gif"
-                                        (change)="selectCoverImage($event,'edit')" />
+                                    <div class="grid">
+                                        <div class="col-12">
+                                            <b>รูปภาพปก</b><br>
+                                            <img onerror="this.src='./assets/cover/null-cover.png'"
+                                                [src]="select_course_info.cover_image != null ? api_url + '/public/' + select_course_info.cover_image : './assets/cover/null-cover.png'"
+                                                alt="Cover Image" style="width: 100%; height: auto;max-width: 360px;">
+                                            <br>
+                                            <button pButton type="button" label="เปลี่ยนรูปภาพปก" icon="pi pi-pencil"
+                                                (click)="CoverImageEditSelect.click()"
+                                                class="p-button-outlined p-button-sm p-button-rounded"></button>
+                                            <input #CoverImageEditSelect hidden="true" type="file"
+                                                accept=".heic,.jpeg,.jpg,.png,.gif"
+                                                (change)="selectCoverImage($event,'edit')" />
+                                        </div>
+                                        <div class="col-12">
+                                            <b>รูปภาพวิธีการชำระเงิน</b><br>
+                                            <img onerror="this.src='./assets/cover/null-cover.png'"
+                                                [src]="select_course_info.payment_image != null ? api_url + '/public/' + select_course_info.payment_image : './assets/cover/null-cover.png'"
+                                                alt="Cover Image" style="width: 100%; height: auto;max-width: 360px;">
+                                            <br>
+                                            <button pButton type="button" label="เปลี่ยนรูปภาพปก" icon="pi pi-pencil"
+                                                (click)="PaymentImageEditSelect.click()"
+                                                class="p-button-outlined p-button-sm p-button-rounded"></button>
+                                            <input #PaymentImageEditSelect hidden="true" type="file"
+                                                accept=".heic,.jpeg,.jpg,.png,.gif"
+                                                (change)="selectCoverImage($event,'payment_edit')" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -182,9 +207,11 @@
                                                 style="color: green;">ลงทะเบียนสำเร็จ</b>
                                         </td>
                                         <td>
-                                            <p-button label="ดูสลิป"
+                                            <b style="color: red"
+                                                *ngIf="reg.transfer_document == null">รออัปโหลดหลักฐานการชำระเงิน</b>
+                                            <p-button label="ดูสลิป" *ngIf="reg.transfer_document != null"
                                                 styleClass="p-button-info p-button-sm p-button-rounded m-1"
-                                                icon="pi pi-pencil"></p-button>
+                                                icon="pi pi-eye"></p-button>
 
                                             <p-button label="Approve"
                                                 styleClass="p-button-success p-button-sm p-button-rounded m-1"
@@ -195,7 +222,7 @@
 
                                 <ng-template pTemplate="emptymessage">
                                     <tr>
-                                        <td colspan="4" style="text-align: center;">
+                                        <td colspan="6" style="text-align: center;">
                                             ไม่พบข้อมูล
                                         </td>
                                     </tr>
@@ -219,7 +246,15 @@
                                 {{ tem.lesson_name }}
                                 <i class="pi pi-angle-right" style="float: right;"></i>
 
+                                <!-- <p-tag icon="pi pi-check" value="เรียนแล้ว" severity="success"
+                                    *ngIf=" "></p-tag>
+                                <p-tag icon="pi pi-times" value="ยังไม่เรียน" severity="danger"
+                                    *ngIf=""></p-tag> -->
+
+
                             </p-card>
+
+
                         </div>
 
                         <!-- <div class="col-12">
@@ -256,7 +291,7 @@
 <p-dialog header="สร้างคอร์ส" [(visible)]="create_course_dialog" [modal]="true" [style]="{ width: '80vw' }"
     [draggable]="false" [resizable]="false">
     <div class="grid">
-        <div class="col-12 md:col-12" align="center">
+        <div class="col-12 md:col-6" align="center">
             <b>รูปภาพปก</b><br>
             <img [src]="create_course_dialog_data.cover_image != './assets/cover/null-cover.png' ? api_url + '/public/' + create_course_dialog_data.cover_image : './assets/cover/null-cover.png'"
                 alt="Cover Image" style="width: 100%; height: auto;max-width: 360px;">
@@ -265,6 +300,16 @@
                 class="p-button-outlined p-button-sm p-button-rounded"></button>
             <input #CoverImageSelect hidden="true" type="file" accept=".heic,.jpeg,.jpg,.png,.gif"
                 (change)="selectCoverImage($event,'create')" />
+        </div>
+        <div class="col-12 md:col-6" align="center">
+            <b>วิธีการชำระเงิน</b><br>
+            <img [src]="create_course_dialog_data.payment_image != './assets/cover/null-cover.png' ? api_url + '/public/' + create_course_dialog_data.payment_image : './assets/cover/null-cover.png'"
+                alt="Cover Image" style="width: 100%; height: auto;max-width: 360px;">
+            <br>
+            <button pButton type="button" label="เปลี่ยนวิธีการชำระเงิน" icon="pi pi-pencil"
+                (click)="PaymentImageSelect.click()" class="p-button-outlined p-button-sm p-button-rounded"></button>
+            <input #PaymentImageSelect hidden="true" type="file" accept=".heic,.jpeg,.jpg,.png,.gif"
+                (change)="selectCoverImage($event,'payment')" />
         </div>
         <div class="col-12 md:col-12">
             <label>ชื่อคอร์ส</label>
