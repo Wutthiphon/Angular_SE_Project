@@ -4,6 +4,10 @@ $custom-font: "Kanit", sans-serif;
 $global-color: #008177;
 $global-secondary-color: #c5c5c5;
 
+html {
+  font-size:10pt;
+}
+
 * {
   font-family: $custom-font;
 }
