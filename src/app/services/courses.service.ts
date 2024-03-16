@@ -98,4 +98,23 @@ export class CoursesService {
       httpOptions
     );
   }
+
+  teacherApproveStudentRegistration(reg_id: number): Observable<any> {
+    return this.http.post(
+      API + "payment/approve",
+      { reg_id: reg_id },
+      httpOptions
+    );
+  }
+
+  teacherRejectStudentRegistration(
+    reg_id: number,
+    comment: string
+  ): Observable<any> {
+    return this.http.post(
+      API + "payment/reject",
+      { reg_id: reg_id, comment: comment },
+      httpOptions
+    );
+  }
 }

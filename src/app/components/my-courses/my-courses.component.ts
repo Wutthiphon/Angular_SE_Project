@@ -324,6 +324,35 @@ export class MyCoursesComponent {
     this.view_receipt_dialog_img = transfer_document;
   }
 
+  onApproveRegisterCourse(reg_id: number) {
+    this.confirmationService.confirm({
+      header: "ยืนยัน",
+      icon: "pi pi-exclamation-triangle",
+      message: "ยืนยันการอนุมัติการลงทะเบียน",
+      accept: () => {
+        this.coursesService.teacherApproveStudentRegistration(reg_id).subscribe(
+          (res) => {
+            this.messageService.add({
+              severity: "success",
+              summary: "สำเร็จ",
+              detail: "อนุมัติการลงทะเบียนสำเร็จ",
+            });
+            this.getCourseByID(this.select_course);
+          },
+          (err) => {
+            this.messageService.add({
+              severity: "error",
+              summary: "เกิดข้อผิดพลาด",
+              detail: err.error.message,
+            });
+          }
+        );
+      },
+    });
+  }
+
+  onRejectRegisterCourse(reg_id: number) {}
+
   // Student
   onOpenLesson(item: any) {
     console.log(item);

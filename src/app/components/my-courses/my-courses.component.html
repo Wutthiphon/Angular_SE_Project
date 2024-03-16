@@ -96,7 +96,7 @@
         <div class="grid">
             <div class="col-12">
                 <p-button label="ย้อนกลับ" styleClass="p-button-secondary p-button-sm" icon="pi pi-angle-left"
-                    (click)="goPage('my-courses')"></p-button>
+                    (click)="goPage('my-courses');menu_items_active = menu_items[0]"></p-button>
             </div>
             <div class="col-12">
                 <p-card [header]="select_course.course_name"
@@ -163,8 +163,8 @@
                                                 [src]="select_course_info.payment_image != null ? api_url + '/public/' + select_course_info.payment_image : './assets/cover/null-cover.png'"
                                                 alt="Cover Image" style="width: 100%; height: auto;max-width: 360px;">
                                             <br>
-                                            <button pButton type="button" label="เปลี่ยนรูปภาพปก" icon="pi pi-pencil"
-                                                (click)="PaymentImageEditSelect.click()"
+                                            <button pButton type="button" label="เปลี่ยนรูปภาพวิธีการชำระเงิน"
+                                                icon="pi pi-pencil" (click)="PaymentImageEditSelect.click()"
                                                 class="p-button-outlined p-button-sm p-button-rounded"></button>
                                             <input #PaymentImageEditSelect hidden="true" type="file"
                                                 accept=".heic,.jpeg,.jpg,.png,.gif"
@@ -214,9 +214,15 @@
                                                 styleClass="p-button-info p-button-sm p-button-rounded m-1"
                                                 icon="pi pi-eye"></p-button>
 
-                                            <p-button label="Approve"
+                                            <p-button label="อนุมัติ"
                                                 styleClass="p-button-success p-button-sm p-button-rounded m-1"
+                                                (onClick)="onApproveRegisterCourse(reg.registration_id)"
                                                 *ngIf="reg.registration_status == 1" icon="pi pi-check"></p-button>
+
+                                            <p-button label="ปฏิเสธ"
+                                                styleClass="p-button-danger p-button-sm p-button-rounded m-1"
+                                                (onClick)="onRejectRegisterCourse(reg.registration_id)"
+                                                *ngIf="reg.registration_status == 1" icon="pi pi-times"></p-button>
                                         </td>
                                     </tr>
                                 </ng-template>
