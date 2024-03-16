@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { AuthService } from "./services/auth.service";
 import { TokenStorageService } from "./services/token-storage.service";
 import { AccountService } from "./services/account.service";
 import { MessageService } from "primeng/api";
 import { ConfirmationService } from "primeng/api";
 import { environment } from "../environments/environment";
+
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -62,8 +64,37 @@ export class AppComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private accountService: AccountService
-  ) {
+    private accountService: AccountService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    // Aside Menu
+    this.router.events.subscribe(async () => {
+      this.newUrl = this.router.url;
+
+      if (this.newUrl != this.currentUrl) {
+        this.loadMenu();
+        // Update Current URL
+        this.currentUrl = this.newUrl;
+      }
+    });
+
+    this.authService.updateLoginLogoutChange().subscribe((res) => {
+      this.checkLogin();
+    });
+    this.checkLogin();
+  }
+
+  // Get Profile Image
+  getProfileImage() {
+    this.accountService.getProfileImage().subscribe((res) => {
+      this.profile_image = res.image;
+    });
+  }
+
+  // Init Menu
+  checkLogin() {
     if (this.tokenStorage.getToken()) {
       let permission = this.tokenStorage.getUser().permission;
       if (permission) {
@@ -87,7 +118,6 @@ export class AppComponent implements OnInit {
         this.accountService.updateProfileImageChange().subscribe((res) => {
           this.getProfileImage();
         });
-
         this.getProfileImage();
       }
     } else {
@@ -96,27 +126,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    // Aside Menu
-    this.router.events.subscribe(async () => {
-      this.newUrl = this.router.url;
-
-      if (this.newUrl != this.currentUrl) {
-        this.loadMenu();
-        // Update Current URL
-        this.currentUrl = this.newUrl;
-      }
-    });
-  }
-
-  // Get Profile Image
-  getProfileImage() {
-    this.accountService.getProfileImage().subscribe((res) => {
-      this.profile_image = res.image;
-    });
-  }
-
-  // Init Menu
   loadMenu() {
     this.aside_items = [];
 
@@ -217,7 +226,6 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.tokenStorage.signOut();
-    // this.router.navigateByUrl("/");
-    window.location.reload();
+    this.authService.updateLoginLogoutDetect();
   }
 }

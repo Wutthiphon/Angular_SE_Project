@@ -49,15 +49,17 @@ export class LoginComponent {
           "error"
         );
         this.tokenStorage.signOut();
+        this.authService.updateLoginLogoutDetect();
       } else {
         this.router.navigateByUrl("/");
+        this.authService.updateLoginLogoutDetect();
       }
     }
   }
 
   loginSubmit() {
     this.is_error = false;
-    this.is_load = true;
+    this.is_load = true
     const { username, password, remenber_me } = this.login_form;
     if (username && password) {
       this.authService.login(username, password).subscribe(
@@ -78,7 +80,6 @@ export class LoginComponent {
           }
           this.CheckisLogin();
           this.is_load = false;
-          window.location.reload();
         },
         (error) => {
           this.is_error = true;

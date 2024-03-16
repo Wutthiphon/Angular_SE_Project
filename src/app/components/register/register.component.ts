@@ -148,7 +148,7 @@ export class RegisterComponent {
                   this.tokenStorage.saveUser(res);
                   this.CheckisLogin();
                   this.is_load = false;
-                  window.location.reload();
+                  this.authService.updateLoginLogoutDetect();
                 });
               },
               (err) => {

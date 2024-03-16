@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable, ReplaySubject, Subject, tap } from "rxjs";
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { TokenStorageService } from "../services/token-storage.service";
@@ -14,6 +14,8 @@ const httpOptions = {
   providedIn: "root",
 })
 export class AuthService {
+  private LoginLogoutDetect: Subject<boolean> = new ReplaySubject<boolean>(0);
+
   constructor(private http: HttpClient, private token: TokenStorageService) {}
 
   register(
@@ -53,5 +55,13 @@ export class AuthService {
       },
       httpOptions
     );
+  }
+
+  updateLoginLogoutDetect() {
+    this.LoginLogoutDetect.next(true);
+  }
+
+  updateLoginLogoutChange(): Observable<boolean> {
+    return this.LoginLogoutDetect.asObservable();
   }
 }
