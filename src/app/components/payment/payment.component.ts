@@ -55,7 +55,10 @@ export class PaymentComponent {
 
       let not_registration_status = this.courseList.filter(
         (course: any, index: number) => {
-          return course.course_reg[0].registration_status == 1;
+          return (
+            course.course_reg[0].registration_status == 1 ||
+            course.course_reg[0].registration_status == 0
+          );
         }
       );
       not_registration_status.map((course: any) => {

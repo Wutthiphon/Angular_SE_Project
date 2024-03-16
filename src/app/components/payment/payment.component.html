@@ -13,6 +13,10 @@
                                 *ngIf="course.course_reg[0].registration_status == 1 && course.course_reg[0].users_reg_transfer_document.length == 0 ">กรุณาชำระเงิน</b>
                             <b class="text-warning"
                                 *ngIf="course.course_reg[0].registration_status == 1 && course.course_reg[0].users_reg_transfer_document.length > 0">รอการตรวจสอบ</b>
+                            <b class="text-danger"
+                                *ngIf="course.course_reg[0].registration_status == 0 && course.course_reg[0].users_reg_transfer_document.length > 0">
+                                ถูกปฏิเสธ กรุณาตรวจสอบหรือทำการ Upload สลิปเพิ่มเติม
+                            </b>
                             <b class="text-success"
                                 *ngIf="course.course_reg[0].registration_status == 2">ชำระเงินแล้ว</b>
                         </div>
@@ -33,6 +37,8 @@
                         <div class="col-12" *ngFor="let recept of course.course_reg[0].users_reg_transfer_document">
                             <img alt="Card" [src]="api_url + '/public/' + recept.transfer_document"
                                 style="width: 100%;" />
+                            <b *ngIf="recept.comment" style="color: red;">หมายเหตุ: {{ recept.comment }}</b>
+                            <p-divider></p-divider>
                         </div>
                     </ng-container>
                     <div class="col-12"
@@ -40,8 +46,7 @@
                         <input #slipImageSelect hidden="true" type="file" accept=".heic,.jpeg,.jpg,.png,.gif"
                             (change)="uploadSlipImage($event,course)" />
                         <button pButton label="Upload" class="p-button-success p-button-sm p-button-rounded"
-                            (click)="slipImageSelect.click()" icon="pi pi-upload"
-                            *ngIf="course.course_reg[0].registration_status == 1"></button>
+                            (click)="slipImageSelect.click()" icon="pi pi-upload"></button>
                     </div>
                 </div>
             </p-accordionTab>
