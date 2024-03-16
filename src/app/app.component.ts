@@ -162,6 +162,8 @@ export class AppComponent implements OnInit {
     }
 
     this.confirmationService.confirm({
+      header: "ยืนยัน",
+      icon: "pi pi-exclamation-triangle",
       message: "ยืนยันการเปลี่ยนรหัสผ่าน?",
       accept: () => {
         this.accountService
