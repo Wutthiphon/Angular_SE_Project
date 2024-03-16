@@ -4,12 +4,14 @@ import { TokenStorageService } from "./services/token-storage.service";
 import { AccountService } from "./services/account.service";
 import { MessageService } from "primeng/api";
 import { ConfirmationService } from "primeng/api";
+import { environment } from "../environments/environment";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
 export class AppComponent implements OnInit {
+  env = environment;
   aside_items: any[] = [];
   sidebarVisible: boolean = false;
 
@@ -20,6 +22,7 @@ export class AppComponent implements OnInit {
   permission_id: number = 0;
 
   web_name = "";
+  profile_image: string = "";
   profile_menu_item: any[] = [
     {
       label: "โปรไฟล์",
@@ -80,6 +83,12 @@ export class AppComponent implements OnInit {
             break;
         }
         this.web_name = permission_text + this.tokenStorage.getUser().name;
+
+        this.accountService.updateProfileImageChange().subscribe((res) => {
+          this.getProfileImage();
+        });
+
+        this.getProfileImage();
       }
     } else {
       this.permission_id = 0;
@@ -97,6 +106,13 @@ export class AppComponent implements OnInit {
         // Update Current URL
         this.currentUrl = this.newUrl;
       }
+    });
+  }
+
+  // Get Profile Image
+  getProfileImage() {
+    this.accountService.getProfileImage().subscribe((res) => {
+      this.profile_image = res.image;
     });
   }
 

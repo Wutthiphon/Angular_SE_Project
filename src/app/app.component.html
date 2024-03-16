@@ -9,7 +9,7 @@
         </div>
 
         <div class="col-12" align="center">
-          <img src="./assets/icon/logo.PNG" style="width: 100%;" routerLink="/teacher">
+          <img src="./assets/icon/logo.PNG" style="width: 100%;">
         </div>
 
         <div class="col-12">
@@ -27,7 +27,7 @@
         <p-button icon="pi pi-bars" styleClass="p-button-text p-button-sm hamburger-button" id="hideAside"
           [style]="{color: '#FFFFFF'}" (click)="toggleAside()"></p-button>
 
-        <img src="./assets/icon/logo.PNG" style="width: 50px;" routerLink="/teacher">
+        <img src="./assets/icon/logo.PNG" style="width: 50px;">
         <!-- <i class="pi pi-box" style="font-size: 2rem;"></i> -->
 
         <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="หน้าแรก"
@@ -60,8 +60,17 @@
 
           <!-- Login -->
           <p-menu #profile_menu [model]="profile_menu_item" [popup]="true"></p-menu>
-          <button pButton type="button" (click)="profile_menu.toggle($event)" icon="pi pi-user" *ngIf="isLogin"
-            class="p-button-sm p-button-text text-white p-button-secondary hide-mobile" [label]="web_name"></button>
+          <p-button [outlined]="true" (click)="profile_menu.toggle($event)" *ngIf="isLogin"
+            styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile">
+            <div class="flex align-content-center flex-wrap">
+              <div class="flex align-items-center">
+                <i class="pi pi-user mr-2" style="font-size: 1.5rem;" *ngIf="!profile_image"></i>
+                <img *ngIf="profile_image" alt="logo" [src]="env.apiURL + '/profile/img/' + profile_image"
+                  style="width: 2.5rem" class="profile-image mr-2" />
+                <b>{{ web_name }}</b>
+              </div>
+            </div>
+          </p-button>
         </div>
       </div>
     </ng-template>
