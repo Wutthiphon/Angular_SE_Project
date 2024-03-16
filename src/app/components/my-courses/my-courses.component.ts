@@ -53,7 +53,11 @@ export class MyCoursesComponent {
     register_user: [],
   };
   view_receipt_dialog: boolean = false;
-  view_receipt_dialog_img: string | null = null;
+  view_receipt_dialog_img: any | null = null;
+
+  reject_comment_dialog: boolean = false;
+  reject_comment_reg_id: number = 0;
+  reject_comment: string = "";
 
   // Student
   student_course_content: any = [];
@@ -120,7 +124,6 @@ export class MyCoursesComponent {
       // Student
       this.coursesService.getCourseContent(couse.course_id).subscribe((res) => {
         this.student_course_content = res;
-        console.log(res);
       });
     }
   }
@@ -319,7 +322,7 @@ export class MyCoursesComponent {
     });
   }
 
-  openReceiptDialog(transfer_document: string) {
+  openReceiptDialog(transfer_document: any) {
     this.view_receipt_dialog = true;
     this.view_receipt_dialog_img = transfer_document;
   }
@@ -351,7 +354,46 @@ export class MyCoursesComponent {
     });
   }
 
-  onRejectRegisterCourse(reg_id: number) {}
+  onRejectRegisterCourse(reg_id: number) {
+    this.reject_comment_dialog = true;
+    this.reject_comment_reg_id = reg_id;
+    this.reject_comment = "";
+  }
+
+  onRejectRegisterCourseSubmit() {
+    this.confirmationService.confirm({
+      header: "ยืนยัน",
+      icon: "pi pi-exclamation-triangle",
+      message: "ยืนยันการปฏิเสธการลงทะเบียน",
+      accept: () => {
+        this.coursesService
+          .teacherRejectStudentRegistration(
+            this.reject_comment_reg_id,
+            this.reject_comment
+          )
+          .subscribe(
+            (res) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "สำเร็จ",
+                detail: "ปฏิเสธการลงทะเบียนสำเร็จ",
+              });
+              this.reject_comment_dialog = false;
+              this.reject_comment_reg_id = 0;
+              this.reject_comment = "";
+              this.getCourseByID(this.select_course);
+            },
+            (err) => {
+              this.messageService.add({
+                severity: "error",
+                summary: "เกิดข้อผิดพลาด",
+                detail: err.error.message,
+              });
+            }
+          );
+      },
+    });
+  }
 
   // Student
   onOpenLesson(item: any) {

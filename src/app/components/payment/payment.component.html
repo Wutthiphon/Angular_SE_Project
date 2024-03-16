@@ -10,9 +10,9 @@
                         <div class="col-12" style="padding: 0 10px;">
                             <b>สถานะ : </b>
                             <b class="text-danger"
-                                *ngIf="course.course_reg[0].registration_status == 1 && course.course_reg[0].transfer_document == null">กรุณาชำระเงิน</b>
+                                *ngIf="course.course_reg[0].registration_status == 1 && course.course_reg[0].users_reg_transfer_document.length == 0 ">กรุณาชำระเงิน</b>
                             <b class="text-warning"
-                                *ngIf="course.course_reg[0].registration_status == 1 && course.course_reg[0].transfer_document != null">รอการตรวจสอบ</b>
+                                *ngIf="course.course_reg[0].registration_status == 1 && course.course_reg[0].users_reg_transfer_document.length > 0">รอการตรวจสอบ</b>
                             <b class="text-success"
                                 *ngIf="course.course_reg[0].registration_status == 2">ชำระเงินแล้ว</b>
                         </div>
@@ -23,16 +23,20 @@
                     <div class="col-12">
                         <h3>ข้อมูลชำระเงิน</h3>
                         {{
-                        course.course_reg[0].transfer_document || course.course_reg[0].registration_status == 2 ?
+                        course.course_reg[0].users_reg_transfer_document.length > 0 ||
+                        course.course_reg[0].registration_status == 2 ?
                         'หลักฐานการชำระเงินของคุณ' :
                         'กรุณา Upload หลักฐานการชำระเงิน'
                         }}
                     </div>
-                    <div class="col-12" *ngIf="course.course_reg[0].transfer_document">
-                        <img alt="Card" [src]="api_url + '/public/' + course.course_reg[0].transfer_document"
-                            style="width: 100%;" />
-                    </div>
-                    <div class="col-12" *ngIf="!course.course_reg[0].transfer_document">
+                    <ng-container *ngIf="course.course_reg[0].users_reg_transfer_document.length > 0">
+                        <div class="col-12" *ngFor="let recept of course.course_reg[0].users_reg_transfer_document">
+                            <img alt="Card" [src]="api_url + '/public/' + recept.transfer_document"
+                                style="width: 100%;" />
+                        </div>
+                    </ng-container>
+                    <div class="col-12"
+                        *ngIf="course.course_reg[0].users_reg_transfer_document.length == 0 || course.course_reg[0].registration_status == 0">
                         <input #slipImageSelect hidden="true" type="file" accept=".heic,.jpeg,.jpg,.png,.gif"
                             (change)="uploadSlipImage($event,course)" />
                         <button pButton label="Upload" class="p-button-success p-button-sm p-button-rounded"

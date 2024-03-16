@@ -62,7 +62,6 @@ export class PaymentComponent {
         this.activeIndexArr.push(this.courseList.indexOf(course));
       });
 
-      console.log(res);
       this.isLoad = false;
     });
   }
@@ -91,7 +90,6 @@ export class PaymentComponent {
           .update_course_image(event.target.files[0])
           .subscribe((api_res) => {
             if (api_res.status == true) {
-              course.course_reg[0].transfer_document = api_res.image;
               this.coursesService
                 .uploadSlipImage(
                   api_res.image,
@@ -103,9 +101,8 @@ export class PaymentComponent {
                     summary: "สำเร็จ",
                     detail: "ยืนยันการชำระเงินสำเร็จ",
                   });
+                  this.loadCourses();
                 });
-
-              console.log(api_res.image, course.course_reg[0].registration_id);
             }
           });
       },

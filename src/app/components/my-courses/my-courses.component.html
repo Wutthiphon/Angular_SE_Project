@@ -201,16 +201,16 @@
                                         <td>
                                             <b *ngIf="reg.registration_status == 0"
                                                 style="color: red;">ยังลงทะเบียนไม่สำเร็จ</b>
-                                            <b *ngIf="reg.registration_status == 1"
-                                                style="color: orange;">รอการชำระเงิน</b>
+                                            <b *ngIf="reg.registration_status == 1 && reg.users_reg_transfer_document.length > 0"
+                                                style="color: orange;">รอการตรวจสอบ</b>
+                                            <b style="color: red"
+                                                *ngIf="reg.registration_status == 1 && reg.users_reg_transfer_document.length == 0">รออัปโหลดหลักฐานการชำระเงิน</b>
                                             <b *ngIf="reg.registration_status == 2"
                                                 style="color: green;">ลงทะเบียนสำเร็จ</b>
                                         </td>
                                         <td>
-                                            <b style="color: red"
-                                                *ngIf="reg.transfer_document == null">รออัปโหลดหลักฐานการชำระเงิน</b>
-                                            <p-button label="ดูสลิป" *ngIf="reg.transfer_document != null"
-                                                (onClick)="openReceiptDialog(reg.transfer_document)"
+                                            <p-button label="ดูสลิป" *ngIf="reg.users_reg_transfer_document.length > 0"
+                                                (onClick)="openReceiptDialog(reg.users_reg_transfer_document)"
                                                 styleClass="p-button-info p-button-sm p-button-rounded m-1"
                                                 icon="pi pi-eye"></p-button>
 
@@ -374,8 +374,8 @@
 <p-dialog header="ดูสลิป" [(visible)]="view_receipt_dialog" [modal]="true"
     [style]="{ width: '40vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
     <div class="grid">
-        <div class="col-12">
-            <p-image [src]="api_url + '/public/' + view_receipt_dialog_img" width="100%" appendTo="body"
+        <div class="col-12" *ngFor="let recipt of view_receipt_dialog_img">
+            <p-image [src]="api_url + '/public/' + recipt.transfer_document" width="100%" appendTo="body"
                 [preview]="true"></p-image>
         </div>
     </div>
@@ -385,6 +385,27 @@
             <div class="col-12" align="right">
                 <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
                     (onClick)="view_receipt_dialog = false;view_receipt_dialog_img = null"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="ปฏิเสธ" [(visible)]="reject_comment_dialog" [modal]="true"
+    [style]="{ width: '40vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12">
+            <textarea pInputTextarea [(ngModel)]="reject_comment" name="input_reject_comment"
+                #input_reject_comment="ngModel" placeholder="หมายเหตุ..." [rows]="5" class="p-inputtext-sm"></textarea>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ยกเลิก" icon="pi pi-times" styleClass="p-button-sm p-button-danger mt-4"
+                    (onClick)="reject_comment_dialog = false;reject_comment = ''"></p-button>
+                <p-button label="บันทึก" icon="pi pi-save" styleClass="p-button-sm p-button-success mt-4"
+                    (onClick)="onRejectRegisterCourseSubmit()"></p-button>
             </div>
         </div>
     </ng-template>
