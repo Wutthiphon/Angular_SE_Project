@@ -5,6 +5,8 @@ import { MessageService } from "primeng/api";
 import Swal from "sweetalert2";
 import { ImageCroppedEvent } from "ngx-image-cropper";
 import { environment } from "../../../environments/environment";
+import { Router } from "@angular/router";
+import { TokenStorageService } from "../../services/token-storage.service";
 
 @Component({
   selector: "app-profile",
@@ -40,9 +42,16 @@ export class ProfileComponent {
   constructor(
     private accountService: AccountService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router: Router,
+    private tokenStorage: TokenStorageService
   ) {
-    this.loadProfile();
+    if (this.tokenStorage.getToken()) {
+      this.loadProfile();
+    } else {
+      this.router.navigateByUrl("/login");
+      return;
+    }
   }
   // Profile Image
   selectProfileImage(event: any) {

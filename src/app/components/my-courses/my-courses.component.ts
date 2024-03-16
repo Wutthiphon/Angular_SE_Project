@@ -86,11 +86,11 @@ export class MyCoursesComponent {
           this.router.navigateByUrl("/login");
           break;
       }
+      this.loadCourses();
     } else {
       this.router.navigateByUrl("/login");
+      return;
     }
-
-    this.loadCourses();
   }
 
   loadCourses() {
