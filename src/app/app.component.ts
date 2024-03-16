@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { TokenStorageService } from "./services/token-storage.service";
-
+import { AccountService } from "./services/account.service";
+import { MessageService } from "primeng/api";
+import { ConfirmationService } from "primeng/api";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -27,6 +29,16 @@ export class AppComponent implements OnInit {
       },
     },
     {
+      label: "เปลี่ยนรหัสผ่าน",
+      icon: "pi pi-key",
+      command: () => {
+        this.change_password_dialog = true;
+      },
+    },
+    {
+      separator: true,
+    },
+    {
       label: "ออกจากระบบ",
       icon: "pi pi-sign-out",
       command: () => {
@@ -35,9 +47,19 @@ export class AppComponent implements OnInit {
     },
   ];
 
+  change_password_dialog: boolean = false;
+  change_password_dialog_data = {
+    old_password: "",
+    new_password: "",
+    re_password: "",
+  };
+
   constructor(
     private router: Router,
-    private tokenStorage: TokenStorageService
+    private tokenStorage: TokenStorageService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private accountService: AccountService
   ) {
     if (this.tokenStorage.getToken()) {
       let permission = this.tokenStorage.getUser().permission;
@@ -122,6 +144,46 @@ export class AppComponent implements OnInit {
           },
         },
       ],
+    });
+  }
+
+  // Change Password
+  onSubmitChangePassword() {
+    const { old_password, new_password, re_password } =
+      this.change_password_dialog_data;
+
+    if (new_password != re_password) {
+      this.messageService.add({
+        severity: "error",
+        summary: "เกิดข้อผิดพลาด",
+        detail: "รหัสผ่านใหม่ไม่ตรงกัน",
+      });
+      return;
+    }
+
+    this.confirmationService.confirm({
+      message: "ยืนยันการเปลี่ยนรหัสผ่าน?",
+      accept: () => {
+        this.accountService
+          .changePassword(old_password, new_password)
+          .subscribe(
+            (res) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "สำเร็จ",
+                detail: "เปลี่ยนรหัสผ่านสำเร็จ",
+              });
+              this.change_password_dialog = false;
+            },
+            (err) => {
+              this.messageService.add({
+                severity: "error",
+                summary: "เกิดข้อผิดพลาด",
+                detail: err.error.message,
+              });
+            }
+          );
+      },
     });
   }
 

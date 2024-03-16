@@ -52,6 +52,8 @@ export class MyCoursesComponent {
     course_price: null,
     register_user: [],
   };
+  view_receipt_dialog: boolean = false;
+  view_receipt_dialog_img: string | null = null;
 
   // Student
   student_course_content: any = [];
@@ -94,7 +96,6 @@ export class MyCoursesComponent {
   loadCourses() {
     this.coursesService.getMyCourse().subscribe((res) => {
       this.courseList = res;
-      console.log(res);
       this.isLoad = false;
     });
   }
@@ -316,6 +317,11 @@ export class MyCoursesComponent {
           );
       },
     });
+  }
+
+  openReceiptDialog(transfer_document: string) {
+    this.view_receipt_dialog = true;
+    this.view_receipt_dialog_img = transfer_document;
   }
 
   // Student

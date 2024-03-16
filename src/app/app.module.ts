@@ -75,6 +75,7 @@ import { MessageService } from "primeng/api";
 import { ConfirmationService } from "primeng/api";
 import { SkeletonModule } from "primeng/skeleton";
 import { TagModule } from "primeng/tag";
+import { ImageModule } from "primeng/image";
 
 // Other
 import { ImageCropperModule } from "ngx-image-cropper";
@@ -86,7 +87,8 @@ import { RegisterComponent } from "./components/register/register.component";
 import { Component404 } from "./errors/404/404.component";
 import { CoursesComponent } from "./courses/courses.component";
 import { MyCoursesComponent } from "./components/my-courses/my-courses.component";
-import { PaymentComponent } from './components/payment/payment.component';
+import { PaymentComponent } from "./components/payment/payment.component";
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +100,7 @@ import { PaymentComponent } from './components/payment/payment.component';
     CoursesComponent,
     MyCoursesComponent,
     PaymentComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -163,6 +166,7 @@ import { PaymentComponent } from './components/payment/payment.component';
     SelectButtonModule,
     SkeletonModule,
     TagModule,
+    ImageModule,
     // Other
     ImageCropperModule,
   ],

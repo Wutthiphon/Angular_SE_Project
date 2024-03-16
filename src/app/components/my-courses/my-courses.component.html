@@ -210,6 +210,7 @@
                                             <b style="color: red"
                                                 *ngIf="reg.transfer_document == null">รออัปโหลดหลักฐานการชำระเงิน</b>
                                             <p-button label="ดูสลิป" *ngIf="reg.transfer_document != null"
+                                                (onClick)="openReceiptDialog(reg.transfer_document)"
                                                 styleClass="p-button-info p-button-sm p-button-rounded m-1"
                                                 icon="pi pi-eye"></p-button>
 
@@ -288,8 +289,8 @@
     </ng-template>
 </p-confirmDialog>
 
-<p-dialog header="สร้างคอร์ส" [(visible)]="create_course_dialog" [modal]="true" [style]="{ width: '80vw' }"
-    [draggable]="false" [resizable]="false">
+<p-dialog header="สร้างคอร์ส" [(visible)]="create_course_dialog" [modal]="true"
+    [style]="{ width: '80vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
     <div class="grid">
         <div class="col-12 md:col-6" align="center">
             <b>รูปภาพปก</b><br>
@@ -372,6 +373,25 @@
                     (onClick)="imageCropDialog = false"></p-button>
                 <p-button label="บันทึก" icon="pi pi-save" styleClass="p-button-sm p-button-success mt-4"
                     (onClick)="uploadCoverImage()"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="ดูสลิป" [(visible)]="view_receipt_dialog" [modal]="true"
+    [style]="{ width: '40vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12">
+            <p-image [src]="api_url + '/public/' + view_receipt_dialog_img" width="100%" appendTo="body"
+                [preview]="true"></p-image>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
+                    (onClick)="view_receipt_dialog = false;view_receipt_dialog_img = null"></p-button>
             </div>
         </div>
     </ng-template>
