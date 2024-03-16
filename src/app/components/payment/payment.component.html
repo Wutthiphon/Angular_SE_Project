@@ -44,22 +44,3 @@
         </p-accordion>
     </div>
 </div>
-
-<p-toast></p-toast>
-
-<p-confirmDialog [style]="{width: '600px'}" #confirmDialog>
-    <ng-template pTemplate="footer">
-        <div class="grid">
-            <div class="col-12">
-                <img [src]="selectedImage" style="width: 100%;max-height: 600px;" />
-            </div>
-        </div>
-
-        <div class="ui-dialog-buttonpane p-clearfix">
-            <button type="button" pButton icon="pi pi-times" label="ยกเลิก" (click)="confirmDialog.reject()"
-                class="p-button-danger p-button-rounded" style="margin-right: .25em"></button>
-            <button type="button" pButton icon="pi pi-check" label="ยืนยัน" (click)="confirmDialog.accept()"
-                class="p-button-success p-button-rounded" style="margin-right: .25em"></button>
-        </div>
-    </ng-template>
-</p-confirmDialog>

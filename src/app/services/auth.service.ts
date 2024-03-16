@@ -57,6 +57,16 @@ export class AuthService {
     );
   }
 
+  login_google(google_id: string): Observable<any> {
+    return this.http.post(
+      AUTH_API + "login/google",
+      {
+        google_id: google_id,
+      },
+      httpOptions
+    );
+  }
+
   updateLoginLogoutDetect() {
     this.LoginLogoutDetect.next(true);
   }

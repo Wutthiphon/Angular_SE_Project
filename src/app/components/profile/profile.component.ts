@@ -7,6 +7,10 @@ import { ImageCroppedEvent } from "ngx-image-cropper";
 import { environment } from "../../../environments/environment";
 import { Router } from "@angular/router";
 import { TokenStorageService } from "../../services/token-storage.service";
+import {
+  SocialAuthService,
+  GoogleLoginProvider,
+} from "@abacritt/angularx-social-login";
 
 @Component({
   selector: "app-profile",
@@ -32,6 +36,8 @@ export class ProfileComponent {
 
   isApiSaving: boolean = false;
 
+  google_id: string = "";
+
   profile_image: string = "";
 
   imageCropDialog: boolean = false;
@@ -43,6 +49,7 @@ export class ProfileComponent {
     private accountService: AccountService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private AuthServiceExternal: SocialAuthService,
     private router: Router,
     private tokenStorage: TokenStorageService
   ) {
@@ -53,6 +60,63 @@ export class ProfileComponent {
       return;
     }
   }
+
+  SyncGoogleAccount(google_uid: string, google_email: string) {
+    // Confirmaion Dialog
+    if (this.google_id != google_uid) {
+      this.confirmationService.confirm({
+        header: "ยืนยันการผูกบัญชี Google กับระบบ",
+        message:
+          "ต้องการผูกบัญชี Google กับระบบด้วย <br>E-mail: <b>" +
+          google_email +
+          "</b><br>ใช่หรือไม่",
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
+          this.accountService
+            .syncGoogleAccount(google_uid, google_email)
+            .subscribe(
+              (api_res) => {
+                this.messageService.add({
+                  severity: "success",
+                  summary: "ผูกบัญชี Google สำเร็จ",
+                  detail:
+                    "ผูกบัญชี Google กับ E-mail: " + google_email + " สำเร็จ",
+                });
+                this.loadProfile();
+              },
+              (err) => {
+                this.messageService.add({
+                  severity: "error",
+                  summary: "ผูกบัญชี Google ไม่สำเร็จ",
+                  detail: err.error.message,
+                });
+              }
+            );
+        },
+      });
+    }
+  }
+
+  unSyncGoogleAccount() {
+    // Confirmaion Dialog
+    this.confirmationService.confirm({
+      message: "ยืนยัน",
+      header: "ยืนยันการยกเลิกการผูกบัญชี Google กับระบบ",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.accountService.unsyncGoogleAccount().subscribe((api_res) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "ยกเลิกการผูกบัญชี Google สำเร็จ",
+          });
+          this.AuthServiceExternal.signOut();
+          this.loadProfile();
+        });
+      },
+    });
+  }
+
   // Profile Image
   selectProfileImage(event: any) {
     this.imageCropData_croppedImage = "";
@@ -114,6 +178,7 @@ export class ProfileComponent {
     this.accountService.getProfile().subscribe((res) => {
       if (res) {
         this.profile_image = res.image;
+        this.google_id = res.google_id;
         this.profile_form = {
           username: res.username,
           prefix: res.prefix,
@@ -122,6 +187,17 @@ export class ProfileComponent {
           email: res.email,
           gender: res.gender,
         };
+
+        this.AuthServiceExternal.signOut();
+        this.AuthServiceExternal.signIn(GoogleLoginProvider.PROVIDER_ID);
+        this.AuthServiceExternal.authState.subscribe((user) => {
+          if (user) {
+            let Google_UID = user.id;
+            let Google_Email = user.email;
+
+            this.SyncGoogleAccount(Google_UID, Google_Email);
+          }
+        });
       } else {
         Swal.fire({
           icon: "error",

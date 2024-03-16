@@ -4,6 +4,10 @@ import { AuthService } from "../../services/auth.service";
 import { TokenStorageService } from "../../services/token-storage.service";
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
+import {
+  SocialAuthService,
+  GoogleLoginProvider,
+} from "@abacritt/angularx-social-login";
 
 @Component({
   selector: "app-login",
@@ -29,8 +33,35 @@ export class LoginComponent {
     private confirmationService: ConfirmationService,
     private tokenStorage: TokenStorageService,
     private authService: AuthService,
+    private AuthServiceExternal: SocialAuthService,
     private router: Router
   ) {
+    this.AuthServiceExternal.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.AuthServiceExternal.authState.subscribe((user) => {
+      if (user) {
+        let Google_UID = user.id;
+
+        if (!this.tokenStorage.getToken()) {
+          this.authService.login_google(Google_UID).subscribe(
+            (api_res) => {
+              this.tokenStorage.saveToken(api_res.accessToken);
+              this.tokenStorage.saveUser(api_res);
+              this.AuthServiceExternal.signOut();
+              this.CheckisLogin();
+            },
+            (error) => {
+              Swal.fire(
+                "ข้อผิดพลาด!",
+                error.error.message ||
+                  "เกิดข้อผิดพลาดในการเข้าสู่ระบบโปรดลองอีกครั้ง",
+                "error"
+              );
+            }
+          );
+        }
+      }
+    });
+
     if (localStorage.getItem("remenber_me")) {
       this.login_form.username = localStorage.getItem("username") || "";
       this.login_form.password = localStorage.getItem("password") || "";
@@ -59,7 +90,7 @@ export class LoginComponent {
 
   loginSubmit() {
     this.is_error = false;
-    this.is_load = true
+    this.is_load = true;
     const { username, password, remenber_me } = this.login_form;
     if (username && password) {
       this.authService.login(username, password).subscribe(

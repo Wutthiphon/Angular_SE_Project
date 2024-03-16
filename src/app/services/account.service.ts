@@ -67,4 +67,19 @@ export class AccountService {
       httpOptions
     );
   }
+
+  syncGoogleAccount(google_id: string, google_email: string): Observable<any> {
+    return this.http.post(
+      API_URL + "google",
+      {
+        google_id: google_id,
+        google_email: google_email,
+      },
+      httpOptions
+    );
+  }
+
+  unsyncGoogleAccount(): Observable<any> {
+    return this.http.post(API_URL + "delete/google", httpOptions);
+  }
 }

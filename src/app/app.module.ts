@@ -80,6 +80,14 @@ import { ImageModule } from "primeng/image";
 // Other
 import { ImageCropperModule } from "ngx-image-cropper";
 
+// Soical Login
+import {
+  SocialLoginModule,
+  GoogleSigninButtonModule,
+  SocialAuthServiceConfig,
+} from "@abacritt/angularx-social-login";
+import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
+
 // Components
 import { HomeComponent } from "./components/home/home.component";
 import { LoginComponent } from "./components/login/login.component";
@@ -88,7 +96,7 @@ import { Component404 } from "./errors/404/404.component";
 import { CoursesComponent } from "./courses/courses.component";
 import { MyCoursesComponent } from "./components/my-courses/my-courses.component";
 import { PaymentComponent } from "./components/payment/payment.component";
-import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileComponent } from "./components/profile/profile.component";
 
 @NgModule({
   declarations: [
@@ -167,6 +175,9 @@ import { ProfileComponent } from './components/profile/profile.component';
     SkeletonModule,
     TagModule,
     ImageModule,
+    // Social Login
+    SocialLoginModule,
+    GoogleSigninButtonModule,
     // Other
     ImageCropperModule,
   ],
@@ -175,6 +186,26 @@ import { ProfileComponent } from './components/profile/profile.component';
     { provide: LOCALE_ID, useValue: "th" },
     MessageService,
     ConfirmationService,
+    {
+      provide: "SocialAuthServiceConfig",
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              "268414927196-mfea0kpsja1jkp9tgldc3f9u6gvg2o97.apps.googleusercontent.com",
+              {
+                oneTapEnabled: false,
+              }
+            ),
+          },
+        ],
+        onError: (err) => {
+          console.error(err);
+        },
+      } as SocialAuthServiceConfig,
+    },
   ],
   bootstrap: [AppComponent],
 })
