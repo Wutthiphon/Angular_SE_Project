@@ -151,10 +151,10 @@
                         <div class="col-12" *ngIf="!isLoad_lesson && !select_lesson_id" align="center">
                             <div class="grid" *ngIf="lesson_array.length > 0" align="left">
                                 <div class="col-12 md:col-3" *ngFor="let lesson of lesson_array">
-                                    <p-card styleClass="p-card-custom lesson-card-custom" [style]="{cursor: 'pointer'}"
-                                        (click)="onSelectLesson(lesson.lesson_id)">
+                                    <p-card styleClass="p-card-custom lesson-card-custom h-full"
+                                        [style]="{cursor: 'pointer'}" (click)="onSelectLesson(lesson.lesson_id)">
                                         <div class="flex justify-content-between align-content-center flex-wrap">
-                                            <div>
+                                            <div style="max-width: 80%;">
                                                 <b>{{ lesson.lesson_name }}</b><br>
                                                 จำนวนบทเรียน: {{ lesson._count.lesson_chapter || 0 }} บท
                                             </div>
@@ -182,14 +182,14 @@
 
                                 <div class="col-12" align="center">
                                     <div class="grid" *ngIf="chapter_array.lesson_chapter.length > 0" align="left">
-                                        <div class="col-12 md:col-3"
+                                        <div class="col-12 md:col-3 "
                                             *ngFor="let chapter of chapter_array.lesson_chapter"
                                             (click)="onViewContent(chapter.lesson_chapter_id)">
-                                            <p-card styleClass="p-card-custom chapter-card-custom"
+                                            <p-card styleClass="p-card-custom chapter-card-custom h-full"
                                                 [style]="{cursor: 'pointer'}">
                                                 <div
                                                     class="flex justify-content-between align-content-center flex-wrap">
-                                                    <div>
+                                                    <div style="max-width: 80%;">
                                                         <b>{{ chapter.content_name || 'ไม่ทราบชื่อ' }}</b><br>
                                                         ประเภทเนื้อหา :
                                                         {{ chapter.content_type == 1 ? 'VDO Youtube' : 'ข้อความ' }}
@@ -224,7 +224,121 @@
                 </div>
 
                 <div class="col-12" *ngIf="menu_items_active == menu_items[3]">
-                    P4
+                    <div class="grid">
+                        <div class="col-12 md:col-4" align="left"
+                            *ngIf="!isLoad_exam || (isLoad_exam && select_exam_lesson_id)">
+                            <p-dropdown [options]="exam_lesson_array" [(ngModel)]="select_exam_lesson_id"
+                                (onChange)="loadLessonExam()" appendTo="body" placeholder="เลือกบทเรียน"
+                                optionLabel="lesson_name" optionValue="lesson_id" styleClass="w-full"></p-dropdown>
+                        </div>
+                        <div class="col-12 md:col-8" align="right" *ngIf="!isLoad_exam && !select_exam_id">
+                            <p-button label="สร้างแบบทดสอบ" styleClass="p-button-success p-button-rounded p-button-sm"
+                                (onClick)="onCreateExamTest()" icon="pi pi-plus"></p-button>
+                        </div>
+
+                        <div class="col-12" *ngIf="!isLoad_exam && select_exam_lesson_id && !select_exam_id">
+                            <div class="grid" *ngIf="exam_array.length > 0">
+                                <div class="col-12 md:col-3" *ngFor="let exam of exam_array">
+                                    <p-card styleClass="p-card-custom exam-card-custom h-full"
+                                        [style]="{cursor: 'pointer'}" (click)="onSelectExam(exam.exam_id)">
+                                        <div class="flex justify-content-between align-content-center flex-wrap">
+                                            <div style="max-width: 80%;">
+                                                <b>{{ exam.exam_name }}</b><br>
+                                                จำนวนโจทย์: {{ exam._count.course_exam_problem }} ข้อ
+                                            </div>
+                                            <i
+                                                class="pi pi-chevron-right flex align-items-center justify-content-center"></i>
+                                        </div>
+                                    </p-card>
+                                </div>
+                            </div>
+
+                            <p *ngIf="exam_array.length == 0" style="text-align: center;">
+                                คุณยังไม่ได้สร้างแบบทดสอบ
+                            </p>
+                        </div>
+
+                        <div class="col-12" *ngIf="select_exam_id" align="left">
+                            <p-button label="ย้อนกลับ" styleClass="p-button-secondary p-button-sm m-1"
+                                (click)="onBackToLessonExam()" icon="pi pi-arrow-left"></p-button>
+                            <p-button label="แก้ไขชื่อแบบทดสอบ" styleClass="p-button-warning p-button-sm m-1"
+                                (onClick)="onEditLessonExam()" icon="pi pi-pencil"></p-button>
+                            <p-button label="ลบแบบทดสอบ" styleClass="p-button-danger p-button-sm m-1"
+                                (onClick)="onDeleteLessonExam()" icon="pi pi-times"></p-button>
+                        </div>
+
+                        <div class="col-12" *ngIf="!isLoad_exam && select_exam_lesson_id && select_exam_id">
+                            <div class="grid">
+                                <div class="col-12" *ngFor="let problem of exam_problem_array;let i = index">
+                                    <div class="grid custom-border">
+                                        <div class="col-12">
+                                            <input type="text" pInputText [(ngModel)]="problem.problem_name"
+                                                name="input_exam_problem_name" #input_exam_problem_name="ngModel"
+                                                placeholder="โจทย์..." />
+                                        </div>
+
+                                        <div class="col-12 mt-2">
+                                            <div class="flex flex-column gap-3">
+                                                <div *ngFor="let choice of problem.choices;let j = index"
+                                                    class="field-checkbox">
+                                                    <p-radioButton [value]="choice" name="input_exam_problem_choice"
+                                                        #input_exam_problem_choice="ngModel"
+                                                        [(ngModel)]="problem.correct_choice"></p-radioButton>
+
+                                                    <input type="text" pInputText [(ngModel)]="choice.label"
+                                                        name="input_exam_problem_choice_label" class="ml-2"
+                                                        #input_exam_problem_choice_label="ngModel"
+                                                        [placeholder]="'ตัวเลือกที่ ' + (j+1) + '...'" />
+
+                                                    <p-button *ngIf="problem.choices.length > 1"
+                                                        styleClass="p-button-danger p-button-sm ml-2"
+                                                        (click)="onDeleteChoice(i,j)" icon="pi pi-times"></p-button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="flex justify-content-between align-content-center">
+                                                <div>
+                                                    <p-button label="เพิ่มตัวเลือก"
+                                                        styleClass="p-button-success p-button-rounded p-button-sm"
+                                                        (click)="onAddChoice(i)" icon="pi pi-plus"></p-button>
+                                                </div>
+                                                <div *ngIf="exam_problem_array.length > 1">
+                                                    <p-button label="ลบโจทย์"
+                                                        styleClass="p-button-danger p-button-rounded p-button-sm"
+                                                        (click)="onDeleteProblem(i)" icon="pi pi-times"></p-button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12" align="center">
+                                    <button pButton type="button" label="เพิ่มโจทย์"
+                                        class="p-button-warning p-button-rounded p-button-sm m-1"
+                                        (click)="onAddProblem()" icon="pi pi-plus"></button>
+
+                                    <button pButton type="button" label="บันทึก"
+                                        class="p-button-success p-button-rounded p-button-sm m-1"
+                                        (click)="onSubmitExamTest()" icon="pi pi-save"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12" *ngIf="isLoad_exam">
+                            <div class="grid">
+                                <div class="col-12" align="center">
+                                    <p-progressSpinner styleClass="p-progress-info" strokeWidth="8" fill="#ffffff"
+                                        animationDuration=".5s"
+                                        [style]="{ 'width': '50px', 'height': '50px' }"></p-progressSpinner>
+                                </div>
+                                <div class="col-12" align="center">
+                                    กำลังโหลดข้อมูล...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </p-card>
@@ -518,6 +632,35 @@
 
                 <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary m-1"
                     (onClick)=" view_chapter_dialog=false"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="สร้างแบบทดสอบใหม่" [(visible)]="create_exam_dialog" [modal]="true"
+    [style]="{ width: '50vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12 md:col-3">
+            <label>บทเรียน</label>
+            <p-dropdown [options]="exam_lesson_array" [(ngModel)]="create_exam_data.lesson_id" appendTo="body"
+                placeholder="เลือกบทเรียน" optionLabel="lesson_name" optionValue="lesson_id"
+                styleClass="w-full"></p-dropdown>
+        </div>
+        <div class="col-12 md:col-9">
+            <label>ชื่อแบบทดสอบ</label>
+            <input type="text" pInputText [(ngModel)]="create_exam_data.exam_name" name="input_create_exam_data_name"
+                #input_create_exam_data_name="ngModel" placeholder="ชื่อแบบทดสอบ..." class="p-inputtext-sm" />
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
+                    (onClick)="create_exam_dialog = false"></p-button>
+                <p-button label="สร้างแบบทดสอบใหม่" [icon]="isApiSaving ? 'pi-spin pi-spinner' : 'pi pi-plus'"
+                    styleClass="p-button-sm p-button-success mt-4" [disabled]="isApiSaving"
+                    (onClick)="onSubmitCreateExam()"></p-button>
             </div>
         </div>
     </ng-template>

@@ -158,7 +158,7 @@ export class CoursesService {
     content_name: string,
     content_data: string,
     content_type: number
-  ) {
+  ): Observable<any> {
     return this.http.post(
       API + "createContent ",
       {
@@ -176,7 +176,7 @@ export class CoursesService {
     content_name: string,
     content_data: string,
     content_type: number | null
-  ) {
+  ): Observable<any> {
     return this.http.post(
       API + "updateContent",
       {
@@ -189,9 +189,47 @@ export class CoursesService {
     );
   }
 
-  deleteCourseLessonChapter(content_id: number) {
+  deleteCourseLessonChapter(content_id: number): Observable<any> {
     return this.http.delete(
       API + "delete/course_content/" + content_id,
+      httpOptions
+    );
+  }
+
+  createCourseExamLesson(
+    course_id: number,
+    lesson_id: number,
+    exam_name: string
+  ): Observable<any> {
+    return this.http.post(
+      API + "exam/createExam",
+      {
+        course_id: course_id,
+        lesson_id: lesson_id,
+        exam_name: exam_name,
+      },
+      httpOptions
+    );
+  }
+
+  getCourseExamLesson(lesson_id: number | null): Observable<any> {
+    return this.http.get(API + "getExam/" + lesson_id, httpOptions);
+  }
+
+  getCourseExamByID(exam_id: number | null): Observable<any> {
+    return this.http.get(API + "exam/getExam/question/" + exam_id, httpOptions);
+  }
+
+  createCourseExamQuestion(
+    exam_id: number,
+    problem_array: any
+  ): Observable<any> {
+    return this.http.post(
+      API + "exam/createExam/question",
+      {
+        exam_id: exam_id,
+        problem_array: problem_array,
+      },
       httpOptions
     );
   }
