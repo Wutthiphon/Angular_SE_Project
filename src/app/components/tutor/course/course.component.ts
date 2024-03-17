@@ -78,12 +78,13 @@ export class CourseComponent {
     content_type: null, // 1 = video, 2 = html
   };
 
-  edit_chapter_dialog: boolean = false;
-  edit_chapter_data = {
+  view_chapter_dialog: boolean = false;
+  view_chapter_data = {
     chapter_id: <number | null>null,
     content_name: "",
     content_data: "",
     content_type: null, // 1 = video, 2 = html
+    edit: false,
   };
 
   // Image Crop
@@ -545,6 +546,117 @@ export class CourseComponent {
           this.isApiSaving = false;
         }
       );
+  }
+
+  onViewContent(chapter_id: number) {
+    let find_content_type = this.chapter_array.lesson_chapter.find(
+      (x: any) => x.lesson_chapter_id == chapter_id
+    );
+
+    if (find_content_type) {
+      this.view_chapter_data = {
+        chapter_id: find_content_type.lesson_chapter_id,
+        content_name: find_content_type.content_name,
+        content_data: find_content_type.content_data,
+        content_type: find_content_type.content_type,
+        edit: false,
+      };
+
+      if (this.view_chapter_data.content_type == 1) {
+        // If url have watch?v= replace to embed/
+        if (this.view_chapter_data.content_data.includes("watch?v=")) {
+          this.view_chapter_data.content_data =
+            this.view_chapter_data.content_data.replace("watch?v=", "embed/");
+        }
+        // If url is youtu.be replace to www.youtube.com/embed/
+        if (this.view_chapter_data.content_data.includes("youtu.be")) {
+          this.view_chapter_data.content_data =
+            this.view_chapter_data.content_data.replace(
+              "youtu.be",
+              "www.youtube.com/embed"
+            );
+        }
+      }
+
+      this.view_chapter_dialog = true;
+    } else {
+      this.messageService.add({
+        severity: "error",
+        summary: "เกิดข้อผิดพลาด",
+        detail: "ไม่พบข้อมูลบทเรียน",
+      });
+    }
+  }
+
+  onEditContent() {
+    this.view_chapter_data.edit = !this.view_chapter_data.edit;
+  }
+
+  onUpdateContent() {
+    this.coursesService
+      .editCourseLessonChapter(
+        this.view_chapter_data.chapter_id as number,
+        this.view_chapter_data.content_name,
+        this.view_chapter_data.content_data,
+        this.view_chapter_data.content_type
+      )
+      .subscribe(
+        (res) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "แก้ไขบทเรียนสำเร็จ",
+          });
+
+          let find_content_type = this.chapter_array.lesson_chapter.find(
+            (x: any) => x.lesson_chapter_id == this.view_chapter_data.chapter_id
+          );
+          find_content_type.content_name = this.view_chapter_data.content_name;
+          find_content_type.content_data = this.view_chapter_data.content_data;
+          find_content_type.content_type = this.view_chapter_data.content_type;
+
+          this.onViewContent(this.view_chapter_data.chapter_id as number);
+        },
+        (err) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "เกิดข้อผิดพลาด",
+            detail: err.error.message,
+          });
+        }
+      );
+  }
+
+  onDeleteContent() {
+    this.confirmationService.confirm({
+      header: "ยืนยัน",
+      icon: "pi pi-exclamation-triangle",
+      message: "ยืนยันการลบบทเรียน",
+      accept: () => {
+        this.coursesService
+          .deleteCourseLessonChapter(
+            this.view_chapter_data.chapter_id as number
+          )
+          .subscribe(
+            (res) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "สำเร็จ",
+                detail: "ลบบทเรียนสำเร็จ",
+              });
+              this.view_chapter_dialog = false;
+              this.onSelectLesson(this.select_lesson_id as number);
+            },
+            (err) => {
+              this.messageService.add({
+                severity: "error",
+                summary: "เกิดข้อผิดพลาด",
+                detail: err.error.message,
+              });
+            }
+          );
+      },
+    });
   }
 
   // Page Control

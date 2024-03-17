@@ -89,6 +89,9 @@ import {
 } from "@abacritt/angularx-social-login";
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 
+// Pipe
+import { SafePipe, SafeHtmlPipe } from "./app-sanitizer-pipe";
+
 // Components
 import { HomeComponent } from "./components/home/home.component";
 import { LoginComponent } from "./components/login/login.component";
@@ -112,6 +115,8 @@ import { CourseComponent } from "./components/tutor/course/course.component";
     PaymentComponent,
     ProfileComponent,
     CourseComponent,
+    // Pipe
+    SafePipe,
   ],
   imports: [
     BrowserModule,
@@ -119,6 +124,8 @@ import { CourseComponent } from "./components/tutor/course/course.component";
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    // Pipe
+    SafeHtmlPipe,
     // PrimeNG
     MenubarModule,
     ButtonModule,
