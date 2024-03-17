@@ -6,6 +6,7 @@ import { ConfirmationService } from "primeng/api";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ImageCroppedEvent } from "ngx-image-cropper";
 import { environment } from "../../../../environments/environment";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-course",
@@ -22,23 +23,7 @@ export class CourseComponent {
     { label: "บทเรียน", icon: "pi pi-fw pi-home" },
     { label: "แบบทดสอบ", icon: "pi pi-fw pi-home" },
   ];
-  menu_items_active: any = this.menu_items[0];
-
-  imageCropDialog: boolean = false;
-  imageCropData_imageChangedEvent: any = "";
-  imageCropData_croppedImage: any = "";
-  imageCropData_imageEncode: any = "";
-  imageCropData_type: string = "create";
-
-  create_course_dialog: boolean = false;
-  create_course_dialog_data = {
-    course_name: "",
-    course_description: "",
-    course_have_price: false,
-    cover_image: "./assets/cover/null-cover.png",
-    payment_image: "./assets/cover/null-cover.png",
-    course_price: null,
-  };
+  menu_items_active: any = this.menu_items[2];
 
   select_course: any = {};
   select_course_info = {
@@ -51,12 +36,28 @@ export class CourseComponent {
     course_price: null,
     register_user: [],
   };
+
   view_receipt_dialog: boolean = false;
   view_receipt_dialog_img: any | null = null;
 
   reject_comment_dialog: boolean = false;
   reject_comment_reg_id: number = 0;
   reject_comment: string = "";
+
+  create_lesson_dialog: boolean = false;
+  create_lesson_data = {
+    lesson_name: "",
+  };
+
+  isLoad_lesson: boolean = true;
+  lesson_array: any[] = [];
+
+  // Image Crop
+  imageCropDialog: boolean = false;
+  imageCropData_imageChangedEvent: any = "";
+  imageCropData_croppedImage: any = "";
+  imageCropData_imageEncode: any = "";
+  imageCropData_type: string = "create";
 
   constructor(
     private coursesService: CoursesService,
@@ -82,18 +83,34 @@ export class CourseComponent {
   loadCourses() {
     // get param course_id
     let course_id = this.route.snapshot.paramMap.get("id");
-    this.coursesService.getCourseByID(Number(course_id)).subscribe((res) => {
-      this.select_course_info = {
-        course_id: res.course_id,
-        course_name: res.course_name,
-        course_description: res.course_description,
-        course_have_price: res.course_visibility,
-        course_price: res.cost,
-        cover_image: res.image,
-        payment_image: res.img_account,
-        register_user: res.course_reg,
-      };
-    });
+    this.coursesService.getCourseByID(Number(course_id)).subscribe(
+      (res) => {
+        this.select_course_info = {
+          course_id: res.course_id,
+          course_name: res.course_name,
+          course_description: res.course_description,
+          course_have_price: res.course_visibility,
+          course_price: res.cost,
+          cover_image: res.image,
+          payment_image: res.img_account,
+          register_user: res.course_reg,
+        };
+        this.isLoad = false;
+
+        if (this.menu_items_active == this.menu_items[2]) {
+          this.loadLesson();
+        }
+      },
+      (err) => {
+        Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: "คุณไม่มีสิทธิ์ในการจัดการคอร์สนี้",
+        }).then(() => {
+          this.router.navigateByUrl("/my-courses");
+        });
+      }
+    );
   }
 
   selectCoverImage(event: any, type: string) {
@@ -283,8 +300,70 @@ export class CourseComponent {
     });
   }
 
+  loadLesson() {
+    this.isLoad_lesson = true;
+    this.lesson_array = [];
+
+    this.coursesService
+      .getCourseLesson(this.select_course_info.course_id)
+      .subscribe(
+        (res) => {
+          this.lesson_array = res.courseLesson;
+          this.isLoad_lesson = false;
+        },
+        (err) => {
+          this.isLoad_lesson = false;
+          Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถโหลดข้อมูลบทเรียนได้",
+          });
+        }
+      );
+  }
+
+  onCreateLesson() {
+    this.create_lesson_dialog = true;
+    this.create_lesson_data = {
+      lesson_name: "",
+    };
+  }
+
+  onSubmitCreateLesson() {
+    this.coursesService
+      .createLesson(
+        this.select_course_info.course_id,
+        this.create_lesson_data.lesson_name
+      )
+      .subscribe(
+        (res) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "สร้างบทเรียนสำเร็จ",
+          });
+          this.create_lesson_dialog = false;
+          this.create_lesson_data = {
+            lesson_name: "",
+          };
+          this.loadLesson();
+        },
+        (err) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "เกิดข้อผิดพลาด",
+            detail: err.error.message,
+          });
+        }
+      );
+  }
+
   // Page Control
   onActiveItemChange(event: any) {
     this.menu_items_active = event;
+
+    if (this.menu_items_active == this.menu_items[2]) {
+      this.loadLesson();
+    }
   }
 }

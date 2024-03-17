@@ -117,4 +117,16 @@ export class CoursesService {
       httpOptions
     );
   }
+
+  getCourseLesson(course_id: number): Observable<any> {
+    return this.http.get(API + "lesson/" + course_id, httpOptions);
+  }
+
+  createLesson(course_id: number, lesson_name: string): Observable<any> {
+    return this.http.post(
+      API + "createLesson",
+      { course_id: course_id, lesson_name: lesson_name },
+      httpOptions
+    );
+  }
 }

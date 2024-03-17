@@ -1,0 +1,11 @@
+::ng-deep .lesson-card-custom {
+  box-shadow: rgba(107, 107, 107, 0.2) 0px 0px 0px 1px;
+  border-left: 9px solid #8ebeeb;
+}
+
+::ng-deep .lesson-card-custom:hover {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  border-left: 9px solid #5c99d1;
+  transition: 0.3s;
+}

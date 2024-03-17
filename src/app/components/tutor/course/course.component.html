@@ -1,4 +1,4 @@
-<div class="grid">
+<div class="grid" *ngIf="!isLoad">
     <div class="col-12">
         <p-card [header]="select_course_info.course_name">
             <div class="grid">
@@ -134,7 +134,39 @@
                 </div>
 
                 <div class="col-12" *ngIf="menu_items_active == menu_items[2]">
-                    P3
+                    <div class="grid">
+                        <div class="col-12" align="right">
+                            <p-button label="สร้างบทเรียน" styleClass="p-button-success p-button-rounded p-button-sm"
+                                (onClick)="onCreateLesson()" icon="pi pi-plus"></p-button>
+                        </div>
+                        <div class="col-12" *ngIf="!isLoad_lesson" align="center">
+                            <div class="grid" *ngIf="lesson_array.length > 0" align="left">
+                                <div class="col-12 md:col-3" *ngFor="let lesson of lesson_array">
+                                    <p-card styleClass="p-card-custom lesson-card-custom" [style]="{cursor: 'pointer'}">
+                                        <div class="flex justify-content-between align-content-center flex-wrap">
+                                            <b>{{ lesson.lesson_name }}</b>
+                                            <i
+                                                class="pi pi-chevron-right flex align-items-center justify-content-center"></i>
+                                        </div>
+                                    </p-card>
+                                </div>
+                            </div>
+
+                            <label *ngIf="lesson_array.length == 0">คุณยังไม่ได้เพิ่มเนื้อหาบทเรียน</label>
+                        </div>
+                        <div class="col-12" *ngIf="isLoad_lesson">
+                            <div class="grid">
+                                <div class="col-12" align="center">
+                                    <p-progressSpinner styleClass="p-progress-info" strokeWidth="8" fill="#ffffff"
+                                        animationDuration=".5s"
+                                        [style]="{ 'width': '50px', 'height': '50px' }"></p-progressSpinner>
+                                </div>
+                                <div class="col-12" align="center">
+                                    กำลังโหลดบทเรียน...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-12" *ngIf="menu_items_active == menu_items[3]">
@@ -142,6 +174,16 @@
                 </div>
             </div>
         </p-card>
+    </div>
+</div>
+
+<div class="grid" *ngIf="isLoad">
+    <div class="col-12" align="center">
+        <p-progressSpinner styleClass="p-progress-info" strokeWidth="8" fill="#ffffff" animationDuration=".5s"
+            [style]="{ 'width': '50px', 'height': '50px' }"></p-progressSpinner>
+    </div>
+    <div class="col-12" align="center">
+        กำลังโหลด...
     </div>
 </div>
 
@@ -213,6 +255,28 @@
                     (onClick)="reject_comment_dialog = false;reject_comment = ''"></p-button>
                 <p-button label="บันทึก" icon="pi pi-save" styleClass="p-button-sm p-button-success mt-4"
                     (onClick)="onRejectRegisterCourseSubmit()"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="สร้างบทเรียนใหม่" [(visible)]="create_lesson_dialog" [modal]="true"
+    [style]="{ width: '50vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12">
+            <label>ชื่อบทเรียน</label>
+            <input type="text" pInputText [(ngModel)]="create_lesson_data.lesson_name" name="input_create_lesson_name"
+                #input_create_lesson_name="ngModel" placeholder="ชื่อบทเรียน..." class="p-inputtext-sm" />
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
+                    (onClick)="create_lesson_dialog = false"></p-button>
+                <p-button label="สร้างบทเรียนใหม่" icon="pi pi-plus" styleClass="p-button-sm p-button-success mt-4"
+                    (onClick)="onSubmitCreateLesson()"></p-button>
             </div>
         </div>
     </ng-template>
