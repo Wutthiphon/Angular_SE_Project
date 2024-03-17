@@ -705,7 +705,7 @@ export class CourseComponent {
     this.create_exam_dialog = true;
     this.create_exam_data = {
       exam_name: "",
-      lesson_id: null,
+      lesson_id: this.select_exam_lesson_id ? this.select_exam_lesson_id : null,
     };
   }
 
@@ -732,7 +732,7 @@ export class CourseComponent {
               exam_name: "",
               lesson_id: null,
             };
-            this.loadExam();
+            this.loadLessonExam();
             this.isApiSaving = false;
           },
           (err) => {
@@ -910,6 +910,21 @@ export class CourseComponent {
       });
       return;
     }
+
+    this.exam_problem_array.map((problem: any) => {
+      let choice_label: any = [];
+      problem.choices.map((choice: any) => {
+        if (choice_label.includes(choice.label)) {
+          this.messageService.add({
+            severity: "error",
+            summary: "เกิดข้อผิดพลาด",
+            detail: "มีคำตอบซ้ำกัน",
+          });
+          return;
+        }
+        choice_label.push(choice.label);
+      });
+    });
 
     let answer: any = JSON.parse(JSON.stringify(this.exam_problem_array));
     answer.map((problem: any) => {
