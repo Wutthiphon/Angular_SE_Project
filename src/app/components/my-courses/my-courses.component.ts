@@ -205,12 +205,8 @@ export class MyCoursesComponent {
           });
           if (this.imageCropData_type == "create") {
             this.create_course_dialog_data.cover_image = api_res.image;
-          } else if (this.imageCropData_type == "edit") {
-            this.select_course_info.cover_image = api_res.image;
           } else if (this.imageCropData_type == "payment") {
             this.create_course_dialog_data.payment_image = api_res.image;
-          } else if (this.imageCropData_type == "payment_edit") {
-            this.select_course_info.payment_image = api_res.image;
           }
         }
       });
@@ -267,127 +263,6 @@ export class MyCoursesComponent {
                 severity: "error",
                 summary: "เกิดข้อผิดพลาด",
                 detail: error.error.message,
-              });
-            }
-          );
-      },
-    });
-  }
-
-  editCourseSubmit() {
-    this.confirmationService.confirm({
-      icon: "pi pi-exclamation-triangle",
-      header: "ยืนยัน",
-      message: "ยืนยันการแก้ไขคอร์ส",
-      accept: () => {
-        const {
-          course_id,
-          course_name,
-          course_description,
-          course_have_price,
-          cover_image,
-          course_price,
-          payment_image,
-        } = this.select_course_info;
-        this.coursesService
-          .updateCourse(
-            course_id,
-            course_name,
-            course_description,
-            course_have_price,
-            cover_image == "./assets/cover/null-cover.png" ? null : cover_image,
-            course_price,
-            payment_image
-          )
-          .subscribe(
-            (api_res) => {
-              if (api_res.status == true) {
-                this.messageService.add({
-                  severity: "success",
-                  summary: "สำเร็จ",
-                  detail: "แก้ไขคอร์สสำเร็จ",
-                });
-                this.loadCourses();
-              }
-            },
-            (error) => {
-              this.messageService.add({
-                severity: "error",
-                summary: "เกิดข้อผิดพลาด",
-                detail: error.error.message,
-              });
-            }
-          );
-      },
-    });
-  }
-
-  openReceiptDialog(transfer_document: any) {
-    this.view_receipt_dialog = true;
-    this.view_receipt_dialog_img = transfer_document;
-  }
-
-  onApproveRegisterCourse(reg_id: number) {
-    this.confirmationService.confirm({
-      header: "ยืนยัน",
-      icon: "pi pi-exclamation-triangle",
-      message: "ยืนยันการอนุมัติการลงทะเบียน",
-      accept: () => {
-        this.coursesService.teacherApproveStudentRegistration(reg_id).subscribe(
-          (res) => {
-            this.messageService.add({
-              severity: "success",
-              summary: "สำเร็จ",
-              detail: "อนุมัติการลงทะเบียนสำเร็จ",
-            });
-            this.getCourseByID(this.select_course);
-          },
-          (err) => {
-            this.messageService.add({
-              severity: "error",
-              summary: "เกิดข้อผิดพลาด",
-              detail: err.error.message,
-            });
-          }
-        );
-      },
-    });
-  }
-
-  onRejectRegisterCourse(reg_id: number) {
-    this.reject_comment_dialog = true;
-    this.reject_comment_reg_id = reg_id;
-    this.reject_comment = "";
-  }
-
-  onRejectRegisterCourseSubmit() {
-    this.confirmationService.confirm({
-      header: "ยืนยัน",
-      icon: "pi pi-exclamation-triangle",
-      message: "ยืนยันการปฏิเสธการลงทะเบียน",
-      accept: () => {
-        this.coursesService
-          .teacherRejectStudentRegistration(
-            this.reject_comment_reg_id,
-            this.reject_comment
-          )
-          .subscribe(
-            (res) => {
-              this.messageService.add({
-                severity: "success",
-                summary: "สำเร็จ",
-                detail: "ปฏิเสธการลงทะเบียนสำเร็จ",
-              });
-              this.reject_comment_dialog = false;
-              this.reject_comment_reg_id = 0;
-              this.reject_comment = "";
-              this.getCourseByID(this.select_course);
-            },
-            (err) => {
-              this.messageService.add({
-                severity: "error",
-                summary: "เกิดข้อผิดพลาด",
-                detail: err.error.message,
               });
             }
           );

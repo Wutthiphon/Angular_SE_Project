@@ -1,0 +1,219 @@
+<div class="grid">
+    <div class="col-12">
+        <p-card [header]="select_course_info.course_name">
+            <div class="grid">
+                <div class="col-12">
+                    <p-tabMenu [model]="menu_items" [activeItem]="menu_items_active"
+                        (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
+                </div>
+
+                <div class="col-12" *ngIf="menu_items_active == menu_items[0]">
+                    <div class="grid">
+                        <div class="col-12 md:col-8">
+                            <div class="grid">
+                                <div class="col-12 md:col-12">
+                                    <label>ชื่อคอร์ส</label>
+                                    <input type="text" pInputText [(ngModel)]="select_course_info.course_name"
+                                        name="input_course_name" #input_course_name="ngModel" placeholder="ชื่อคอร์ส..."
+                                        class="p-inputtext-sm" />
+                                </div>
+                                <div class="col-12 md:col-12">
+                                    <label>รายละเอียดคอร์ส</label>
+                                    <textarea pInputTextarea [(ngModel)]="select_course_info.course_description"
+                                        name="input_course_description" #input_course_description="ngModel"
+                                        placeholder="รายละเอียดคอร์ส..." [rows]="5" class="p-inputtext-sm"></textarea>
+                                </div>
+                                <div class="col-12 md:col-12">
+                                    <label>รูปแบบคอร์ส</label><br>
+                                    ฟรี &nbsp;
+                                    <p-inputSwitch [(ngModel)]="select_course_info.course_have_price"
+                                        name="input_course_have_price" #input_course_have_price="ngModel">
+                                    </p-inputSwitch> &nbsp;มีค่าเรียน
+                                </div>
+                                <div class="col-12 md:col-4" *ngIf="select_course_info.course_have_price">
+                                    <label>ราคาคอร์ส</label>
+                                    <p-inputNumber type="number" [(ngModel)]="select_course_info.course_price"
+                                        name="input_course_price" styleClass="w-full" suffix=" บาท"
+                                        #input_course_price="ngModel" placeholder="ราคาคอร์ส..."
+                                        class="p-inputtext-sm" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-4" align="center">
+                            <div class="grid">
+                                <div class="col-12">
+                                    <b>รูปภาพปก</b><br>
+                                    <img onerror="this.src='./assets/cover/null-cover.png'"
+                                        [src]="select_course_info.cover_image != null ? api_url + '/public/' + select_course_info.cover_image : './assets/cover/null-cover.png'"
+                                        alt="Cover Image" style="width: 100%; height: auto;max-width: 360px;">
+                                    <br>
+                                    <button pButton type="button" label="เปลี่ยนรูปภาพปก" icon="pi pi-pencil"
+                                        (click)="CoverImageEditSelect.click()"
+                                        class="p-button-outlined p-button-sm p-button-rounded"></button>
+                                    <input #CoverImageEditSelect hidden="true" type="file"
+                                        accept=".heic,.jpeg,.jpg,.png,.gif"
+                                        (change)="selectCoverImage($event,'edit')" />
+                                </div>
+                                <div class="col-12">
+                                    <b>รูปภาพวิธีการชำระเงิน</b><br>
+                                    <img onerror="this.src='./assets/cover/null-cover.png'"
+                                        [src]="select_course_info.payment_image != null ? api_url + '/public/' + select_course_info.payment_image : './assets/cover/null-cover.png'"
+                                        alt="Cover Image" style="width: 100%; height: auto;max-width: 360px;">
+                                    <br>
+                                    <button pButton type="button" label="เปลี่ยนรูปภาพวิธีการชำระเงิน"
+                                        icon="pi pi-pencil" (click)="PaymentImageEditSelect.click()"
+                                        class="p-button-outlined p-button-sm p-button-rounded"></button>
+                                    <input #PaymentImageEditSelect hidden="true" type="file"
+                                        accept=".heic,.jpeg,.jpg,.png,.gif"
+                                        (change)="selectCoverImage($event,'payment_edit')" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12" align="right">
+                        <p-button label="บันทึก" styleClass="p-button-success p-button-rounded p-button-sm"
+                            icon="pi pi-save" (click)="editCourseSubmit()"></p-button>
+                    </div>
+                </div>
+
+                <div class="col-12" *ngIf="menu_items_active == menu_items[1]">
+                    <p-table [value]="select_course_info.register_user" [tableStyle]="{ 'min-width': '50rem' }">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>ลำดับ</th>
+                                <th>คำนำหน้า</th>
+                                <th>ชื่อ</th>
+                                <th>นามสกุล</th>
+                                <th>สถานะ</th>
+                                <th>หลักฐาน</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-reg let-rowIndex="rowIndex">
+                            <tr>
+                                <td>{{ rowIndex + 1 }}</td>
+                                <td>{{ reg.users_account.prefix }}</td>
+                                <td>{{ reg.users_account.first_name }}</td>
+                                <td>{{ reg.users_account.last_name }}</td>
+                                <td>
+                                    <b *ngIf="reg.registration_status == 0"
+                                        style="color: red;">ยังลงทะเบียนไม่สำเร็จ</b>
+                                    <b *ngIf="reg.registration_status == 1 && reg.users_reg_transfer_document.length > 0"
+                                        style="color: orange;">รอการตรวจสอบ</b>
+                                    <b style="color: red"
+                                        *ngIf="reg.registration_status == 1 && reg.users_reg_transfer_document.length == 0">รออัปโหลดหลักฐานการชำระเงิน</b>
+                                    <b *ngIf="reg.registration_status == 2" style="color: green;">ลงทะเบียนสำเร็จ</b>
+                                </td>
+                                <td>
+                                    <p-button label="ดูสลิป" *ngIf="reg.users_reg_transfer_document.length > 0"
+                                        (onClick)="openReceiptDialog(reg.users_reg_transfer_document)"
+                                        styleClass="p-button-info p-button-sm p-button-rounded m-1"
+                                        icon="pi pi-eye"></p-button>
+
+                                    <p-button label="อนุมัติ"
+                                        styleClass="p-button-success p-button-sm p-button-rounded m-1"
+                                        (onClick)="onApproveRegisterCourse(reg.registration_id)"
+                                        *ngIf="reg.registration_status == 1" icon="pi pi-check"></p-button>
+
+                                    <p-button label="ปฏิเสธ"
+                                        styleClass="p-button-danger p-button-sm p-button-rounded m-1"
+                                        (onClick)="onRejectRegisterCourse(reg.registration_id)"
+                                        *ngIf="reg.registration_status == 1" icon="pi pi-times"></p-button>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6" style="text-align: center;">
+                                    ไม่พบข้อมูล
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+
+                <div class="col-12" *ngIf="menu_items_active == menu_items[2]">
+                    P3
+                </div>
+
+                <div class="col-12" *ngIf="menu_items_active == menu_items[3]">
+                    P4
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
+
+<p-dialog header="ปรับแต่งรูปภาพ" [(visible)]="imageCropDialog" [modal]="true"
+    [style]="{ width: '80vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12 md:col-3">
+            <p-card header="ตัวอย่าง">
+                <img [src]="imageCropData_croppedImage" style="width: 100%" />
+            </p-card>
+        </div>
+        <div class="col-12 md:col-9">
+            <p-card header="ตัวปรับแต่ง">
+                <image-cropper [imageChangedEvent]="imageCropData_imageChangedEvent" [maintainAspectRatio]="true"
+                    [resizeToWidth]="1280" [resizeToHeight]="640" [aspectRatio]="2 / 1"
+                    (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+                    (loadImageFailed)="loadImageFailed()" style="width: 100%;height: 400px;">
+                </image-cropper>
+            </p-card>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ยกเลิก" icon="pi pi-times" styleClass="p-button-sm p-button-danger mt-4"
+                    (onClick)="imageCropDialog = false"></p-button>
+                <p-button label="บันทึก" icon="pi pi-save" styleClass="p-button-sm p-button-success mt-4"
+                    (onClick)="uploadCoverImage()"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="ดูสลิป" [(visible)]="view_receipt_dialog" [modal]="true"
+    [style]="{ width: '40vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12" *ngFor="let recept of view_receipt_dialog_img">
+            <p-image [src]="api_url + '/public/' + recept.transfer_document" width="100%" appendTo="body"
+                [preview]="true"></p-image>
+            <b *ngIf="recept.comment" style="color: red;">หมายเหตุ: {{ recept.comment }}</b>
+            <p-divider></p-divider>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
+                    (onClick)="view_receipt_dialog = false;view_receipt_dialog_img = null"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="ปฏิเสธ" [(visible)]="reject_comment_dialog" [modal]="true"
+    [style]="{ width: '40vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12">
+            <textarea pInputTextarea [(ngModel)]="reject_comment" name="input_reject_comment"
+                #input_reject_comment="ngModel" placeholder="หมายเหตุ..." [rows]="5" class="p-inputtext-sm"></textarea>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ยกเลิก" icon="pi pi-times" styleClass="p-button-sm p-button-danger mt-4"
+                    (onClick)="reject_comment_dialog = false;reject_comment = ''"></p-button>
+                <p-button label="บันทึก" icon="pi pi-save" styleClass="p-button-sm p-button-success mt-4"
+                    (onClick)="onRejectRegisterCourseSubmit()"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
