@@ -135,16 +135,29 @@
 
                 <div class="col-12" *ngIf="menu_items_active == menu_items[2]">
                     <div class="grid">
-                        <div class="col-12" align="right">
+                        <div class="col-12" align="right" *ngIf="!select_lesson_id">
                             <p-button label="สร้างบทเรียน" styleClass="p-button-success p-button-rounded p-button-sm"
                                 (onClick)="onCreateLesson()" icon="pi pi-plus"></p-button>
                         </div>
-                        <div class="col-12" *ngIf="!isLoad_lesson" align="center">
+                        <div class="col-12" *ngIf="select_lesson_id" align="left">
+                            <p-button label="ย้อนกลับ" styleClass="p-button-secondary p-button-sm m-1"
+                                (click)="onBackToLesson()" icon="pi pi-arrow-left"></p-button>
+                            <p-button label="แก้ไขชื่อบทเรียน" styleClass="p-button-warning p-button-sm m-1"
+                                (onClick)="onEditLesson()" icon="pi pi-pencil"></p-button>
+                            <p-button label="ลบบทเรียน" styleClass="p-button-danger p-button-sm m-1"
+                                (onClick)="onDeleteLesson()" icon="pi pi-times"></p-button>
+                        </div>
+
+                        <div class="col-12" *ngIf="!isLoad_lesson && !select_lesson_id" align="center">
                             <div class="grid" *ngIf="lesson_array.length > 0" align="left">
                                 <div class="col-12 md:col-3" *ngFor="let lesson of lesson_array">
-                                    <p-card styleClass="p-card-custom lesson-card-custom" [style]="{cursor: 'pointer'}">
+                                    <p-card styleClass="p-card-custom lesson-card-custom" [style]="{cursor: 'pointer'}"
+                                        (click)="onSelectLesson(lesson.lesson_id)">
                                         <div class="flex justify-content-between align-content-center flex-wrap">
-                                            <b>{{ lesson.lesson_name }}</b>
+                                            <div>
+                                                <b>{{ lesson.lesson_name }}</b><br>
+                                                จำนวนบทเรียน: {{ lesson._count.lesson_chapter || 0 }} บท
+                                            </div>
                                             <i
                                                 class="pi pi-chevron-right flex align-items-center justify-content-center"></i>
                                         </div>
@@ -154,6 +167,45 @@
 
                             <label *ngIf="lesson_array.length == 0">คุณยังไม่ได้เพิ่มเนื้อหาบทเรียน</label>
                         </div>
+
+                        <div class="col-12" *ngIf="!isLoad_lesson && select_lesson_id" align="center">
+                            <div class="grid">
+                                <div class="col-12">
+                                    <h1>บทเรียน: {{ chapter_array.lesson_name }}</h1>
+                                </div>
+
+                                <div class="col-12" align="right">
+                                    <p-button label="เพิ่มเนื้อหา"
+                                        styleClass="p-button-success p-button-rounded p-button-sm"
+                                        (click)="onAddContent()" icon="pi pi-plus"></p-button>
+                                </div>
+
+                                <div class="col-12" align="center">
+                                    <div class="grid" *ngIf="chapter_array.lesson_chapter.length > 0" align="left">
+                                        <div class="col-12 md:col-3"
+                                            *ngFor="let chapter of chapter_array.lesson_chapter">
+                                            <p-card styleClass="p-card-custom chapter-card-custom"
+                                                [style]="{cursor: 'pointer'}">
+                                                <div
+                                                    class="flex justify-content-between align-content-center flex-wrap">
+                                                    <div>
+                                                        <b>{{ chapter.content_name || 'ไม่ทราบชื่อ' }}</b><br>
+                                                        ประเภทเนื้อหา :
+                                                        {{ chapter.content_type == 1 ? 'VDO Youtube' : 'ข้อความ' }}
+                                                    </div>
+                                                    <i
+                                                        class="pi pi-chevron-right flex align-items-center justify-content-center"></i>
+                                                </div>
+                                            </p-card>
+                                        </div>
+                                    </div>
+
+                                    <label
+                                        *ngIf="chapter_array.lesson_chapter.length == 0">คุณยังไม่ได้เพิ่มเนื้อหาในบทเรียน</label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-12" *ngIf="isLoad_lesson">
                             <div class="grid">
                                 <div class="col-12" align="center">
@@ -162,7 +214,8 @@
                                         [style]="{ 'width': '50px', 'height': '50px' }"></p-progressSpinner>
                                 </div>
                                 <div class="col-12" align="center">
-                                    กำลังโหลดบทเรียน...
+                                    {{ !isLoad_lesson && select_lesson_id ? 'กำลังโหลดบทเรียน...' :
+                                    'กำลังโหลดเนื้อหาในบทเรียน...' }}
                                 </div>
                             </div>
                         </div>
@@ -275,8 +328,165 @@
             <div class="col-12" align="right">
                 <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
                     (onClick)="create_lesson_dialog = false"></p-button>
-                <p-button label="สร้างบทเรียนใหม่" icon="pi pi-plus" styleClass="p-button-sm p-button-success mt-4"
+                <p-button label="สร้างบทเรียนใหม่" [icon]="isApiSaving ? 'pi-spin pi-spinner' : 'pi pi-plus'"
+                    styleClass="p-button-sm p-button-success mt-4" [disabled]="isApiSaving"
                     (onClick)="onSubmitCreateLesson()"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="แก้ไขชื่อบทเรียน" [(visible)]="edit_lesson_dialog" [modal]="true"
+    [style]="{ width: '50vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12">
+            <label>ชื่อบทเรียน</label>
+            <input type="text" pInputText [(ngModel)]="edit_lesson_data.lesson_name" name="input_edit_lesson_name"
+                #input_edit_lesson_name="ngModel" placeholder="ชื่อบทเรียน..." class="p-inputtext-sm" />
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
+                    (onClick)="edit_lesson_dialog = false"></p-button>
+                <p-button label="แก้ไขชื่อบทเรียน" [icon]="isApiSaving ? 'pi-spin pi-spinner' : 'pi pi-pencil'"
+                    styleClass="p-button-sm p-button-warning mt-4" [disabled]="isApiSaving"
+                    (onClick)="onSubmitEditLesson()"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="เพิ่มเนื้อหา" [(visible)]="create_chapter_dialog" [modal]="true"
+    [style]="{ width: '80vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="grid">
+        <div class="col-12 md:col-3">
+            <label>ประเภทเนื้อหา</label>
+            <p-dropdown [options]="chapter_data_type" [(ngModel)]="create_chapter_data.content_type" appendTo="body"
+                placeholder="เลือกประเภทเนื้อหา" optionLabel="label" optionValue="value"
+                styleClass="w-full"></p-dropdown>
+        </div>
+        <div class="col-12 md:col-9">
+            <label>ชื่อเนื้อหา</label>
+            <input type="text" pInputText [(ngModel)]="create_chapter_data.content_name"
+                name="input_create_chapter_name" #input_create_chapter_name="ngModel" placeholder="ชื่อเนื้อหา..."
+                class="p-inputtext-sm" />
+        </div>
+        <div class="col-12 md:col-12" *ngIf="create_chapter_data.content_type != null">
+            <label>{{ create_chapter_data.content_type == 1 ? 'ที่อยู่ VDO จาก Youtube' : 'เนื้อหา'}}</label>
+            <input type="text" pInputText [(ngModel)]="create_chapter_data.content_data"
+                placeholder="https://youtu.be/...." *ngIf="create_chapter_data.content_type == 1"
+                name="input_create_chapter_data" #input_create_chapter_data="ngModel" class="p-inputtext-sm" />
+            <p-editor [(ngModel)]="create_chapter_data.content_data" [style]="{ height: '450px'}"
+                *ngIf="create_chapter_data.content_type == 2">
+                <ng-template pTemplate="header">
+                    <span class="ql-formats">
+                        <select class="ql-size">
+                            <option value="small">small</option>
+                            <option selected></option>
+                            <option value="large">Large</option>
+                            <option value="huge">Huge</option>
+                        </select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-bold" aria-label="Bold"></button>
+                        <button class="ql-italic" aria-label="Italic"></button>
+                        <button class="ql-underline" aria-label="Underline"></button>
+                        <button class="ql-strike" aria-label="Strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select title="Text Alignment" class="ql-align">
+                            <option selected>Left</option>
+                            <option value="center" label="Center"></option>
+                            <option value="right" label="Right"></option>
+                            <option value="justify" label="Justify"></option>
+                        </select>
+                    </span>
+                </ng-template>
+            </p-editor>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
+                    (onClick)="create_chapter_dialog = false"></p-button>
+                <p-button label="สร้างเนื้อหา" [icon]="isApiSaving ? 'pi-spin pi-spinner' : 'pi pi-plus'"
+                    (onClick)="onSubmitAddContent()" [disabled]="isApiSaving"
+                    styleClass="p-button-sm p-button-success mt-4"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="แก้ไขเนื้อหา" [(visible)]="edit_chapter_dialog" [modal]="true"
+    [style]="{ width: '80vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="grid">
+        <div class="col-12 md:col-3">
+            <label>ประเภทเนื้อหา</label>
+            <p-dropdown [options]="chapter_data_type" [(ngModel)]="edit_chapter_data.content_type" appendTo="body"
+                placeholder="เลือกประเภทเนื้อหา" optionLabel="label" optionValue="value"
+                styleClass="w-full"></p-dropdown>
+        </div>
+        <div class="col-12 md:col-9">
+            <label>ชื่อเนื้อหา</label>
+            <input type="text" pInputText [(ngModel)]="edit_chapter_data.content_name" name="input_edit_chapter_name"
+                #input_edit_chapter_name="ngModel" placeholder="ชื่อเนื้อหา..." class="p-inputtext-sm" />
+        </div>
+        <div class="col-12 md:col-12" *ngIf="edit_chapter_data.content_type != null">
+            <label>{{ edit_chapter_data.content_type == 1 ? 'ที่อยู่ VDO จาก Youtube' : 'เนื้อหา'}}</label>
+            <input type="text" pInputText [(ngModel)]="edit_chapter_data.content_data"
+                placeholder="https://youtu.be/...." *ngIf="edit_chapter_data.content_type == 1"
+                name="input_edit_chapter_data" #input_edit_chapter_data="ngModel" class="p-inputtext-sm" />
+            <p-editor [(ngModel)]="edit_chapter_data.content_data" [style]="{ height: '450px'}"
+                *ngIf="edit_chapter_data.content_type == 2">
+                <ng-template pTemplate="header">
+                    <span class="ql-formats">
+                        <select class="ql-size">
+                            <option value="small">small</option>
+                            <option selected></option>
+                            <option value="large">Large</option>
+                            <option value="huge">Huge</option>
+                        </select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-bold" aria-label="Bold"></button>
+                        <button class="ql-italic" aria-label="Italic"></button>
+                        <button class="ql-underline" aria-label="Underline"></button>
+                        <button class="ql-strike" aria-label="Strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select title="Text Alignment" class="ql-align">
+                            <option selected>Left</option>
+                            <option value="center" label="Center"></option>
+                            <option value="right" label="Right"></option>
+                            <option value="justify" label="Justify"></option>
+                        </select>
+                    </span>
+                </ng-template>
+            </p-editor>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
+                    (onClick)="edit_chapter_dialog = false"></p-button>
+                <p-button label="สร้างเนื้อหา" [icon]="isApiSaving ? 'pi-spin pi-spinner' : 'pi pi-plus'"
+                    (onClick)="onSubmitAddContent()" [disabled]="isApiSaving"
+                    styleClass="p-button-sm p-button-success mt-4"></p-button>
             </div>
         </div>
     </ng-template>

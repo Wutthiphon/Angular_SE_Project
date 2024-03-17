@@ -129,4 +129,41 @@ export class CoursesService {
       httpOptions
     );
   }
+
+  editLesson(lesson_id: number, lesson_name: string): Observable<any> {
+    return this.http.post(
+      API + "updateLesson",
+      { lesson_id: lesson_id, lesson_name: lesson_name },
+      httpOptions
+    );
+  }
+
+  deleteLesson(lesson_id: number): Observable<any> {
+    return this.http.delete(
+      API + "delete/course_lesson/" + lesson_id,
+      httpOptions
+    );
+  }
+
+  getCourseLessonChapter(lesson_id: number): Observable<any> {
+    return this.http.get(API + "getCourseContent/" + lesson_id, httpOptions);
+  }
+
+  createCourseLessonChapter(
+    lesson_id: number,
+    content_name: string,
+    content_data: string,
+    content_type: number
+  ) {
+    return this.http.post(
+      API + "createContent ",
+      {
+        lesson_id: lesson_id,
+        content_name: content_name,
+        content_data: content_data,
+        content_type: content_type,
+      },
+      httpOptions
+    );
+  }
 }

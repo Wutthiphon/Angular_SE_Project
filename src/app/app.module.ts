@@ -76,6 +76,7 @@ import { ConfirmationService } from "primeng/api";
 import { SkeletonModule } from "primeng/skeleton";
 import { TagModule } from "primeng/tag";
 import { ImageModule } from "primeng/image";
+import { EditorModule } from "primeng/editor";
 
 // Other
 import { ImageCropperModule } from "ngx-image-cropper";
@@ -97,7 +98,7 @@ import { CoursesComponent } from "./courses/courses.component";
 import { MyCoursesComponent } from "./components/my-courses/my-courses.component";
 import { PaymentComponent } from "./components/payment/payment.component";
 import { ProfileComponent } from "./components/profile/profile.component";
-import { CourseComponent } from './components/tutor/course/course.component';
+import { CourseComponent } from "./components/tutor/course/course.component";
 
 @NgModule({
   declarations: [
@@ -177,6 +178,7 @@ import { CourseComponent } from './components/tutor/course/course.component';
     SkeletonModule,
     TagModule,
     ImageModule,
+    EditorModule,
     // Social Login
     SocialLoginModule,
     GoogleSigninButtonModule,
