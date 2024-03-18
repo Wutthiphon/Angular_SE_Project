@@ -264,7 +264,8 @@
                             </div>
                         </div>
 
-                        <div class="col-12" *ngIf="isLoad_student_content || isLoad_student_exam">
+                        <div class="col-12"
+                            *ngIf="(isLoad_student_content && !isLoad_student_exam) || (isLoad_student_exam && !isLoad_student_content)">
                             <div class="grid">
                                 <div class="col-12" align="center">
                                     <p-progressSpinner styleClass="p-progress-info" strokeWidth="8" fill="#ffffff"
