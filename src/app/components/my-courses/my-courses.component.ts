@@ -335,7 +335,6 @@ export class MyCoursesComponent {
         (res) => {
           this.student_course_exam = res;
           this.isLoad_student_exam = false;
-          console.log(res);
         },
         (err) => {
           this.messageService.add({
@@ -355,7 +354,6 @@ export class MyCoursesComponent {
         message: "คุณเคยทำแบบทดสอบนี้แล้ว ต้องการทำใหม่หรือไม่?",
         accept: () => {
           this.student_select_exam_id = exam_id;
-
           this.onSubmitSelectExam();
         },
       });
