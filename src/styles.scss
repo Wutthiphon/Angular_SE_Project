@@ -346,6 +346,11 @@ footer {
   background-color: $global-color !important;
   color: rgb(255, 255, 255) !important;
   border-radius: 0px;
+  border-color: $global-color;
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
+  border-radius: 0px;
 }
 
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
