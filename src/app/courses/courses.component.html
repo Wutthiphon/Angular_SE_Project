@@ -10,15 +10,15 @@
                 <div class="col-12" style="height: 100px;">
                     {{ course.course_description | slice:0:50 }}{{ course.course_description.length > 50 ? '...' : '' }}
                 </div>
-                <div class="col-12">
+                <div class="col-12" align="center">
                     <p-tag icon="pi pi-user" value="ฟรี" *ngIf="!course.course_visibility"></p-tag>
                     <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
                         *ngIf="course.course_visibility"></p-tag>
                 </div>
-                <div class="col-12" *ngIf="course.course_visibility">
+                <div class="col-12" *ngIf="course.course_visibility" align="center">
                     <b>ค่าสมัคร: {{ course.cost | number : '1.2-2' }} บาท</b>
                 </div>
-                <div class="col-12">
+                <div class="col-12" align="center">
                     <p-button label="รายละเอียด" styleClass="p-button-info p-button-sm mr-1"
                         (onClick)="onShowInfoCourseDialog(course)" icon="pi pi-info"></p-button>
                     <p-button label="เข้าร่วม" styleClass="p-button-success p-button-sm"

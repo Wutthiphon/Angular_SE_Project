@@ -30,11 +30,11 @@ export class CoursesService {
   }
 
   getCourseByID(course_id: number): Observable<any> {
-    return this.http.get(API + "getcourse/" + course_id, httpOptions);
+    return this.http.get(API + "getcourse/course/" + course_id, httpOptions);
   }
 
   getCourseContent(course_id: number): Observable<any> {
-    return this.http.get(API + "getCourseContent/" + course_id, httpOptions);
+    return this.http.get(API + "lesson/content/" + course_id, httpOptions);
   }
 
   createCourse(
@@ -147,10 +147,6 @@ export class CoursesService {
 
   getCourseLessonChapter(lesson_id: number): Observable<any> {
     return this.http.get(API + "getCourseContent/" + lesson_id, httpOptions);
-  }
-
-  getCourseLessonChapterID(chapter_id: number): Observable<any> {
-    return this.http.get(API + "getCourseContent/" + chapter_id, httpOptions);
   }
 
   createCourseLessonChapter(

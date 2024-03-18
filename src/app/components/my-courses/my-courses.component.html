@@ -27,16 +27,16 @@
                                     :
                                     '' }}
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12" align="center">
                                     <p-tag icon="pi pi-user" value="ฟรี" *ngIf="!course.course_visibility"></p-tag>
                                     <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
                                         *ngIf="course.course_visibility"></p-tag>
                                 </div>
-                                <div class="col-12" *ngIf="course.course_visibility">
+                                <div class="col-12" *ngIf="course.course_visibility" align="center">
                                     <b>ค่าสมัคร: {{ course.cost | number : '1.2-2' }}
                                         บาท</b>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12" align="center">
                                     <p-button label="จัดการคอร์สเรียน" styleClass="p-button-secondary p-button-sm"
                                         [routerLink]="'/course/' + course.course_id" icon="pi pi-sign-in"></p-button>
                                 </div>
@@ -58,19 +58,19 @@
                                     :
                                     '' }}
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12" align="center">
                                     <p-tag icon="pi pi-user" value="ฟรี" *ngIf="!course.course_visibility"></p-tag>
                                     <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
                                         *ngIf="course.course_visibility"></p-tag>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12" align="center">
                                     <p-button label="เข้าคอร์ส" styleClass="p-button-info p-button-sm mr-1"
                                         *ngIf="course.course_reg[0].registration_status == 2"
                                         (onClick)="onOpenCourse(course)" icon="pi pi-sign-in"></p-button>
 
                                     <h3 *ngIf="course.course_reg[0].registration_status == 1"
                                         style="color: red;font-weight: bold;">
-                                        กรุณาไปจ่ายตังค์!!!</h3>
+                                        กรุณาตรวจสอบการชำระเงิน</h3>
                                 </div>
                             </div>
                         </p-card>
@@ -98,38 +98,54 @@
                 <p-button label="ย้อนกลับ" styleClass="p-button-secondary p-button-sm" icon="pi pi-angle-left"
                     (click)="goPage('my-courses');menu_items_active = menu_items[0]"></p-button>
             </div>
+
+            <div class="col-12">
+                <p-tabMenu [model]="menu_items" [activeItem]="menu_items_active"
+                    (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
+            </div>
+
             <div class="col-12">
                 <p-card [header]="select_course.course_name"
-                    [subheader]="!can_create ? 'ผู้สอน: ' + select_course.users_account.first_name + ' ' + select_course.users_account.last_name : ''">
-                    <!-- Student -->
-                    <div class="grid" *ngIf="!can_create">
-                        <div class="col-12 md:col-3" *ngFor="let tem of student_course_content">
-                            <p-card styleClass="p-card-custom" (click)="onOpenLesson(tem)">
-                                {{ tem.lesson_name }}
-                                <i class="pi pi-angle-right" style="float: right;"></i>
+                    [subheader]="'ผู้สอน: ' + select_course.users_account.first_name + ' ' + select_course.users_account.last_name">
+                    <div class="grid">
+                        <div class="col-12" *ngIf="menu_items_active == menu_items[0] && !isLoad_student_content">
+                            <div class="grid" *ngIf="student_course_content.course_lesson.length > 0" align="left">
+                                <div class="col-12 md:col-3"
+                                    *ngFor="let lesson of student_course_content.course_lesson">
+                                    <p-card styleClass="p-card-custom lesson-card-custom h-full"
+                                        [style]="{cursor: 'pointer'}">
+                                        <div class="flex justify-content-between align-content-center flex-wrap">
+                                            <div style="max-width: 80%;">
+                                                <b>{{ lesson.lesson_name }}</b><br>
+                                                จำนวนบทเรียน: 0 บท
+                                            </div>
+                                            <i
+                                                class="pi pi-chevron-right flex align-items-center justify-content-center"></i>
+                                        </div>
+                                    </p-card>
+                                </div>
+                            </div>
 
-                                <!-- <p-tag icon="pi pi-check" value="เรียนแล้ว" severity="success"
-                                    *ngIf=" "></p-tag>
-                                <p-tag icon="pi pi-times" value="ยังไม่เรียน" severity="danger"
-                                    *ngIf=""></p-tag> -->
-
-
-                            </p-card>
-
-
+                            <label
+                                *ngIf="student_course_content.course_lesson.length == 0">คุณยังไม่ได้เพิ่มเนื้อหาบทเรียน</label>
                         </div>
 
-                        <!-- <div class="col-12">
-                            <p-tabMenu [model]="menu_items"></p-tabMenu>
-                        </div>
-
-                        <div class="col-12" *ngIf="menu_items_active == menu_items[0]">
-                            P1
-                        </div>
-
-                        <div class="col-12" *ngIf="menu_items_active == menu_items[1]">
+                        <div class="col-12" *ngIf="menu_items_active == menu_items[1] && !isLoad_student_content">
                             P2
-                        </div> -->
+                        </div>
+
+                        <div class="col-12" *ngIf="isLoad_student_content">
+                            <div class="grid">
+                                <div class="col-12" align="center">
+                                    <p-progressSpinner styleClass="p-progress-info" strokeWidth="8" fill="#ffffff"
+                                        animationDuration=".5s"
+                                        [style]="{ 'width': '50px', 'height': '50px' }"></p-progressSpinner>
+                                </div>
+                                <div class="col-12" align="center">
+                                    กำลังโหลด...
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </p-card>
             </div>

@@ -38,29 +38,16 @@ export class MyCoursesComponent {
   page: string = "my-courses"; // my-courses in-course
   select_course: any = {};
 
-  menu_items: any[] = [];
-  menu_items_active: any = {};
-
-  // Teacher
-  select_course_info = {
-    course_id: 0,
-    course_name: "",
-    course_description: "",
-    course_have_price: false,
-    cover_image: "./assets/cover/null-cover.png",
-    payment_image: "./assets/cover/null-cover.png",
-    course_price: null,
-    register_user: [],
-  };
-  view_receipt_dialog: boolean = false;
-  view_receipt_dialog_img: any | null = null;
-
-  reject_comment_dialog: boolean = false;
-  reject_comment_reg_id: number = 0;
-  reject_comment: string = "";
+  menu_items: any[] = [
+    { label: "บทเรียน", icon: "pi pi-fw pi-home" },
+    { label: "แบบทดสอบ", icon: "pi pi-fw pi-home" },
+  ];
+  menu_items_active: any = this.menu_items[0];
 
   // Student
-  student_course_content: any = [];
+  student_course_content: any = {};
+  isLoad_student_content: boolean = true;
+
   constructor(
     private coursesService: CoursesService,
     private tokenStorage: TokenStorageService,
@@ -78,13 +65,6 @@ export class MyCoursesComponent {
         case 2:
           // Teacher
           this.can_create = true;
-          this.menu_items = [
-            { label: "ข้อมูลคอร์ส", icon: "pi pi-fw pi-home" },
-            { label: "ผู้สมัครในคอร์ส", icon: "pi pi-fw pi-home" },
-            { label: "บทเรียน", icon: "pi pi-fw pi-home" },
-            { label: "แบบทดสอบ", icon: "pi pi-fw pi-home" },
-          ];
-          this.menu_items_active = this.menu_items[0];
           break;
         default:
           this.router.navigateByUrl("/login");
@@ -104,28 +84,22 @@ export class MyCoursesComponent {
     });
   }
 
-  // All
   getCourseByID(couse: any) {
-    if (this.can_create) {
-      // Teacher
-      this.coursesService.getCourseByID(couse.course_id).subscribe((res) => {
-        this.select_course_info = {
-          course_id: res.course_id,
-          course_name: res.course_name,
-          course_description: res.course_description,
-          course_have_price: res.course_visibility,
-          course_price: res.cost,
-          cover_image: res.image,
-          payment_image: res.img_account,
-          register_user: res.course_reg,
-        };
-      });
-    } else {
-      // Student
-      this.coursesService.getCourseContent(couse.course_id).subscribe((res) => {
+    this.isLoad_student_content = true;
+    this.coursesService.getCourseContent(couse.course_id).subscribe(
+      (res) => {
         this.student_course_content = res;
-      });
-    }
+        this.isLoad_student_content = false;
+        console.log(res);
+      },
+      (err) => {
+        this.messageService.add({
+          severity: "error",
+          summary: "เกิดข้อผิดพลาด",
+          detail: err.error.message,
+        });
+      }
+    );
   }
 
   onOpenCourse(course: any) {
