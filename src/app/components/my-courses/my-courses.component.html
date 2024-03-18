@@ -171,7 +171,7 @@
                                 *ngIf="student_course_content.course_lesson.length == 0">คอร์สนี้ยังไม่มีบทเรียน</label>
                         </div>
 
-                        <div class="col-12" *ngIf="menu_items_active == menu_items[1] && !isLoad_student_content">
+                        <div class="col-12" *ngIf="menu_items_active == menu_items[1] && !isLoad_student_exam">
                             <div class="grid">
                                 <div class="col-12" *ngIf="!student_select_exam_id">
                                     <div class="grid" *ngIf="student_course_exam.length > 0">
@@ -214,6 +214,7 @@
 
                                         <div class="col-12" align="center">
                                             <h1>ข้อสอบ: {{ student_select_exam_name }}</h1>
+                                            <label><b>จำนวน:</b> {{ student_select_exam_array.length }} ข้อ</label>
                                         </div>
 
                                         <div class="col-12">
@@ -232,7 +233,8 @@
                                                                         [inputId]="('input_exam_problem_choice'+i+j)"
                                                                         [(ngModel)]="problem.select_choice"></p-radioButton>
 
-                                                                    <label [for]="'input_exam_problem_choice'+i+j">
+                                                                    <label [for]="'input_exam_problem_choice'+i+j"
+                                                                        class="w-full">
                                                                         {{ choice.label }}
                                                                     </label>
                                                                 </div>
@@ -256,7 +258,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12" *ngIf="isLoad_student_content">
+                        <div class="col-12" *ngIf="isLoad_student_content || isLoad_student_exam">
                             <div class="grid">
                                 <div class="col-12" align="center">
                                     <p-progressSpinner styleClass="p-progress-info" strokeWidth="8" fill="#ffffff"

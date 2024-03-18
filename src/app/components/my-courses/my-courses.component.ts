@@ -267,11 +267,13 @@ export class MyCoursesComponent {
 
   onOpenLesson(lesson_id: number) {
     this.student_select_lesson_id = lesson_id;
+    this.isLoad_student_content = true;
 
     this.coursesService.studentGetChapters(lesson_id).subscribe(
       (res) => {
         this.student_select_lesson_name = res.lesson_name;
         this.student_select_lesson_array = res.lesson_chapter;
+        this.isLoad_student_content = false;
       },
       (err) => {
         this.messageService.add({
@@ -326,11 +328,14 @@ export class MyCoursesComponent {
   }
 
   loadCourseExamTest() {
+    this.isLoad_student_exam = true;
     this.coursesService
       .studentGetCourseExam(this.student_course_content.course_id)
       .subscribe(
         (res) => {
           this.student_course_exam = res;
+          this.isLoad_student_exam = false;
+          console.log(res);
         },
         (err) => {
           this.messageService.add({
@@ -344,6 +349,7 @@ export class MyCoursesComponent {
 
   onSelectExam(exam_id: number) {
     this.student_select_exam_id = exam_id;
+    this.isLoad_student_exam = true;
 
     this.coursesService
       .studentGetExamQuestion(this.student_select_exam_id)
@@ -351,6 +357,7 @@ export class MyCoursesComponent {
         (res) => {
           this.student_select_exam_name = res.exam_name;
           this.student_select_exam_array = res.course_exam_problem;
+          this.isLoad_student_exam = false;
 
           this.student_select_exam_array.map((problem: any) => {
             problem.select_choice = null;
@@ -378,12 +385,6 @@ export class MyCoursesComponent {
       });
       return;
     }
-
-    console.log(
-      this.select_course.course_id,
-      this.student_select_exam_id,
-      this.student_select_exam_array
-    );
 
     this.confirmationService.confirm({
       icon: "pi pi-exclamation-triangle",

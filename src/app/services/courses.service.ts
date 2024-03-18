@@ -268,7 +268,7 @@ export class CoursesService {
     exam_array: any
   ): Observable<any> {
     return this.http.post(
-      API + "submitAnswer",
+      API + "exam/submitAnswer",
       {
         exam: {
           course_id: course_id,
