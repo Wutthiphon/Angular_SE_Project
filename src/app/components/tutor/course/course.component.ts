@@ -33,7 +33,7 @@ export class CourseComponent {
     course_description: "",
     course_have_price: false,
     cover_image: "./assets/cover/null-cover.png",
-    payment_image: "./assets/cover/null-cover.png",
+    payment_image: "./assets/cover/null-money-cover.png",
     course_price: null,
     register_user: [],
   };
