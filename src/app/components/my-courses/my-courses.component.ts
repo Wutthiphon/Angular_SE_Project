@@ -347,11 +347,30 @@ export class MyCoursesComponent {
       );
   }
 
-  onSelectExam(exam_id: number) {
-    this.student_select_exam_id = exam_id;
+  onSelectExam(exam_id: number | null, is_do: boolean) {
+    if (is_do) {
+      this.confirmationService.confirm({
+        icon: "pi pi-exclamation-triangle",
+        header: "ยืนยัน",
+        message: "คุณเคยทำแบบทดสอบนี้แล้ว ต้องการทำใหม่หรือไม่?",
+        accept: () => {
+          this.student_select_exam_id = exam_id;
+
+          this.onSubmitSelectExam();
+        },
+      });
+    } else {
+      this.student_select_exam_id = exam_id;
+
+      this.onSubmitSelectExam();
+    }
+  }
+
+  onSubmitSelectExam() {
     this.isLoad_student_exam = true;
 
     this.coursesService
+
       .studentGetExamQuestion(this.student_select_exam_id)
       .subscribe(
         (res) => {

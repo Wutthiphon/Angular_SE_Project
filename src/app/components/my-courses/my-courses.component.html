@@ -183,13 +183,19 @@
 
                                                 <div class="col-12 md:col-3" *ngFor="let exam of lesson.course_exam">
                                                     <p-card styleClass="p-card-custom exam-card-custom h-full"
-                                                        [style]="{cursor: 'pointer'}"
-                                                        (click)="onSelectExam(exam.exam_id)">
+                                                        [style]="{cursor: 'pointer','background-color': exam.is_do ? '#e9e9e9' : '#FFF'}"
+                                                        (click)="onSelectExam(exam.exam_id,exam.is_do)">
                                                         <div
                                                             class="flex justify-content-between align-content-center flex-wrap">
                                                             <div style="max-width: 80%;">
                                                                 <b>{{ exam.exam_name }}</b><br>
                                                                 จำนวนโจทย์: {{ exam.total_problems }} ข้อ
+                                                                {{
+                                                                !exam.is_do ? ''
+                                                                : ' | ได้: ' + exam.sum_Score + '/' +
+                                                                exam.total_problems +
+                                                                ' คะแนน'
+                                                                }}
                                                             </div>
                                                             <i
                                                                 class="pi pi-chevron-right flex align-items-center justify-content-center"></i>

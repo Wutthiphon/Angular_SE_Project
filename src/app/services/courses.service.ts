@@ -258,7 +258,7 @@ export class CoursesService {
     return this.http.get(API + "getExam_student/" + course_id, httpOptions);
   }
 
-  studentGetExamQuestion(exam_id: number): Observable<any> {
+  studentGetExamQuestion(exam_id: number | null): Observable<any> {
     return this.http.get(API + "getQuestion_student/" + exam_id, httpOptions);
   }
 
