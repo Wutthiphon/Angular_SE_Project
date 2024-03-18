@@ -9,13 +9,6 @@ import {
   DomHandler
 } from "./chunk-3SQF7L7O.js";
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from "./chunk-OXFAYKCP.js";
-import {
   Header,
   PrimeTemplate,
   SharedModule
@@ -23,6 +16,13 @@ import {
 import {
   UniqueComponentId
 } from "./chunk-FI4NTF6I.js";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from "./chunk-OXFAYKCP.js";
 import {
   CommonModule,
   NgClass,
