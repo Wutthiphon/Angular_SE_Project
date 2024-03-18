@@ -42,7 +42,7 @@ export class MyCoursesComponent {
     { label: "บทเรียน", icon: "pi pi-fw pi-home" },
     { label: "แบบทดสอบ", icon: "pi pi-fw pi-home" },
   ];
-  menu_items_active: any = this.menu_items[1];
+  menu_items_active: any = this.menu_items[0];
 
   // Student
   student_course_content: any = {};
