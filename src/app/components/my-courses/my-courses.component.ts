@@ -31,7 +31,7 @@ export class MyCoursesComponent {
     course_description: "",
     course_have_price: false,
     cover_image: "./assets/cover/null-cover.png",
-    payment_image: "./assets/cover/null-cover.png",
+    payment_image: "./assets/cover/null-money-cover.png",
     course_price: null,
   };
 
@@ -42,11 +42,28 @@ export class MyCoursesComponent {
     { label: "บทเรียน", icon: "pi pi-fw pi-home" },
     { label: "แบบทดสอบ", icon: "pi pi-fw pi-home" },
   ];
-  menu_items_active: any = this.menu_items[0];
+  menu_items_active: any = this.menu_items[1];
 
   // Student
   student_course_content: any = {};
+  student_select_lesson_id: number | null = null;
+  student_select_lesson_name: string = "";
+  student_select_lesson_array: any[] = [];
   isLoad_student_content: boolean = true;
+
+  student_course_exam: any[] = [];
+  student_select_exam_id: number | null = null;
+  student_select_exam_name: string = "";
+  student_select_exam_array: any[] = [];
+  isLoad_student_exam: boolean = true;
+
+  view_chapter_dialog: boolean = false;
+  view_chapter_data = {
+    chapter_id: <number | null>null,
+    content_name: "",
+    content_data: "",
+    content_type: null, // 1 = video, 2 = html
+  };
 
   constructor(
     private coursesService: CoursesService,
@@ -84,30 +101,6 @@ export class MyCoursesComponent {
     });
   }
 
-  getCourseByID(couse: any) {
-    this.isLoad_student_content = true;
-    this.coursesService.getCourseContent(couse.course_id).subscribe(
-      (res) => {
-        this.student_course_content = res;
-        this.isLoad_student_content = false;
-        console.log(res);
-      },
-      (err) => {
-        this.messageService.add({
-          severity: "error",
-          summary: "เกิดข้อผิดพลาด",
-          detail: err.error.message,
-        });
-      }
-    );
-  }
-
-  onOpenCourse(course: any) {
-    this.select_course = course;
-    this.goPage("in-course");
-    this.getCourseByID(this.select_course);
-  }
-
   // Teacher
   createCourse() {
     this.create_course_dialog = true;
@@ -116,7 +109,7 @@ export class MyCoursesComponent {
       course_description: "",
       course_have_price: false,
       cover_image: "./assets/cover/null-cover.png",
-      payment_image: "./assets/cover/null-cover.png",
+      payment_image: "./assets/cover/null-money-cover.png",
       course_price: null,
     };
   }
@@ -245,8 +238,192 @@ export class MyCoursesComponent {
   }
 
   // Student
-  onOpenLesson(item: any) {
-    console.log(item);
+  onOpenCourse(course: any) {
+    this.select_course = course;
+    this.goPage("in-course");
+    this.getCourseByID(this.select_course);
+  }
+
+  getCourseByID(couse: any) {
+    this.isLoad_student_content = true;
+    this.coursesService.getCourseContent(couse.course_id).subscribe(
+      (res) => {
+        this.student_course_content = res;
+        this.isLoad_student_content = false;
+
+        if (this.menu_items_active == this.menu_items[1]) {
+          this.loadCourseExamTest();
+        }
+      },
+      (err) => {
+        this.messageService.add({
+          severity: "error",
+          summary: "เกิดข้อผิดพลาด",
+          detail: err.error.message,
+        });
+      }
+    );
+  }
+
+  onOpenLesson(lesson_id: number) {
+    this.student_select_lesson_id = lesson_id;
+
+    this.coursesService.studentGetChapters(lesson_id).subscribe(
+      (res) => {
+        this.student_select_lesson_name = res.lesson_name;
+        this.student_select_lesson_array = res.lesson_chapter;
+      },
+      (err) => {
+        this.messageService.add({
+          severity: "error",
+          summary: "เกิดข้อผิดพลาด",
+          detail: err.error.message,
+        });
+      }
+    );
+  }
+
+  backToLesson() {
+    this.student_select_lesson_id = null;
+    this.student_select_lesson_name = "";
+    this.student_select_lesson_array = [];
+  }
+
+  onViewContent(chapter_id: number) {
+    let find_content_type = this.student_select_lesson_array.find(
+      (x: any) => x.lesson_chapter_id == chapter_id
+    );
+    if (find_content_type) {
+      this.view_chapter_data = {
+        chapter_id: find_content_type.lesson_chapter_id,
+        content_name: find_content_type.content_name,
+        content_data: find_content_type.content_data,
+        content_type: find_content_type.content_type,
+      };
+      if (this.view_chapter_data.content_type == 1) {
+        // If url have watch?v= replace to embed/
+        if (this.view_chapter_data.content_data.includes("watch?v=")) {
+          this.view_chapter_data.content_data =
+            this.view_chapter_data.content_data.replace("watch?v=", "embed/");
+        }
+        // If url is youtu.be replace to www.youtube.com/embed/
+        if (this.view_chapter_data.content_data.includes("youtu.be")) {
+          this.view_chapter_data.content_data =
+            this.view_chapter_data.content_data.replace(
+              "youtu.be",
+              "www.youtube.com/embed"
+            );
+        }
+      }
+      this.view_chapter_dialog = true;
+    } else {
+      this.messageService.add({
+        severity: "error",
+        summary: "เกิดข้อผิดพลาด",
+        detail: "ไม่พบข้อมูลบทเรียน",
+      });
+    }
+  }
+
+  loadCourseExamTest() {
+    this.coursesService
+      .studentGetCourseExam(this.student_course_content.course_id)
+      .subscribe(
+        (res) => {
+          this.student_course_exam = res;
+        },
+        (err) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "เกิดข้อผิดพลาด",
+            detail: err.error.message,
+          });
+        }
+      );
+  }
+
+  onSelectExam(exam_id: number) {
+    this.student_select_exam_id = exam_id;
+
+    this.coursesService
+      .studentGetExamQuestion(this.student_select_exam_id)
+      .subscribe(
+        (res) => {
+          this.student_select_exam_name = res.exam_name;
+          this.student_select_exam_array = res.course_exam_problem;
+
+          this.student_select_exam_array.map((problem: any) => {
+            problem.select_choice = null;
+          });
+        },
+        (err) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "เกิดข้อผิดพลาด",
+            detail: err.error.message,
+          });
+        }
+      );
+  }
+
+  onSubmitedExam() {
+    if (
+      this.student_select_exam_array.filter((x: any) => x.select_choice == null)
+        .length > 0
+    ) {
+      this.messageService.add({
+        severity: "error",
+        summary: "เกิดข้อผิดพลาด",
+        detail: "กรุณาตอบคำถามให้ครบ",
+      });
+      return;
+    }
+
+    console.log(
+      this.select_course.course_id,
+      this.student_select_exam_id,
+      this.student_select_exam_array
+    );
+
+    this.confirmationService.confirm({
+      icon: "pi pi-exclamation-triangle",
+      header: "ยืนยัน",
+      message: "ยืนยันการส่งคำตอบ?",
+      accept: () => {
+        this.coursesService
+          .studentSubmitAnswer(
+            this.select_course.course_id,
+            this.student_select_exam_id,
+            this.student_select_exam_array
+          )
+          .subscribe(
+            (res) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "สำเร็จ",
+                detail: "ส่งคำตอบสำเร็จ",
+              });
+              this.student_select_exam_array = [];
+              this.student_select_exam_id = null;
+              this.student_select_exam_name = "";
+              this.loadCourseExamTest();
+            },
+            (err) => {
+              this.messageService.add({
+                severity: "error",
+                summary: "เกิดข้อผิดพลาด",
+                detail: err.error.message,
+              });
+            }
+          );
+      },
+    });
+  }
+
+  backToExam() {
+    this.student_select_exam_id = null;
+    this.student_select_exam_name = "";
+    this.student_select_exam_array = [];
   }
 
   // Page Control
@@ -256,5 +433,11 @@ export class MyCoursesComponent {
 
   onActiveItemChange(event: any) {
     this.menu_items_active = event;
+
+    if (this.menu_items_active == this.menu_items[0]) {
+      this.backToLesson();
+    } else if (this.menu_items_active == this.menu_items[1]) {
+      this.loadCourseExamTest();
+    }
   }
 }

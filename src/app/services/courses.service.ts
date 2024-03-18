@@ -246,4 +246,37 @@ export class CoursesService {
   deleteCourseExamLesson(exam_id: number | null): Observable<any> {
     return this.http.delete(API + "exam/deleteExam/" + exam_id, httpOptions);
   }
+
+  studentGetChapters(lesson_id: number): Observable<any> {
+    return this.http.get(
+      API + "lesson/content_student/" + lesson_id,
+      httpOptions
+    );
+  }
+
+  studentGetCourseExam(course_id: number): Observable<any> {
+    return this.http.get(API + "getExam_student/" + course_id, httpOptions);
+  }
+
+  studentGetExamQuestion(exam_id: number): Observable<any> {
+    return this.http.get(API + "getQuestion_student/" + exam_id, httpOptions);
+  }
+
+  studentSubmitAnswer(
+    course_id: number | null,
+    exam_id: number | null,
+    exam_array: any
+  ): Observable<any> {
+    return this.http.post(
+      API + "submitAnswer",
+      {
+        exam: {
+          course_id: course_id,
+          exam_id: exam_id,
+          student_do_choice: exam_array,
+        },
+      },
+      httpOptions
+    );
+  }
 }

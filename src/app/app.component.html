@@ -59,7 +59,7 @@
           </p-button>
 
           <!-- Login -->
-          <p-menu #profile_menu [model]="profile_menu_item" [popup]="true"></p-menu>
+          <p-menu #profile_menu [model]="profile_menu_item" [popup]="true" appendTo="body"></p-menu>
           <p-button [outlined]="true" (click)="profile_menu.toggle($event)" *ngIf="isLogin"
             styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile">
             <div class="flex align-content-center flex-wrap">
