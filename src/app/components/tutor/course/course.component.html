@@ -269,6 +269,10 @@
 
                         <div class="col-12" *ngIf="!isLoad_exam && select_exam_lesson_id && select_exam_id">
                             <div class="grid">
+                                <div class="col-12">
+                                    <h1>แบบทดสอบ: {{ select_exam_name }}</h1>
+                                </div>
+
                                 <div class="col-12" *ngFor="let problem of exam_problem_array;let i = index">
                                     <div class="grid custom-border">
                                         <div class="col-12">
@@ -661,6 +665,29 @@
                 <p-button label="สร้างแบบทดสอบใหม่" [icon]="isApiSaving ? 'pi-spin pi-spinner' : 'pi pi-plus'"
                     styleClass="p-button-sm p-button-success mt-4" [disabled]="isApiSaving"
                     (onClick)="onSubmitCreateExam()"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="แก้ไขชื่อแบบทดสอบ" [(visible)]="edit_exam_dialog" [modal]="true"
+    [style]="{ width: '50vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12">
+            <label>ชื่อแบบทดสอบ</label>
+            <input type="text" pInputText [(ngModel)]="edit_exam_data.exam_name" name="input_edit_exam_data_name"
+                #input_edit_exam_data_name="ngModel" placeholder="ชื่อแบบทดสอบ..." class="p-inputtext-sm" />
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
+                    (onClick)="edit_exam_dialog = false"></p-button>
+                <p-button label="แก้ไขชื่อแบบทดสอบ" [icon]="isApiSaving ? 'pi-spin pi-spinner' : 'pi pi-save'"
+                    styleClass="p-button-sm p-button-warning mt-4" [disabled]="isApiSaving"
+                    (onClick)="onSubmitEditExam()"></p-button>
             </div>
         </div>
     </ng-template>

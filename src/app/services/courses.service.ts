@@ -221,16 +221,33 @@ export class CoursesService {
   }
 
   createCourseExamQuestion(
-    exam_id: number,
+    exam_id: number | null,
     problem_array: any
   ): Observable<any> {
     return this.http.post(
-      API + "exam/createExam/question",
+      API + "createQuestion",
       {
-        exam_id: exam_id,
-        problem_array: problem_array,
+        exam: {
+          exam_id: exam_id,
+          questions: problem_array,
+        },
       },
       httpOptions
     );
+  }
+
+  editCourseExamLesson(
+    exam_id: number | null,
+    exam_name: string
+  ): Observable<any> {
+    return this.http.post(
+      API + "exam/updateExam",
+      { exam_id: exam_id, exam_name: exam_name },
+      httpOptions
+    );
+  }
+
+  deleteCourseExamLesson(exam_id: number | null): Observable<any> {
+    return this.http.delete(API + "exam/deleteExam/" + exam_id, httpOptions);
   }
 }

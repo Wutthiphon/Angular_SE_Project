@@ -24,7 +24,7 @@ export class CourseComponent {
     { label: "บทเรียน", icon: "pi pi-fw pi-home" },
     { label: "แบบทดสอบ", icon: "pi pi-fw pi-home" },
   ];
-  menu_items_active: any = this.menu_items[3];
+  menu_items_active: any = this.menu_items[0];
 
   select_course: any = {};
   select_course_info = {
@@ -93,6 +93,7 @@ export class CourseComponent {
 
   select_exam_lesson_id: number | null = 0;
   select_exam_id: number | null = 0;
+  select_exam_name: string = "";
 
   create_exam_dialog: boolean = false;
   create_exam_data = {
@@ -101,6 +102,11 @@ export class CourseComponent {
   };
 
   exam_problem_array: any = [];
+
+  edit_exam_dialog: boolean = false;
+  edit_exam_data = {
+    exam_name: "",
+  };
 
   // Image Crop
   imageCropDialog: boolean = false;
@@ -780,75 +786,41 @@ export class CourseComponent {
     this.isLoad_exam = true;
     this.select_exam_id = exam_id;
 
-    this.coursesService.getCourseExamByID(this.select_exam_id).subscribe(
-      (res) => {
-        this.exam_problem_array = res;
+    if (this.select_exam_id) {
+      this.select_exam_name = this.exam_array.find(
+        (item: any) => item.exam_id == exam_id
+      ).exam_name;
 
-        // For Test
-        // this.exam_problem_array = [
-        //   {
-        //     problem_name: "1+1",
-        //     correct_choice: null,
-        //     choices: [
-        //       { label: "2" },
-        //       { label: "4" },
-        //       { label: "6" },
-        //       { label: "7" },
-        //     ],
-        //   },
-        //   {
-        //     problem_name: "2+2",
-        //     correct_choice: null,
-        //     choices: [
-        //       { label: "2" },
-        //       { label: "4" },
-        //       { label: "6" },
-        //       { label: "7" },
-        //     ],
-        //   },
-        //   {
-        //     problem_name: "3*3",
-        //     correct_choice: null,
-        //     choices: [
-        //       { label: "2" },
-        //       { label: "4" },
-        //       { label: "6" },
-        //       { label: "9" },
-        //     ],
-        //   },
-        // ];
-        // this.exam_problem_array[0].correct_choice =
-        //   this.exam_problem_array[0].choices[0];
-        // this.exam_problem_array[1].correct_choice =
-        //   this.exam_problem_array[1].choices[1];
-        // this.exam_problem_array[2].correct_choice =
-        //   this.exam_problem_array[2].choices[3];
-        // // For Test
+      this.coursesService.getCourseExamByID(this.select_exam_id).subscribe(
+        (res) => {
+          this.exam_problem_array = res;
 
-        if (this.exam_problem_array.length == 0) {
-          this.onAddProblem();
-        } else {
-          // Map choice
+          if (this.exam_problem_array.length == 0) {
+            this.onAddProblem();
+          } else {
+            this.exam_problem_array.map((problem: any) => {
+              problem.correct_choice = problem.course_exam_choices.find(
+                (choice: any) => choice.choices_id == problem.correct_choice
+              );
+              problem.choices = problem.course_exam_choices;
+            });
+          }
+          this.isLoad_exam = false;
+        },
+        (err) => {
+          Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถโหลดข้อมูลแบบทดสอบได้",
+          });
         }
-        this.isLoad_exam = false;
-      },
-      (err) => {
-        Swal.fire({
-          icon: "error",
-          title: "เกิดข้อผิดพลาด",
-          text: "ไม่สามารถโหลดข้อมูลแบบทดสอบได้",
-        });
-      }
-    );
+      );
+    }
   }
 
   onBackToLessonExam() {
     this.loadLessonExam();
   }
-
-  onEditLessonExam() {}
-
-  onDeleteLessonExam() {}
 
   onAddProblem() {
     this.exam_problem_array.push({
@@ -933,7 +905,102 @@ export class CourseComponent {
       );
     });
 
-    console.log(this.select_exam_id, answer);
+    this.coursesService
+      .createCourseExamQuestion(this.select_exam_id, answer)
+      .subscribe(
+        (res) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "สร้างแบบทดสอบสำเร็จ",
+          });
+          this.onSelectExam(this.select_exam_id as number);
+        },
+        (err) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "เกิดข้อผิดพลาด",
+            detail: err.error.message,
+          });
+        }
+      );
+  }
+
+  onEditLessonExam() {
+    this.edit_exam_dialog = true;
+    this.edit_exam_data = {
+      exam_name: this.select_exam_name,
+    };
+  }
+
+  onSubmitEditExam() {
+    this.isApiSaving = true;
+    const { exam_name } = this.edit_exam_data;
+
+    if (exam_name) {
+      this.coursesService
+        .editCourseExamLesson(this.select_exam_id as number, exam_name)
+        .subscribe(
+          (res) => {
+            this.messageService.add({
+              severity: "success",
+              summary: "สำเร็จ",
+              detail: "แก้ไขแบบทดสอบสำเร็จ",
+            });
+            this.edit_exam_dialog = false;
+            this.edit_exam_data = {
+              exam_name: "",
+            };
+            this.onSelectExam(this.select_exam_id as number);
+            this.select_exam_name = exam_name;
+            this.isApiSaving = false;
+          },
+          (err) => {
+            this.messageService.add({
+              severity: "error",
+              summary: "เกิดข้อผิดพลาด",
+              detail: err.error.message,
+            });
+            this.isApiSaving = false;
+          }
+        );
+    } else {
+      this.messageService.add({
+        severity: "error",
+        summary: "เกิดข้อผิดพลาด",
+        detail: "กรุณากรอกข้อมูลให้ครบถ้วน",
+      });
+      this.isApiSaving = false;
+    }
+  }
+
+  onDeleteLessonExam() {
+    this.confirmationService.confirm({
+      header: "ยืนยัน",
+      icon: "pi pi-exclamation-triangle",
+      message: "ยืนยันการลบแบบทดสอบ",
+      accept: () => {
+        this.coursesService
+          .deleteCourseExamLesson(this.select_exam_id as number)
+          .subscribe(
+            (res) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "สำเร็จ",
+                detail: "ลบแบบทดสอบสำเร็จ",
+              });
+              this.onBackToLessonExam();
+            },
+            (err) => {
+              this.messageService.add({
+                severity: "error",
+                summary: "เกิดข้อผิดพลาด",
+                detail: err.error.message,
+              });
+            }
+          );
+      },
+    });
   }
 
   // Page Control
