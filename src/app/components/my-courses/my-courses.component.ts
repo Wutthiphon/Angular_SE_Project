@@ -450,8 +450,6 @@ export class MyCoursesComponent {
     const user_data = this.tokenStorage.getUser();
     const username = user_data.name;
 
-    console.log(this.select_course);
-
     const tempate_file_url = "./assets/pdf_template/Certificate.pdf";
     const existingPdfBytes = await fetch(tempate_file_url).then((res) =>
       res.arrayBuffer()
