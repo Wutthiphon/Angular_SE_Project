@@ -72,7 +72,10 @@
                     </div>
 
                     <div class="col-12" align="right">
-                        <p-button label="บันทึก" styleClass="p-button-success p-button-rounded p-button-sm"
+                        <p-button label="ลบคอร์ส" styleClass="p-button-danger p-button-rounded p-button-sm m-1"
+                            icon="pi pi-times" (click)="onDeleteCourse()"></p-button>
+
+                        <p-button label="บันทึก" styleClass="p-button-success p-button-rounded p-button-sm m-1"
                             icon="pi pi-save" (click)="editCourseSubmit()"></p-button>
                     </div>
                 </div>
@@ -103,7 +106,10 @@
                                         style="color: orange;">รอการตรวจสอบ</b>
                                     <b style="color: red"
                                         *ngIf="reg.registration_status == 1 && reg.users_reg_transfer_document.length == 0">รออัปโหลดหลักฐานการชำระเงิน</b>
-                                    <b *ngIf="reg.registration_status == 2" style="color: green;">ลงทะเบียนสำเร็จ</b>
+                                    <b *ngIf="reg.registration_status == 2 && reg.completion_status == 0"
+                                        style="color: green;">ลงทะเบียนสำเร็จ</b>
+                                    <b *ngIf="reg.registration_status == 2 && reg.completion_status == 1"
+                                        style="color: blue;">จบการศึกษา</b>
                                 </td>
                                 <td>
                                     <p-button label="ดูสลิป" *ngIf="reg.users_reg_transfer_document.length > 0"
@@ -128,6 +134,7 @@
                                             styleClass="p-button-secondary p-button-sm p-button-rounded m-1"
                                             icon="pi pi-eye"></p-button>
                                         <p-button label="อนุมัติจบ"
+                                            (click)="onApproveCompletionCourse(reg.registration_id)"
                                             styleClass="p-button-success p-button-sm p-button-rounded m-1"
                                             icon="pi pi-check"></p-button>
                                     </div>

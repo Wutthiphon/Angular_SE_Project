@@ -310,7 +310,7 @@ export class CourseComponent {
               summary: "สำเร็จ",
               detail: "อนุมัติการลงทะเบียนสำเร็จ",
             });
-            // this.getCourseByID(this.select_course);
+            this.loadCourses();
           },
           (err) => {
             this.messageService.add({
@@ -351,7 +351,7 @@ export class CourseComponent {
               this.reject_comment_dialog = false;
               this.reject_comment_reg_id = 0;
               this.reject_comment = "";
-              // this.getCourseByID(this.select_course);
+              this.loadCourses();
             },
             (err) => {
               this.messageService.add({
@@ -1047,6 +1047,66 @@ export class CourseComponent {
         });
       }
     );
+  }
+
+  onApproveCompletionCourse(reg_id: number) {
+    this.confirmationService.confirm({
+      header: "ยืนยัน",
+      icon: "pi pi-exclamation-triangle",
+      message: "ยืนยันการอนุมัติการเรียนจบ",
+      accept: () => {
+        this.coursesService
+          .teacherApproveStudentCompletion(reg_id)
+          .subscribe((res) => {
+            this.messageService.add({
+              severity: "success",
+              summary: "สำเร็จ",
+              detail: "อนุมัติการเรียนจบสำเร็จ",
+            });
+            this.loadCourses();
+          });
+      },
+    });
+  }
+
+  onDeleteCourse() {
+    Swal.fire({
+      title: "ลบคอร์ส ?",
+      text: "ยืนยันการลบคอร์ส หากลบคอร์สจะไม่สามารถกู้คืนได้",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ยกเลิก",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.confirmationService.confirm({
+          header: "คุณแน่ใจใช่หรือไม่ ?",
+          icon: "pi pi-exclamation-triangle",
+          message: "ยืนยันการลบคอร์ส หากลบคอร์สจะไม่สามารถกู้คืนได้",
+          accept: () => {
+            this.coursesService
+              .teacherDeleteCourse(this.select_course_info.course_id)
+              .subscribe(
+                (res) => {
+                  this.messageService.add({
+                    severity: "success",
+                    summary: "สำเร็จ",
+                    detail: "ลบคอร์สสำเร็จ",
+                  });
+                  this.router.navigateByUrl("/my-courses");
+                },
+                (err) => {
+                  this.messageService.add({
+                    severity: "error",
+                    summary: "เกิดข้อผิดพลาด",
+                    detail: err.error.message,
+                  });
+                }
+              );
+          },
+        });
+      }
+    });
   }
 
   // Page Control

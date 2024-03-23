@@ -280,7 +280,19 @@ export class CoursesService {
     );
   }
 
+  teacherApproveStudentCompletion(reg_id: number | null): Observable<any> {
+    return this.http.post(
+      API + "completed",
+      { registration_id: reg_id },
+      httpOptions
+    );
+  }
+
   teacherGetStudentScore(reg_id: number | null): Observable<any> {
     return this.http.get(API + "score/getScore/" + reg_id, httpOptions);
+  }
+
+  teacherDeleteCourse(course_id: number | null): Observable<any> {
+    return this.http.delete(API + "deleteCourse/" + course_id, httpOptions);
   }
 }
