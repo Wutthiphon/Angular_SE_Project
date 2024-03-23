@@ -120,12 +120,14 @@
                                     <p-button label="อนุมัติ"
                                         styleClass="p-button-success p-button-sm p-button-rounded m-1"
                                         (onClick)="onApproveRegisterCourse(reg.registration_id)"
-                                        *ngIf="reg.registration_status == 1" icon="pi pi-check"></p-button>
+                                        *ngIf="reg.registration_status == 1 && reg.users_reg_transfer_document.length > 0"
+                                        icon="pi pi-check"></p-button>
 
                                     <p-button label="ปฏิเสธ"
                                         styleClass="p-button-danger p-button-sm p-button-rounded m-1"
                                         (onClick)="onRejectRegisterCourse(reg.registration_id)"
-                                        *ngIf="reg.registration_status == 1" icon="pi pi-times"></p-button>
+                                        *ngIf="reg.registration_status == 1 && reg.users_reg_transfer_document.length > 0"
+                                        icon="pi pi-times"></p-button>
                                 </td>
                                 <td>
                                     <div align="center"
