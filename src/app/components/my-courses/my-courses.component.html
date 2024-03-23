@@ -32,9 +32,8 @@
                                     <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
                                         *ngIf="course.course_visibility"></p-tag>
                                 </div>
-                                <div class="col-12" *ngIf="course.course_visibility" align="center"
-                                    style="height: 30px;">
-                                    <b>ค่าสมัคร: {{ course.cost | number : '1.2-2' }}
+                                <div class="col-12" align="center" style="height: 30px;">
+                                    <b *ngIf="course.course_visibility">ค่าสมัคร: {{ course.cost | number : '1.2-2' }}
                                         บาท</b>
                                 </div>
                                 <div class="col-12" align="center">
