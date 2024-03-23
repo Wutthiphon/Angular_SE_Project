@@ -128,7 +128,6 @@ export class AppComponent implements OnInit {
 
   loadMenu() {
     this.aside_items = [];
-
     this.aside_items.push({
       label: "เพจ",
       icon: "pi pi-home",
@@ -142,34 +141,122 @@ export class AppComponent implements OnInit {
             this.openPage("/");
           },
         },
+        {
+          label: "โปรไฟล์",
+          icon: "pi pi-user",
+          styleClass:
+            "select-menu" + (this.router.url == "/profile" ? " active" : ""),
+          command: () => {
+            this.openPage("/profile");
+          },
+        },
       ],
     });
 
-    this.aside_items.push({
-      label: "เข้าสู่ระบบ",
-      icon: "pi pi-user",
-      expanded: true,
-      items: [
-        {
-          label: "เข้าสู่ระบบ",
-          icon: "pi pi-sign-in",
-          styleClass:
-            "select-menu" + (this.router.url == "/login" ? " active" : ""),
-          command: () => {
-            this.openPage("/login");
+    if (this.permission_id) {
+      this.aside_items.push({
+        label: "คอร์สเรียน",
+        icon: "pi pi-user",
+        expanded: true,
+        items: [
+          {
+            label: "คอร์สเรียน",
+            icon: "pi pi-list",
+            styleClass:
+              "select-menu" + (this.router.url == "/courses" ? " active" : ""),
+            command: () => {
+              this.openPage("/courses");
+            },
           },
-        },
-        {
-          label: "สมัครสมาชิก",
-          icon: "pi pi-user-edit",
-          styleClass:
-            "select-menu" + (this.router.url == "/register" ? " active" : ""),
-          command: () => {
-            this.openPage("/register");
+          {
+            label: "คอร์สของฉัน",
+            icon: "pi pi-list",
+            styleClass:
+              "select-menu" +
+              (this.router.url == "/my-courses" ||
+              this.router.url.includes("/course/")
+                ? " active"
+                : ""),
+            command: () => {
+              this.openPage("/my-courses");
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
+
+      switch (this.permission_id) {
+        case 1:
+          this.aside_items.push({
+            label: "แจ้งชำระเงิน",
+            icon: "pi pi-user",
+            expanded: true,
+            items: [
+              {
+                label: "แจ้งชำระเงิน",
+                icon: "pi pi-money-bill",
+                styleClass:
+                  "select-menu" +
+                  (this.router.url == "/payment" ? " active" : ""),
+                command: () => {
+                  this.openPage("/payment");
+                },
+              },
+            ],
+          });
+          break;
+        case 3:
+          break;
+      }
+
+      this.aside_items.push({
+        label: "ระบบ",
+        icon: "pi pi-cog",
+        expanded: true,
+        items: [
+          {
+            label: "ออกจากระบบ",
+            icon: "pi pi-sign-out",
+            command: () => {
+              this.sidebarVisible = false;
+              this.confirmationService.confirm({
+                header: "ยืนยัน",
+                icon: "pi pi-exclamation-triangle",
+                message: "ยืนยันการออกจากระบบ?",
+                accept: () => {
+                  this.logout();
+                },
+              });
+            },
+          },
+        ],
+      });
+    } else {
+      this.aside_items.push({
+        label: "เข้าสู่ระบบ",
+        icon: "pi pi-user",
+        expanded: true,
+        items: [
+          {
+            label: "เข้าสู่ระบบ",
+            icon: "pi pi-sign-in",
+            styleClass:
+              "select-menu" + (this.router.url == "/login" ? " active" : ""),
+            command: () => {
+              this.openPage("/login");
+            },
+          },
+          {
+            label: "สมัครสมาชิก",
+            icon: "pi pi-user-edit",
+            styleClass:
+              "select-menu" + (this.router.url == "/register" ? " active" : ""),
+            command: () => {
+              this.openPage("/register");
+            },
+          },
+        ],
+      });
+    }
   }
 
   // Change Password
@@ -227,5 +314,6 @@ export class AppComponent implements OnInit {
   logout() {
     this.tokenStorage.signOut();
     this.authService.updateLoginLogoutDetect();
+    this.loadMenu();
   }
 }
