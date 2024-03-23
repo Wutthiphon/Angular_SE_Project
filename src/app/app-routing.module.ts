@@ -8,6 +8,7 @@ import { MyCoursesComponent } from "./components/my-courses/my-courses.component
 import { PaymentComponent } from "./components/payment/payment.component";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { CourseComponent } from "./components/tutor/course/course.component";
+import { AccountsComponent } from "./components/admin/accounts/accounts.component";
 
 // Error pages
 import { Component404 } from "./errors/404/404.component";
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: "payment", component: PaymentComponent },
   { path: "profile", component: ProfileComponent },
   { path: "course/:id", component: CourseComponent },
+  { path: "admin/accounts", component: AccountsComponent },
 
   // 404 Page
   { path: "**", component: Component404 },

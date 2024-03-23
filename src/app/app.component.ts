@@ -136,7 +136,12 @@ export class AppComponent implements OnInit {
         {
           label: "คอร์สเรียนทั้งหมด",
           icon: "pi pi-home",
-          styleClass: "select-menu" + (this.router.url == "/" ? " active" : ""),
+          styleClass:
+            "select-menu" +
+            (this.router.url == "/" ||
+            (this.router.url.includes("/course/") && this.permission_id == 3)
+              ? " active"
+              : ""),
           command: () => {
             this.openPage("/");
           },
@@ -198,6 +203,23 @@ export class AppComponent implements OnInit {
           });
           break;
         case 3:
+          this.aside_items.push({
+            label: "แอดมิน",
+            icon: "pi pi-shield",
+            expanded: true,
+            items: [
+              {
+                label: "จัดการผู้ใช้งานในระบบ",
+                icon: "pi pi-users",
+                styleClass:
+                  "select-menu" +
+                  (this.router.url == "/admin/accounts" ? " active" : ""),
+                command: () => {
+                  this.openPage("/admin/accounts");
+                },
+              },
+            ],
+          });
           break;
       }
 

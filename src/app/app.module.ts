@@ -101,6 +101,7 @@ import { MyCoursesComponent } from "./components/my-courses/my-courses.component
 import { PaymentComponent } from "./components/payment/payment.component";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { CourseComponent } from "./components/tutor/course/course.component";
+import { AccountsComponent } from './components/admin/accounts/accounts.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +116,7 @@ import { CourseComponent } from "./components/tutor/course/course.component";
     CourseComponent,
     // Pipe
     SafePipe,
+    AccountsComponent,
   ],
   imports: [
     BrowserModule,
