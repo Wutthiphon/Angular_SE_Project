@@ -215,6 +215,9 @@ export class ProfileComponent {
       .updateProfile(prefix, firstname, lastname, email, gender)
       .subscribe((res) => {
         if (res) {
+          this.tokenStorage.saveToken(res.accessToken);
+          this.tokenStorage.saveUser(res);
+
           this.messageService.add({
             severity: "success",
             summary: "แก้ไขข้อมูลโปรไฟล์สำเร็จ",

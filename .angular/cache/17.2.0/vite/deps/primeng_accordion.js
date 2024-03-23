@@ -4,6 +4,13 @@ import {
 import {
   ChevronDownIcon
 } from "./chunk-V5QJB5A3.js";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from "./chunk-OXFAYKCP.js";
 import "./chunk-PWUCGL5T.js";
 import {
   DomHandler
@@ -16,13 +23,6 @@ import {
 import {
   UniqueComponentId
 } from "./chunk-FI4NTF6I.js";
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from "./chunk-OXFAYKCP.js";
 import {
   CommonModule,
   NgClass,

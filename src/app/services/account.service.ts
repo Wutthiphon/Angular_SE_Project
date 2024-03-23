@@ -5,6 +5,8 @@ import { environment } from "../../environments/environment";
 
 const API_URL = environment.apiURL + "/profile/";
 
+const USERS_API_URL = environment.apiURL + "/users/";
+
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
 };
@@ -43,18 +45,20 @@ export class AccountService {
     lastname: string,
     email: string,
     gender: string
-  ) {
-    return this.http.post(
-      API_URL + "updateProfile",
-      {
-        prefix: prefix,
-        first_name: firstname,
-        last_name: lastname,
-        email: email,
-        gender: gender,
-      },
-      httpOptions
-    );
+  ): Observable<any> {
+    return this.http
+      .post(
+        API_URL + "updateProfile",
+        {
+          prefix: prefix,
+          first_name: firstname,
+          last_name: lastname,
+          email: email,
+          gender: gender,
+        },
+        httpOptions
+      )
+      .pipe(tap(() => this.updateProfileDetect.next(true)));
   }
 
   changePassword(old_password: string, new_password: string): Observable<any> {
@@ -81,5 +85,63 @@ export class AccountService {
 
   unsyncGoogleAccount(): Observable<any> {
     return this.http.post(API_URL + "delete/google", httpOptions);
+  }
+
+  // Admin
+  adminGetAccounts(): Observable<any> {
+    return this.http.get(USERS_API_URL + "getUser", httpOptions);
+  }
+
+  adminAddAccount(
+    username: string,
+    prefix: string | null,
+    first_name: string,
+    last_name: string,
+    email: string,
+    gender: string,
+    password: string
+  ): Observable<any> {
+    return this.http.post(
+      USERS_API_URL + "createUser",
+      {
+        username: username,
+        prefix: prefix,
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        gender: gender,
+        password: password,
+      },
+      httpOptions
+    );
+  }
+
+  updateUserInfo(
+    user_id: null | number,
+    prefix: string,
+    first_name: string,
+    last_name: string,
+    email: string,
+    gender: string
+  ): Observable<any> {
+    return this.http.post(
+      USERS_API_URL + "updateUser",
+      {
+        user_id: user_id,
+        prefix: prefix,
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        gender: gender,
+      },
+      httpOptions
+    );
+  }
+
+  deleteUser(user_id: number): Observable<any> {
+    return this.http.delete(
+      USERS_API_URL + "deleteUser/" + user_id,
+      httpOptions
+    );
   }
 }

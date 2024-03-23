@@ -90,6 +90,20 @@ export class AppComponent implements OnInit {
   getProfileImage() {
     this.accountService.getProfileImage().subscribe((res) => {
       this.profile_image = res.image;
+
+      let permission_text = "";
+      switch (this.permission_id) {
+        case 1:
+          permission_text = "(นักเรียน) ";
+          break;
+        case 2:
+          permission_text = "(ผู้สอน) ";
+          break;
+        case 3:
+          permission_text = "(ผู้ดูแลระบบ) ";
+          break;
+      }
+      this.web_name = permission_text + this.tokenStorage.getUser().name;
     });
   }
 
