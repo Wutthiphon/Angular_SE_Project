@@ -65,6 +65,8 @@ export class PaymentComponent {
         this.activeIndexArr.push(this.courseList.indexOf(course));
       });
 
+      console.log(this.courseList);
+
       this.isLoad = false;
     });
   }

@@ -61,10 +61,15 @@
             <label *ngIf="dialog_show_info_course_data.course_lesson.length == 0"><br>ยังไม่มีบทเรียน</label>
         </div>
 
-        <div class="col-12">
-            <b>วิธีการชำระเงิน</b>
-
-            <!-- <label *ngIf="dialog_show_info_course_data.course_lesson.length == 0"><br>ยังไม่มีบทเรียน</label> -->
+        <div class="col-12" align="center">
+            <b>วิธีการชำระเงิน</b><br>
+            <img alt="Card" onerror="this.src='./assets/cover/null-money-cover.png'"
+                *ngIf="dialog_show_info_course_data.img_account" style="width: 100%;"
+                [src]="dialog_show_info_course_data.img_account ? api_url + '/public/' + dialog_show_info_course_data.img_account : './assets/cover/null-money-cover.png'" />
+            <label *ngIf="!dialog_show_info_course_data.img_account">
+                <br>
+                ไม่ระบุวิธีการชำระเงิน กรุณาแจ้งผู้ดูแลระบบ
+            </label>
         </div>
     </div>
 </p-dialog>

@@ -67,7 +67,6 @@ export class CoursesComponent {
   onShowInfoCourseDialog(course: any) {
     this.dialog_show_info_course = true;
     this.dialog_show_info_course_data = course;
-    console.log(course);
   }
 
   onRegisterCourse(course: any) {
@@ -84,7 +83,6 @@ export class CoursesComponent {
       accept: () => {
         this.coursesService.registerCourse(course.course_id).subscribe(
           (res) => {
-            console.log(res);
             if (res.registration_status == 1) {
               Swal.fire({
                 title: "คอร์สนี้เสียค่าใช้จ่าย",
