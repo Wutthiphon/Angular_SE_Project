@@ -279,4 +279,8 @@ export class CoursesService {
       httpOptions
     );
   }
+
+  teacherGetStudentScore(reg_id: number | null): Observable<any> {
+    return this.http.get(API + "score/getScore/" + reg_id, httpOptions);
+  }
 }

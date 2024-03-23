@@ -151,7 +151,7 @@ export class RegisterComponent {
                 Swal.fire({
                   icon: "success",
                   title: "สมัครสมาชิกสำเร็จ",
-                  text: "ระบบจะทำการเข้าสู้ระบบ",
+                  text: "ระบบจะทำการเข้าสู่ระบบ",
                 }).then(() => {
                   // Save Token
                   this.tokenStorage.saveToken(res.accessToken);

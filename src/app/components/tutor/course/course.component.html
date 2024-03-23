@@ -87,6 +87,7 @@
                                 <th>นามสกุล</th>
                                 <th>สถานะ</th>
                                 <th>หลักฐาน</th>
+                                <th style="width: 230px;text-align: center;">อนุมัติจบ</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-reg let-rowIndex="rowIndex">
@@ -119,6 +120,17 @@
                                         styleClass="p-button-danger p-button-sm p-button-rounded m-1"
                                         (onClick)="onRejectRegisterCourse(reg.registration_id)"
                                         *ngIf="reg.registration_status == 1" icon="pi pi-times"></p-button>
+                                </td>
+                                <td>
+                                    <div align="center"
+                                        *ngIf="reg.registration_status == 2 && reg.completion_status == 0">
+                                        <p-button label="การทำแบบทดสอบ" (click)="onViewExamTest(reg)"
+                                            styleClass="p-button-secondary p-button-sm p-button-rounded m-1"
+                                            icon="pi pi-eye"></p-button>
+                                        <p-button label="อนุมัติจบ"
+                                            styleClass="p-button-success p-button-sm p-button-rounded m-1"
+                                            icon="pi pi-check"></p-button>
+                                    </div>
                                 </td>
                             </tr>
                         </ng-template>
@@ -689,6 +701,64 @@
                 <p-button label="แก้ไขชื่อแบบทดสอบ" [icon]="isApiSaving ? 'pi-spin pi-spinner' : 'pi pi-save'"
                     styleClass="p-button-sm p-button-warning mt-4" [disabled]="isApiSaving"
                     (onClick)="onSubmitEditExam()"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="การทำแบบทดสอบ" [(visible)]="view_reg_exam_score_dialog" [modal]="true"
+    [style]="{ width: '80vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+    <div class="grid" *ngIf="!view_reg_exam_score_dialog_isLoad">
+        <div class="col-12">
+            <b>ชื่อ:</b> {{ view_reg_exam_score_data.reg_name }}
+        </div>
+
+        <div class="col-12">
+            <div class="grid">
+                <div class="col-12" *ngFor="let lesson of view_reg_exam_score_data.exam_lesson;let i = index">
+                    <h3>บทเรียน: {{ lesson.lesson_name }}</h3>
+
+                    <div class="grid">
+                        <div class="col-12 md:col-3" *ngFor="let exam of lesson.course_exam">
+                            <p-card styleClass="p-card-custom view-exam-card-custom h-full">
+                                <div class="flex justify-content-between align-content-center flex-wrap">
+                                    <div style="max-width: 80%;">
+                                        <b>{{ exam.exam_name }}</b><br>
+                                        จำนวนโจทย์: {{ exam.total_problems }} ข้อ<br>
+                                        <b *ngIf="!exam.is_do" style="color: red;">ยังไม่ทำแบบทำสอบ</b>
+                                        <b [style.color]="calculateColor(exam.sum_Score,exam.total_problems)"
+                                            *ngIf="exam.is_do">
+                                            ได้: {{ exam.sum_Score }}/{{ exam.total_problems }} คะแนน
+                                        </b>
+                                    </div>
+                                </div>
+                            </p-card>
+                        </div>
+                    </div>
+
+                    <p-divider *ngIf="i < view_reg_exam_score_data.exam_lesson.length - 1"></p-divider>
+                </div>
+            </div>
+
+            <label *ngIf="view_reg_exam_score_data.exam_lesson.length == 0">คอร์สนี้ยังไม่มีบทเรียน</label>
+        </div>
+    </div>
+
+    <div class="grid" *ngIf="view_reg_exam_score_dialog_isLoad">
+        <div class="col-12" align="center">
+            <p-progressSpinner styleClass="p-progress-info" strokeWidth="8" fill="#ffffff" animationDuration=".5s"
+                [style]="{ 'width': '50px', 'height': '50px' }"></p-progressSpinner>
+        </div>
+        <div class="col-12" align="center">
+            กำลังโหลดข้อมูล...
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="grid">
+            <div class="col-12" align="right">
+                <p-button label="ปิด" icon="pi pi-times" styleClass="p-button-sm p-button-secondary mt-4"
+                    (onClick)="view_reg_exam_score_dialog = false;"></p-button>
             </div>
         </div>
     </ng-template>

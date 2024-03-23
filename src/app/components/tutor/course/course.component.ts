@@ -108,6 +108,13 @@ export class CourseComponent {
     exam_name: "",
   };
 
+  view_reg_exam_score_dialog: boolean = false;
+  view_reg_exam_score_dialog_isLoad: boolean = true;
+  view_reg_exam_score_data = {
+    reg_name: "",
+    exam_lesson: <any>[],
+  };
+
   // Image Crop
   imageCropDialog: boolean = false;
   imageCropData_imageChangedEvent: any = "";
@@ -1001,6 +1008,45 @@ export class CourseComponent {
           );
       },
     });
+  }
+
+  calculateColor(score: number, total: number) {
+    let percent = (score / total) * 100;
+    if (percent >= 80) {
+      return "green";
+    } else if (percent >= 60) {
+      return "yellow";
+    } else {
+      return "red";
+    }
+  }
+
+  onViewExamTest(reg: any) {
+    this.view_reg_exam_score_dialog_isLoad = true;
+    this.view_reg_exam_score_data = {
+      reg_name:
+        reg.users_account.prefix +
+        reg.users_account.first_name +
+        " " +
+        reg.users_account.last_name,
+      exam_lesson: [],
+    };
+
+    this.coursesService.teacherGetStudentScore(reg.registration_id).subscribe(
+      (res) => {
+        this.view_reg_exam_score_dialog = true;
+        this.view_reg_exam_score_dialog_isLoad = false;
+        this.view_reg_exam_score_data.exam_lesson = res;
+      },
+      (err) => {
+        this.view_reg_exam_score_dialog_isLoad = false;
+        Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: "ไม่สามารถโหลดข้อมูลคะแนนได้",
+        });
+      }
+    );
   }
 
   // Page Control
