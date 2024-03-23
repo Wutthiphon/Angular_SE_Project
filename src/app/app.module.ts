@@ -97,7 +97,6 @@ import { HomeComponent } from "./components/home/home.component";
 import { LoginComponent } from "./components/login/login.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { Component404 } from "./errors/404/404.component";
-import { CoursesComponent } from "./courses/courses.component";
 import { MyCoursesComponent } from "./components/my-courses/my-courses.component";
 import { PaymentComponent } from "./components/payment/payment.component";
 import { ProfileComponent } from "./components/profile/profile.component";
@@ -110,7 +109,6 @@ import { CourseComponent } from "./components/tutor/course/course.component";
     LoginComponent,
     RegisterComponent,
     Component404,
-    CoursesComponent,
     MyCoursesComponent,
     PaymentComponent,
     ProfileComponent,

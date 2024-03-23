@@ -134,7 +134,7 @@ export class AppComponent implements OnInit {
       expanded: true,
       items: [
         {
-          label: "หน้าแรก",
+          label: "คอร์สเรียนทั้งหมด",
           icon: "pi pi-home",
           styleClass: "select-menu" + (this.router.url == "/" ? " active" : ""),
           command: () => {
@@ -159,15 +159,6 @@ export class AppComponent implements OnInit {
         icon: "pi pi-user",
         expanded: true,
         items: [
-          {
-            label: "คอร์สเรียน",
-            icon: "pi pi-list",
-            styleClass:
-              "select-menu" + (this.router.url == "/courses" ? " active" : ""),
-            command: () => {
-              this.openPage("/courses");
-            },
-          },
           {
             label: "คอร์สของฉัน",
             icon: "pi pi-list",
