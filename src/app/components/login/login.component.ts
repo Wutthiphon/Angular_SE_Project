@@ -29,7 +29,10 @@ export class LoginComponent {
   is_load: boolean = false;
 
   forgot_password_dialog: boolean = false;
-  forgot_password_dialog_username: string = "";
+  forgot_password_dialog_data = {
+    email: "",
+    username: "",
+  };
 
   constructor(
     private messageService: MessageService,
@@ -137,32 +140,32 @@ export class LoginComponent {
 
   forgotPassword() {
     this.forgot_password_dialog = true;
-    this.forgot_password_dialog_username = this.login_form.username
-      ? this.login_form.username
-      : "";
+    this.forgot_password_dialog_data = {
+      username: this.login_form.username ? this.login_form.username : "",
+      email: "",
+    };
   }
 
   forgotPasswordSubmit() {
-    if (this.forgot_password_dialog_username) {
-      // this.authService
-      //   .forgotPassword(this.forgot_password_dialog_username)
-      //   .subscribe(
-      //     (res) => {
-      //       this.messageService.add({
-      //         severity: "success",
-      //         summary: "สำเร็จ",
-      //         detail: "ส่งรหัสผ่านใหม่ไปยังอีเมล์ของคุณแล้ว",
-      //       });
-      //       this.forgot_password_dialog = false;
-      //     },
-      //     (error) => {
-      //       this.messageService.add({
-      //         severity: "error",
-      //         summary: "ข้อผิดพลาด",
-      //         detail: error.error.message,
-      //       });
-      //     }
-      //   );
+    const { email, username } = this.forgot_password_dialog_data;
+    if (email && username) {
+      this.authService.forgot_password(username, email).subscribe(
+        (res) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "ส่งรหัสผ่านใหม่ไปยังอีเมล์ของคุณแล้ว",
+          });
+          this.forgot_password_dialog = false;
+        },
+        (error) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "ข้อผิดพลาด",
+            detail: error.error.message,
+          });
+        }
+      );
     } else {
       this.messageService.add({
         severity: "error",

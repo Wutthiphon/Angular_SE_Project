@@ -55,9 +55,16 @@
   <div class="grid">
     <div class="col-12">
       <label>ชื่อผู้ใช้งาน</label>
-      <input type="text" pInputText [(ngModel)]="forgot_password_dialog_username" name="input_forgot_username"
+      <input type="text" pInputText [(ngModel)]="forgot_password_dialog_data.username" name="input_forgot_username"
         [class.ng-invalid]="is_error" [class.ng-dirty]="is_error" #input_forgot_username="ngModel"
         placeholder="Username..." class="p-inputtext-sm" />
+    </div>
+
+    <div class="col-12">
+      <label>Email ที่สมัคร</label>
+      <input type="email" pInputText [(ngModel)]="forgot_password_dialog_data.email" name="input_forgot_email"
+        [class.ng-invalid]="is_error" [class.ng-dirty]="is_error" #input_forgot_email="ngModel" placeholder="Email..."
+        class="p-inputtext-sm" />
     </div>
   </div>
 
@@ -65,7 +72,7 @@
     <div class="ui-dialog-buttonpane p-clearfix">
       <button type="button" pButton icon="pi pi-times" label="ปิด" (click)="forgot_password_dialog = false"
         class="p-button-secondary p-button-rounded p-button-sm" style="margin-right: .25em"></button>
-      <button type="button" pButton icon="pi pi-check" label="ส่งรหัสผ่านใหม่ไปที่ Email"
+      <button type="button" pButton icon="pi pi-send" label="ส่งรหัสผ่านใหม่ไปที่ Email"
         (click)="forgotPasswordSubmit()" class="p-button-success p-button-rounded p-button-sm"
         style="margin-right: .25em"></button>
     </div>

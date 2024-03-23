@@ -74,4 +74,15 @@ export class AuthService {
   updateLoginLogoutChange(): Observable<boolean> {
     return this.LoginLogoutDetect.asObservable();
   }
+
+  forgot_password(username: string, email: string): Observable<any> {
+    return this.http.post(
+      AUTH_API + "auth/forgotPassword",
+      {
+        username: username,
+        email: email,
+      },
+      httpOptions
+    );
+  }
 }
