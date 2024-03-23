@@ -101,6 +101,16 @@ export class RegisterComponent {
       lastname &&
       permission_id
     ) {
+      if (!/^[A-Za-z0-9]+$/.test(username)) {
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail:
+            "ชื่อผู้ใช้ต้องเป็นภาษาอังกฤษและตัวเลข โดยไม่มีช่องว่าง เท่านั้น",
+        });
+        return;
+      }
+
       if (password.length < 8 || password_confirm.length < 8) {
         this.messageService.add({
           severity: "error",
