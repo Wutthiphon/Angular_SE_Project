@@ -53,13 +53,6 @@ export class AccountsComponent {
     gender: "",
   };
 
-  resetPasswordDialog: boolean = false;
-  resetPasswordDialog_data: any = {
-    user_id: null,
-    mode: "reset_email",
-    password: "",
-  };
-
   constructor(
     private tokenStorage: TokenStorageService,
     private accountService: AccountService,
@@ -205,81 +198,5 @@ export class AccountsComponent {
         });
       },
     });
-  }
-
-  resetPassword(user_id: number) {
-    this.resetPasswordDialog = true;
-    this.resetPasswordDialog_data.user_id = user_id;
-    this.resetPasswordDialog_data.mode = "reset_email";
-    this.resetPasswordDialog_data.password = "";
-  }
-
-  resetPasswordSubmit() {
-    if (this.resetPasswordDialog_data.mode) {
-      if (this.resetPasswordDialog_data.mode == "reset_email") {
-        this.confirmationService.confirm({
-          message: "เมื่อ Reset แล้วรหัสผ่านจะเป็นหมายเลขเอกสารระบุตัวตน",
-          header: "ยืนยันการรีเซ็ตรหัสผ่าน ?",
-          icon: "pi pi-exclamation-triangle",
-          accept: () => {
-            // this.accountService
-            //   .reset_password_email(this.resetPasswordDialog_data.user_id)
-            //   .subscribe((api_res) => {
-            //     if (api_res.status == true) {
-            //       this.resetPasswordDialog = false;
-            //       this.resetPasswordDialog_data.user_id = "";
-            //       this.resetPasswordDialog_data.mode = "reset_email";
-            //       this.resetPasswordDialog_data.password = "";
-            //       this.resetPasswordDialog_data.email = "";
-            //       this.messageService.add({
-            //         severity: "success",
-            //         summary: "สำเร็จ!",
-            //         detail: api_res.message,
-            //       });
-            //     } else {
-            //       this.messageService.add({
-            //         severity: "error",
-            //         summary: "ข้อผิดพลาด!",
-            //         detail: api_res.message,
-            //       });
-            //     }
-            //   });
-          },
-        });
-      } else if (this.resetPasswordDialog_data.mode == "reset_set_password") {
-        this.confirmationService.confirm({
-          message: "รหัสจะถูกเปลี่ยนเป็นตามที่ระบุ",
-          header: "ยืนยันการรีเซ็ตรหัสผ่าน ?",
-          icon: "pi pi-exclamation-triangle",
-          accept: () => {
-            // this.accountService
-            //   .reset_password_set(
-            //     this.resetPasswordDialog_data.user_id,
-            //     this.resetPasswordDialog_data.password
-            //   )
-            //   .subscribe((api_res) => {
-            //     if (api_res.status == true) {
-            //       this.resetPasswordDialog = false;
-            //       this.resetPasswordDialog_data.user_id = "";
-            //       this.resetPasswordDialog_data.mode = "reset_email";
-            //       this.resetPasswordDialog_data.password = "";
-            //       this.resetPasswordDialog_data.email = "";
-            //       this.messageService.add({
-            //         severity: "success",
-            //         summary: "สำเร็จ!",
-            //         detail: api_res.message,
-            //       });
-            //     } else {
-            //       this.messageService.add({
-            //         severity: "error",
-            //         summary: "ข้อผิดพลาด!",
-            //         detail: api_res.message,
-            //       });
-            //     }
-            //   });
-          },
-        });
-      }
-    }
   }
 }

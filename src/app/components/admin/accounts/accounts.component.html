@@ -82,10 +82,6 @@
                                 </td>
                                 <td>
                                     <div align="center" *ngIf="account.user_id != my_user_id">
-                                        <p-button icon="pi pi-key" styleClass="p-button-rounded p-button-secondary m-1"
-                                            (click)="resetPassword(account.user_id)" pTooltip="เปลี่ยนรหัสผ่าน"
-                                            tooltipPosition="bottom"></p-button>
-
                                         <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-warning m-1"
                                             pTooltip="แก้ไขข้อมูล" tooltipPosition="bottom"
                                             (click)="editAccount(account)"></p-button>
@@ -122,22 +118,6 @@
         กำลังโหลด...
     </div>
 </div>
-
-<!-- <p-dialog header="สร้างบัญชีผู้ใช้แอดมิน" [(visible)]="dialog_add_account" [modal]="true"
-    [style]="{ width: '80vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
-    <div class="grid">
-       
-    </div>
-
-    <ng-template pTemplate="footer">
-        <div class="ui-dialog-buttonpane p-clearfix">
-            <button type="button" pButton icon="pi pi-times" label="ปิด" (click)="dialog_add_account = false"
-                class="p-button-secondary p-button-rounded" style="margin-right: .25em"></button>
-            <button type="button" pButton icon="pi pi-check" label="ยืนยัน" (click)="addAccountSubmit()"
-                class="p-button-success p-button-rounded" style="margin-right: .25em"></button>
-        </div>
-    </ng-template>
-</p-dialog> -->
 
 <p-dialog header="สร้างบัญชีผู้ใช้ Admin" [(visible)]="add_dialog" [modal]="true"
     [style]="{ width: '80vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
@@ -233,37 +213,4 @@
                 class="p-button-success p-button-rounded" style="margin-right: .25em"></button>
         </div>
     </ng-template>
-</p-dialog>
-
-<p-dialog header="Reset รหัสผ่าน" [(visible)]="resetPasswordDialog" [modal]="true"
-    [style]="{ 'min-width': '360.5px',width: '40%' }" [draggable]="false" [resizable]="false">
-    <div class="grid">
-        <div class="col-12">
-            เลือกรูปแบบการ Reset
-            <div class="flex flex-column gap-0 mt-3">
-                <div class="field-checkbox">
-                    <p-radioButton inputId="radio_reset_email" name="radio_reset_email" value="reset_email"
-                        [(ngModel)]="resetPasswordDialog_data.mode"></p-radioButton>
-                    <label for="radio_reset_email" class="ml-1">ส่ง Link สำหรับ Reset รหัสผ่าน ไปที่ Email</label>
-                </div>
-                <div class="field-checkbox">
-                    <p-radioButton inputId="radio_reset_set_password" name="radio_reset_set_password"
-                        value="reset_set_password" [(ngModel)]="resetPasswordDialog_data.mode"></p-radioButton>
-                    <label for="radio_reset_set_password" class="ml-1">ตั้งรหัสผ่านใหม่เป็น</label>
-                    <p-password inputId="password" name="radio_reset_set_password_input"
-                        #radio_reset_set_password_input="ngModel" [(ngModel)]="resetPasswordDialog_data.password"
-                        [feedback]="false" placeholder="รหัสผ่านใหม่..." styleClass="ml-2"
-                        [disabled]="resetPasswordDialog_data.mode != 'reset_set_password'"></p-password>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12" align="right">
-            <p-button icon="pi pi-times" label="ยกเลิก" (onClick)="resetPasswordDialog = false"
-                styleClass="p-button-rounded p-button-secondary p-button-sm mr-1"></p-button>
-            <p-button icon="pi pi-refresh" label="Reset รหัสผ่าน" (onClick)="resetPasswordSubmit()"
-                styleClass="p-button-rounded p-button-primary p-button-sm"
-                [disabled]="!resetPasswordDialog_data.mode"></p-button>
-        </div>
-    </div>
 </p-dialog>
