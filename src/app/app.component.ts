@@ -154,26 +154,28 @@ export class AppComponent implements OnInit {
     });
 
     if (this.permission_id) {
-      this.aside_items.push({
-        label: "คอร์สเรียน",
-        icon: "pi pi-user",
-        expanded: true,
-        items: [
-          {
-            label: "คอร์สของฉัน",
-            icon: "pi pi-list",
-            styleClass:
-              "select-menu" +
-              (this.router.url == "/my-courses" ||
-              this.router.url.includes("/course/")
-                ? " active"
-                : ""),
-            command: () => {
-              this.openPage("/my-courses");
+      if (this.permission_id == 1 || this.permission_id == 2) {
+        this.aside_items.push({
+          label: "คอร์สเรียน",
+          icon: "pi pi-user",
+          expanded: true,
+          items: [
+            {
+              label: "คอร์สของฉัน",
+              icon: "pi pi-list",
+              styleClass:
+                "select-menu" +
+                (this.router.url == "/my-courses" ||
+                this.router.url.includes("/course/")
+                  ? " active"
+                  : ""),
+              command: () => {
+                this.openPage("/my-courses");
+              },
             },
-          },
-        ],
-      });
+          ],
+        });
+      }
 
       switch (this.permission_id) {
         case 1:

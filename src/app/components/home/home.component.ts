@@ -20,6 +20,7 @@ export class HomeComponent {
   myCourseList: any[] = [];
 
   can_register: boolean = false;
+  can_manage: boolean = false;
 
   dialog_show_info_course: boolean = false;
   dialog_show_info_course_data: any = {};
@@ -35,6 +36,8 @@ export class HomeComponent {
       let permission = this.tokenStorage.getUser().permission;
       if (permission == 1) {
         this.can_register = true;
+      } else if (permission == 3) {
+        this.can_manage = true;
       }
     } else {
       this.can_register = false;
