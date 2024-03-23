@@ -36,7 +36,7 @@
 
         <!-- Login -->
         <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="คอร์สของฉัน"
-          *ngIf="isLogin && permission_id == 2" icon="pi pi-list" routerLink="/my-courses">
+          *ngIf="isLogin && (permission_id == 1 || permission_id == 2)" icon="pi pi-list" routerLink="/my-courses">
         </p-button>
 
         <p-button styleClass="p-button-sm p-button-text text-white p-button-secondary hide-mobile" label="แจ้งชำระเงิน"

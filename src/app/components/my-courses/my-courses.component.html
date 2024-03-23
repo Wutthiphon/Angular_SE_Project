@@ -62,6 +62,8 @@
                                     <p-tag icon="pi pi-user" value="ฟรี" *ngIf="!course.course_visibility"></p-tag>
                                     <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
                                         *ngIf="course.course_visibility"></p-tag>
+                                    <p-tag icon="pi pi-star-fill" styleClass="ml-1" value="จบคอร์สแล้ว"
+                                        *ngIf="course.course_reg[0].completion_status == 1" severity="success"></p-tag>
                                 </div>
                                 <div class="col-12" align="center">
                                     <p-button label="เข้าคอร์ส" styleClass="p-button-info p-button-sm mr-1"
@@ -97,6 +99,10 @@
             <div class="col-12">
                 <p-button label="ย้อนกลับ" styleClass="p-button-secondary p-button-sm" icon="pi pi-angle-left"
                     (click)="goPage('my-courses');menu_items_active = menu_items[0]"></p-button>
+
+                <p-button label="ดาวน์โหลด Certificate" styleClass="p-button-success p-button-sm ml-1"
+                    *ngIf="select_course.course_reg[0].completion_status == 1" icon="pi pi-download"
+                    (click)="downloadCert()"></p-button>
             </div>
 
             <div class="col-12">

@@ -6,6 +6,8 @@ import { ConfirmationService } from "primeng/api";
 import { Router } from "@angular/router";
 import { ImageCroppedEvent } from "ngx-image-cropper";
 import { environment } from "../../../environments/environment";
+import { PDFDocument, rgb, StandardFonts, PDFFont } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
 
 @Component({
   selector: "app-my-courses",
@@ -444,6 +446,65 @@ export class MyCoursesComponent {
     this.student_select_exam_array = [];
   }
 
+  async downloadCert() {
+    const user_data = this.tokenStorage.getUser();
+    const username = user_data.name;
+
+    console.log(this.select_course);
+
+    const tempate_file_url = "./assets/pdf_template/Certificate.pdf";
+    const existingPdfBytes = await fetch(tempate_file_url).then((res) =>
+      res.arrayBuffer()
+    );
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+
+    const fonts_url = "../assets/fonts/THSarabun.ttf";
+    const fonts_url2 = "../assets/fonts/THSarabun_Bold.ttf";
+    const font_Bytes = await fetch(fonts_url).then((res) => res.arrayBuffer());
+    const font_Bytes2 = await fetch(fonts_url2).then((res) =>
+      res.arrayBuffer()
+    );
+    pdfDoc.registerFontkit(fontkit);
+    const customFont = await pdfDoc.embedFont(font_Bytes);
+    const customFont2 = await pdfDoc.embedFont(font_Bytes2);
+
+    const pages = pdfDoc.getPages();
+    const firstPage = pages[0];
+
+    const { width, height } = firstPage.getSize();
+    const fontSize = 40;
+    const textWidth = customFont2.widthOfTextAtSize(username, fontSize);
+    firstPage.drawText(username, {
+      x: width / 2 - textWidth / 2,
+      y: height / 2,
+      size: fontSize,
+      font: customFont2,
+    });
+
+    firstPage.drawText(this.select_course.course_name, {
+      x: 360,
+      y: 222,
+      size: 24,
+      font: customFont2,
+    });
+
+    firstPage.drawText(
+      this.select_course.users_account.prefix +
+        this.select_course.users_account.first_name +
+        " " +
+        this.select_course.users_account.last_name,
+      {
+        x: 510,
+        y: 135,
+        size: 24,
+        font: customFont2,
+      }
+    );
+
+    const pdfBytes = await pdfDoc.save();
+    this.saveByteArray("Certificate", pdfBytes);
+  }
+
   // Page Control
   goPage(page: string) {
     this.page = page;
@@ -457,5 +518,14 @@ export class MyCoursesComponent {
     } else if (this.menu_items_active == this.menu_items[1]) {
       this.loadCourseExamTest();
     }
+  }
+
+  saveByteArray(reportName: any, byte: any) {
+    var blob = new Blob([byte], { type: "application/pdf" });
+    var link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    var fileName = reportName;
+    link.download = fileName;
+    link.click();
   }
 }
