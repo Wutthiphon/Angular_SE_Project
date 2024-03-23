@@ -1,23 +1,25 @@
 <div class="grid" *ngIf="!isLoad">
     <div class="col-12 md:col-3" *ngFor="let course of courseList">
-        <p-card styleClass="h-full" [header]="course.course_name"
+        <p-card styleClass="h-full course-card" [header]="course.course_name"
             [subheader]="'ผู้สอน: ' + course.users_account.first_name + ' ' + course.users_account.last_name">
             <ng-template pTemplate="header">
                 <img alt="Card" onerror="this.src='./assets/cover/null-cover.png'"
                     [src]="course.image ? api_url + '/public/' + course.image : './assets/cover/null-cover.png'" />
             </ng-template>
             <div class="grid">
-                <div class="col-12" style="height: 100px;">
+                <div class="col-12" style="height: 60px;">
                     {{ course.course_description | slice:0:50 }}{{ course.course_description.length > 50 ? '...' : '' }}
                 </div>
-                <div class="col-12" align="center">
+
+                <div class="col-12" align="center" style="height: 30px;">
                     <p-tag icon="pi pi-user" value="ฟรี" *ngIf="!course.course_visibility"></p-tag>
                     <p-tag icon="pi pi-star-fill" value="มีค่าสมัคร" severity="danger"
                         *ngIf="course.course_visibility"></p-tag>
                 </div>
-                <div class="col-12" *ngIf="course.course_visibility" align="center">
-                    <b>ค่าสมัคร: {{ course.cost | number : '1.2-2' }} บาท</b>
+                <div class="col-12" align="center" style="height: 30px;">
+                    <b *ngIf="course.course_visibility">ค่าสมัคร: {{ course.cost | number : '1.2-2' }} บาท</b>
                 </div>
+
                 <div class="col-12" align="center">
                     <p-button label="รายละเอียด" styleClass="p-button-info p-button-sm mr-1"
                         (onClick)="onShowInfoCourseDialog(course)" icon="pi pi-info"></p-button>
