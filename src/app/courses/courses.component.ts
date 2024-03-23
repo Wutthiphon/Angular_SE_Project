@@ -67,6 +67,7 @@ export class CoursesComponent {
   onShowInfoCourseDialog(course: any) {
     this.dialog_show_info_course = true;
     this.dialog_show_info_course_data = course;
+    console.log(course);
   }
 
   onRegisterCourse(course: any) {

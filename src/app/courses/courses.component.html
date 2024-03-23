@@ -46,18 +46,25 @@
 
 <p-dialog [header]="dialog_show_info_course_data.course_name" [(visible)]="dialog_show_info_course" [modal]="true"
     [style]="{ width: '80vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
-    <div class="grid">
+    <div class="grid" *ngIf="dialog_show_info_course && dialog_show_info_course_data">
         <div class="col-12">
             <b>รายละเอียด</b>
         </div>
         <div class="col-12" [innerHTML]="dialog_show_info_course_data.course_description"></div>
         <div class="col-12">
             <b>บทเรียน</b>
-            <ul type="squeare">
+            <ul type="squeare" *ngIf="dialog_show_info_course_data.course_lesson.length > 0">
                 <li *ngFor="let lesson of dialog_show_info_course_data.course_lesson">
                     {{ lesson.lesson_name }}
                 </li>
             </ul>
+            <label *ngIf="dialog_show_info_course_data.course_lesson.length == 0"><br>ยังไม่มีบทเรียน</label>
+        </div>
+
+        <div class="col-12">
+            <b>วิธีการชำระเงิน</b>
+
+            <!-- <label *ngIf="dialog_show_info_course_data.course_lesson.length == 0"><br>ยังไม่มีบทเรียน</label> -->
         </div>
     </div>
 </p-dialog>

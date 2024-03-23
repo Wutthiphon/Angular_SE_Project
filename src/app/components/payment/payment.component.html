@@ -25,6 +25,10 @@
 
                 <div class="grid" align="center">
                     <div class="col-12">
+                        <h3>วิธีการชำระเงิน</h3>
+                        [IMG]
+                    </div>
+                    <div class="col-12">
                         <h3>ข้อมูลชำระเงิน</h3>
                         {{
                         course.course_reg[0].users_reg_transfer_document.length > 0 ||
@@ -35,8 +39,9 @@
                     </div>
                     <ng-container *ngIf="course.course_reg[0].users_reg_transfer_document.length > 0">
                         <div class="col-12" *ngFor="let recept of course.course_reg[0].users_reg_transfer_document">
-                            <img alt="Card" [src]="api_url + '/public/' + recept.transfer_document"
+                            <img alt="รูปภาพการชำระเงิน [IMG]" [src]="api_url + '/public/' + recept.transfer_document"
                                 style="width: 100%;" />
+                            <br>
                             <b *ngIf="recept.comment" style="color: red;">หมายเหตุ: {{ recept.comment }}</b>
                             <p-divider></p-divider>
                         </div>
