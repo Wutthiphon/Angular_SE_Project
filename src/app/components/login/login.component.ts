@@ -28,6 +28,9 @@ export class LoginComponent {
   is_error: boolean = false;
   is_load: boolean = false;
 
+  forgot_password_dialog: boolean = false;
+  forgot_password_dialog_username: string = "";
+
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -128,6 +131,43 @@ export class LoginComponent {
         severity: "error",
         summary: "ข้อผิดพลาด",
         detail: "กรุณากรอกข้อมูลให้ครบถ้วน",
+      });
+    }
+  }
+
+  forgotPassword() {
+    this.forgot_password_dialog = true;
+    this.forgot_password_dialog_username = this.login_form.username
+      ? this.login_form.username
+      : "";
+  }
+
+  forgotPasswordSubmit() {
+    if (this.forgot_password_dialog_username) {
+      // this.authService
+      //   .forgotPassword(this.forgot_password_dialog_username)
+      //   .subscribe(
+      //     (res) => {
+      //       this.messageService.add({
+      //         severity: "success",
+      //         summary: "สำเร็จ",
+      //         detail: "ส่งรหัสผ่านใหม่ไปยังอีเมล์ของคุณแล้ว",
+      //       });
+      //       this.forgot_password_dialog = false;
+      //     },
+      //     (error) => {
+      //       this.messageService.add({
+      //         severity: "error",
+      //         summary: "ข้อผิดพลาด",
+      //         detail: error.error.message,
+      //       });
+      //     }
+      //   );
+    } else {
+      this.messageService.add({
+        severity: "error",
+        summary: "ข้อผิดพลาด",
+        detail: "กรุณากรอกชื่อผู้ใช้",
       });
     }
   }

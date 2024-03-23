@@ -29,7 +29,7 @@
             label="จดจำข้อมูลเข้าสู่ระบบ" class="p-checkbox-sm"></p-checkbox>
         </div>
         <div class="col-12">
-          <b>ลืมรหัสผ่าน ?</b>
+          <b class="forgot-password" (click)="forgotPassword()">ลืมรหัสผ่าน ?</b>
         </div>
         <div class="col-12" align="center">
           <p-button label="เข้าสู่ระบบ" styleClass="p-button-rounded p-button-success p-button-sm" type="submit"
@@ -49,3 +49,25 @@
     </p-card>
   </div>
 </div>
+
+<p-dialog header="ลืมรหัสผ่าน" [(visible)]="forgot_password_dialog" [modal]="true"
+  [style]="{ width: '40vw','min-width':'360.5px' }" [draggable]="false" [resizable]="false">
+  <div class="grid">
+    <div class="col-12">
+      <label>ชื่อผู้ใช้งาน</label>
+      <input type="text" pInputText [(ngModel)]="forgot_password_dialog_username" name="input_forgot_username"
+        [class.ng-invalid]="is_error" [class.ng-dirty]="is_error" #input_forgot_username="ngModel"
+        placeholder="Username..." class="p-inputtext-sm" />
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="ui-dialog-buttonpane p-clearfix">
+      <button type="button" pButton icon="pi pi-times" label="ปิด" (click)="forgot_password_dialog = false"
+        class="p-button-secondary p-button-rounded p-button-sm" style="margin-right: .25em"></button>
+      <button type="button" pButton icon="pi pi-check" label="ส่งรหัสผ่านใหม่ไปที่ Email"
+        (click)="forgotPasswordSubmit()" class="p-button-success p-button-rounded p-button-sm"
+        style="margin-right: .25em"></button>
+    </div>
+  </ng-template>
+</p-dialog>
