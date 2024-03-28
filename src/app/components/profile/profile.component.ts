@@ -62,38 +62,41 @@ export class ProfileComponent {
   }
 
   SyncGoogleAccount(google_uid: string, google_email: string) {
-    // Confirmaion Dialog
-    if (this.google_id != google_uid) {
-      this.confirmationService.confirm({
-        header: "ยืนยันการผูกบัญชี Google กับระบบ",
-        message:
-          "ต้องการผูกบัญชี Google กับระบบด้วย <br>E-mail: <b>" +
-          google_email +
-          "</b><br>ใช่หรือไม่",
-        icon: "pi pi-exclamation-triangle",
-        accept: () => {
-          this.accountService
-            .syncGoogleAccount(google_uid, google_email)
-            .subscribe(
-              (api_res) => {
-                this.messageService.add({
-                  severity: "success",
-                  summary: "ผูกบัญชี Google สำเร็จ",
-                  detail:
-                    "ผูกบัญชี Google กับ E-mail: " + google_email + " สำเร็จ",
-                });
-                this.loadProfile();
-              },
-              (err) => {
-                this.messageService.add({
-                  severity: "error",
-                  summary: "ผูกบัญชี Google ไม่สำเร็จ",
-                  detail: err.error.message,
-                });
-              }
-            );
-        },
-      });
+    if (this.router.url == "/profile") {
+      // Confirmaion Dialog
+      if (this.google_id != google_uid) {
+        this.confirmationService.confirm({
+          header: "ยืนยันการผูกบัญชี Google กับระบบ",
+          message:
+            "ต้องการผูกบัญชี Google กับระบบด้วย <br>E-mail: <b>" +
+            google_email +
+            "</b><br>ใช่หรือไม่",
+          icon: "pi pi-exclamation-triangle",
+          accept: () => {
+            this.accountService
+              .syncGoogleAccount(google_uid, google_email)
+              .subscribe(
+                (api_res) => {
+                  this.messageService.add({
+                    severity: "success",
+                    summary: "ผูกบัญชี Google สำเร็จ",
+                    detail:
+                      "ผูกบัญชี Google กับ E-mail: " + google_email + " สำเร็จ",
+                  });
+                  this.loadProfile();
+                  this.AuthServiceExternal.signOut();
+                },
+                (err) => {
+                  this.messageService.add({
+                    severity: "error",
+                    summary: "ผูกบัญชี Google ไม่สำเร็จ",
+                    detail: err.error.message,
+                  });
+                }
+              );
+          },
+        });
+      }
     }
   }
 
@@ -188,7 +191,6 @@ export class ProfileComponent {
           gender: res.gender,
         };
 
-        this.AuthServiceExternal.signOut();
         this.AuthServiceExternal.signIn(GoogleLoginProvider.PROVIDER_ID);
         this.AuthServiceExternal.authState.subscribe((user) => {
           if (user) {
