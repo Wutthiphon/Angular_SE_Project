@@ -456,10 +456,18 @@ export class MyCoursesComponent {
     );
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
-    const fonts_url = "../assets/fonts/THSarabun.ttf";
-    const fonts_url2 = "../assets/fonts/THSarabun_Bold.ttf";
-    const font_Bytes = await fetch(fonts_url).then((res) => res.arrayBuffer());
-    const font_Bytes2 = await fetch(fonts_url2).then((res) =>
+    const f_fonts_url = new URL(
+      "./assets/fonts/THSarabun.ttf",
+      window.location.href
+    );
+    const f_fonts_url2 = new URL(
+      "./assets/fonts/THSarabun_Bold.ttf",
+      window.location.href
+    );
+    const font_Bytes = await fetch(f_fonts_url).then((res) =>
+      res.arrayBuffer()
+    );
+    const font_Bytes2 = await fetch(f_fonts_url2).then((res) =>
       res.arrayBuffer()
     );
     pdfDoc.registerFontkit(fontkit);

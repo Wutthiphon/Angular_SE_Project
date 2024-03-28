@@ -43,6 +43,8 @@ export class LoginComponent {
     private router: Router
   ) {
     this.AuthServiceExternal.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.AuthServiceExternal.signOut();
+
     this.AuthServiceExternal.authState.subscribe((user) => {
       if (user) {
         let Google_UID = user.id;
@@ -52,7 +54,6 @@ export class LoginComponent {
             (api_res) => {
               this.tokenStorage.saveToken(api_res.accessToken);
               this.tokenStorage.saveUser(api_res);
-              this.AuthServiceExternal.signOut();
               this.CheckisLogin();
             },
             (error) => {
@@ -78,6 +79,8 @@ export class LoginComponent {
 
   CheckisLogin() {
     if (this.tokenStorage.getToken()) {
+      this.AuthServiceExternal.signOut();
+
       let permission = this.tokenStorage.getUser().permission;
       if (!permission) {
         Swal.fire(
