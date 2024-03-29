@@ -212,6 +212,30 @@ export class ProfileComponent {
 
   updateProfile() {
     const { prefix, firstname, lastname, email, gender } = this.profile_form;
+
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "รูปแบบอีเมลไม่ถูกต้อง",
+      });
+      return;
+    }
+
+    if(
+      !prefix ||
+      !firstname ||
+      !lastname ||
+      !email
+    ) {
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "กรุณากรอกข้อมูลให้ครบถ้วน",
+      });
+      return;
+    }
+
     this.isApiSaving = true;
     this.accountService
       .updateProfile(prefix, firstname, lastname, email, gender)
