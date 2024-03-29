@@ -215,24 +215,34 @@ export class ProfileComponent {
     this.isApiSaving = true;
     this.accountService
       .updateProfile(prefix, firstname, lastname, email, gender)
-      .subscribe((res) => {
-        if (res) {
-          this.tokenStorage.saveToken(res.accessToken);
-          this.tokenStorage.saveUser(res);
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.tokenStorage.saveToken(res.accessToken);
+            this.tokenStorage.saveUser(res);
 
-          this.messageService.add({
-            severity: "success",
-            summary: "แก้ไขข้อมูลโปรไฟล์สำเร็จ",
-            detail: "ข้อมูลโปรไฟล์ของคุณได้รับการแก้ไขเรียบร้อยแล้ว",
-          });
-        } else {
+            this.messageService.add({
+              severity: "success",
+              summary: "แก้ไขข้อมูลโปรไฟล์สำเร็จ",
+              detail: "ข้อมูลโปรไฟล์ของคุณได้รับการแก้ไขเรียบร้อยแล้ว",
+            });
+          } else {
+            this.messageService.add({
+              severity: "error",
+              summary: "เกิดข้อผิดพลาด",
+              detail: "ไม่สามารถแก้ไขข้อมูลโปรไฟล์ได้",
+            });
+          }
+          this.isApiSaving = false;
+        },
+        (err) => {
           this.messageService.add({
             severity: "error",
             summary: "เกิดข้อผิดพลาด",
-            detail: "ไม่สามารถแก้ไขข้อมูลโปรไฟล์ได้",
+            detail: err.error.message,
           });
+          this.isApiSaving = false;
         }
-        this.isApiSaving = false;
-      });
+      );
   }
 }
