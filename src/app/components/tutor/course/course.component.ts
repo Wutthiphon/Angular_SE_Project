@@ -1064,6 +1064,12 @@ export class CourseComponent {
               detail: "อนุมัติการเรียนจบสำเร็จ",
             });
             this.loadCourses();
+          },(err)=> {
+            Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด",
+              text: err.error.message,
+            });
           });
       },
     });
