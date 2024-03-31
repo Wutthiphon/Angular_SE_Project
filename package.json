@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "^17.1.0",
     "@angular/router": "^17.1.0",
     "@pdf-lib/fontkit": "^1.1.1",
+    "@rollup/rollup-darwin-x64": "^4.13.2",
     "@types/quill": "^2.0.14",
     "jwt-decode": "^3.1.2",
     "ngx-image-cropper": "^6.3.2",
