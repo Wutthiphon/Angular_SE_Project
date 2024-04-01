@@ -64,7 +64,7 @@
             <label *ngIf="dialog_show_info_course_data.course_lesson.length == 0"><br>ยังไม่มีบทเรียน</label>
         </div>
 
-        <div class="col-12" align="center">
+        <div class="col-12" align="center" *ngIf="dialog_show_info_course_data.course_visibility">
             <b>วิธีการชำระเงิน</b><br>
             <img alt="Card" onerror="this.src='./assets/cover/null-money-cover.png'"
                 *ngIf="dialog_show_info_course_data.img_account" style="width: 100%;"
