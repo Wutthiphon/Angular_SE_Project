@@ -541,6 +541,7 @@ export class CourseComponent {
         summary: "เกิดข้อผิดพลาด",
         detail: "กรุณากรอกข้อมูลให้ครบถ้วน",
       });
+      this.isApiSaving = false;
       return;
     }
 
