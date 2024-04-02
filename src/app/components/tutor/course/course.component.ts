@@ -746,6 +746,7 @@ export class CourseComponent {
               exam_name: "",
               lesson_id: null,
             };
+            this.select_exam_lesson_id = this.select_exam_lesson_id == null ? lesson_id : this.select_exam_lesson_id;
             this.loadLessonExam();
             this.isApiSaving = false;
           },
