@@ -44,6 +44,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/lab/ubuntu/serv/90/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
